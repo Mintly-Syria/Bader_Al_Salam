@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>حلقة عمر بن الخطاب</title>
+    <title>حلقة ام معبد</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- استدعاء مكتبة html2canvas لالتقاط الصور -->
@@ -43,7 +43,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
 
         body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding-bottom: 80px; min-height: 100vh; }
-        .back-btn {
+.back-btn {
     position: fixed;
     top: 80px;
     left: 20%; /* حرك الزر قليلاً إلى اليمين */
@@ -476,7 +476,7 @@
 <a href="index.html" class="back-btn">⬅ العودة للرئيسية</a>
     <header>
         <div class="navbar">
-            <div class="logo"><i class="fas fa-quran"></i> <span>حلقة عمر بن الخطاب</span></div>
+            <div class="logo"><i class="fas fa-quran"></i> <span>حلقة ام معبد</span></div>
             <div class="nav-actions">
                 <button id="btn-home" class="btn-home" onclick="navigateTo('home')">
                     <i class="fas fa-home"></i> <span>الرئيسية</span>
@@ -514,8 +514,8 @@
         <!-- 1. الصفحة الرئيسية -->
         <section id="home-view">
             <div class="welcome-hero">
-                <h1>مرحباً بكم في حلقة عمر بن الخطاب</h1>
-                <p>المدرس طه المحمد</p>
+                <h1>مرحباً بكم في حلقة ام معبد</h1>
+                <p>المدرسة تهاني المصفى</p>
             </div>
 
             <!-- بطاقات جديدة: المتابعة (يومي/أسبوعي/شهري) -->
@@ -757,15 +757,15 @@
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, deleteDoc, updateDoc, increment, Timestamp, writeBatch, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-        // --- تهيئة Firebase بالبيانات الجديدة (taha-17f2e) ---
+        // --- تهيئة Firebase بالبيانات الجديدة (thani-43401) ---
         const firebaseConfig = {
-          apiKey: "AIzaSyBIw_22dt5JIh0TcheBpsZu539_3JxZ7eQ",
-          authDomain: "taha-17f2e.firebaseapp.com",
-          projectId: "taha-17f2e",
-          storageBucket: "taha-17f2e.firebasestorage.app",
-          messagingSenderId: "214025067261",
-          appId: "1:214025067261:web:87903367d56278a364fc94",
-          measurementId: "G-5LPKV35N8H"
+          apiKey: "AIzaSyDWUTbwO1d1CKAqHYYjXz4BfREw4d-RHsk",
+          authDomain: "thani-43401.firebaseapp.com",
+          projectId: "thani-43401",
+          storageBucket: "thani-43401.firebasestorage.app",
+          messagingSenderId: "640017277097",
+          appId: "1:640017277097:web:a7e61688230bdd843e89b8",
+          measurementId: "G-G1M7FDFEHG"
         };
 
         const app = initializeApp(firebaseConfig);
