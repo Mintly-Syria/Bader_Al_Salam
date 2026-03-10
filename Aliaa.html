@@ -43,21 +43,21 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
 
         body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding-bottom: 80px; min-height: 100vh; }
-.back-btn {
-    position: fixed;
-    top: 50px;
-    left: 60%; /* حرك الزر قليلاً إلى اليمين */
-    transform: translateX(-50%);
-    background: #15b07a;
-    color: white;
-    padding: 3px 3px; /* جعل الزر أصغر */
-    border-radius: 25px;
-    text-decoration: none;
-    font-size: 14px; /* أصغر من السابق */
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: 0.3s;
-    z-index: 999;
-}
+        .back-btn {
+            position: fixed;
+            top: 80px;
+            left: 20%; /* حرك الزر قليلاً إلى اليمين */
+            transform: translateX(-50%);
+            background: #15b07a;
+            color: white;
+            padding: 3px 3px; /* جعل الزر أصغر */
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 14px; /* أصغر من السابق */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            transition: 0.3s;
+            z-index: 999;
+        }
         header { background-color: var(--card-bg); box-shadow: var(--shadow); position: sticky; top: 0; z-index: 100; padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }
         .navbar { max-width: 1200px; margin: 0 auto; padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .logo { font-size:1.2rem; font-weight: 700; color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem; }
@@ -69,6 +69,7 @@
         .btn-home { color: var(--text-main) !important; display: none; }
         .btn-login { background-color: var(--primary-color) !important; color: white !important; border: none !important; }
         .btn-dev-info { color: var(--info) !important; background-color: rgba(59, 130, 246, 0.1) !important; border:1px solid rgba(59, 130, 246, 0.2) !important; }
+        .btn-students-mgr { color: var(--success) !important; background-color: rgba(16, 185, 129, 0.1) !important; border:1px solid rgba(16, 185, 129, 0.2) !important; }
 
         main { max-width: 1200px; margin: 1rem auto; padding: 0 1rem; position: relative; }
 
@@ -121,6 +122,50 @@
         .form-group { margin-bottom:1rem; text-align: right; }
         .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; color: var(--text-main); }
         .form-control { width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; background-color: var(--input-bg); color: var(--text-main); }
+        
+        /* تنسيق حقل اختيار الطالب الجديد */
+        .student-input-wrapper {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        .student-select {
+            flex: 1;
+        }
+        .btn-add-student {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .btn-add-student:hover { background-color: var(--primary-dark); }
+        
+        .new-student-container {
+            display: none;
+            margin-top: 0.5rem;
+            animation: fadeIn 0.3s;
+        }
+        .new-student-container.active {
+            display: flex;
+            gap: 5px;
+        }
+        .btn-save-student {
+            background-color: var(--success);
+            color: white;
+            border: none;
+            padding: 0 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
         /* تنسيق خاص للحقول الصغيرة داخل المتابعة */
         .input-row .form-group { margin-bottom: 0; } 
         .btn-submit { width: 100%; padding: 0.8rem; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size:1rem; }
@@ -341,8 +386,8 @@
         }
         .btn-cancel-edit:hover { background-color: #4B5563; }
 
-        /* --- تصميم النافذة المنبثقة للمطور --- */
-        #dev-info-modal {
+        /* --- تصميم النوافذ المنبثقة (Modals) --- */
+        .modal-bg {
             display: none; 
             position: fixed;
             top: 0;
@@ -361,12 +406,22 @@
             padding: 2rem;
             border-radius: var(--radius);
             box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            max-width: 400px;
+            max-width: 500px; /* أوسع قليلاً للقائمة */
             width: 90%;
             text-align: center;
             position: relative;
             animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 1px solid var(--border-color);
+            max-height: 80vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-body-scroll {
+            overflow-y: auto;
+            flex-grow: 1;
+            margin: 1rem 0;
+            padding-right: 5px;
         }
 
         .close-modal {
@@ -419,6 +474,29 @@
         .dev-item:last-child { margin-bottom: 0; }
         .dev-item i { color: var(--primary-color); width: 20px; }
 
+        /* تنسيق قائمة الطلاب داخل المودال */
+        .student-list-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--input-bg);
+            margin-bottom: 5px;
+            border-radius: 8px;
+        }
+        .student-name { font-weight: 600; color: var(--text-main); }
+        .btn-delete-small {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            padding: 5px;
+            font-size: 1.1rem;
+            transition: transform 0.2s;
+        }
+        .btn-delete-small:hover { transform: scale(1.2); }
+
         @keyframes popIn {
             from { transform: scale(0.8); opacity: 0; }
             to { transform: scale(1); opacity: 1; }
@@ -469,11 +547,16 @@
             
             /* تباعد أصغر */
             .section-title { font-size: 1rem; margin: 1.5rem 0 0.8rem 0; }
+
+            /* تعديل عرض حقل الطالب في الموبايل */
+            .student-input-wrapper {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
 <body>
-<a href="index.html" class="back-btn">⬅ العودة للرئيسية</a>
+    <a href="index.html" class="back-btn">⬅ العودة للرئيسية</a>
     <header>
         <div class="navbar">
             <div class="logo"><i class="fas fa-quran"></i> <span>حلقة فاطمة الزهراء</span></div>
@@ -485,6 +568,11 @@
                 <!-- زر تبديل الوضع المظلم -->
                 <button class="btn-theme" onclick="toggleTheme()" title="تغيير المظهر">
                     <i id="theme-icon" class="fas fa-moon"></i>
+                </button>
+
+                <!-- زر إدارة الطلاب (جديد) -->
+                <button class="btn-students-mgr" onclick="openStudentManager()" title="إدارة قائمة الطلاب">
+                    <i class="fas fa-users"></i> <span>الطلاب</span>
                 </button>
 
                 <!-- زر معلومات المطور -->
@@ -560,7 +648,24 @@
             <section id="teacher-panel">
                 <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">تسجيل متابعة جديدة</h3>
                 <form id="entry-form" onsubmit="handleSubmit(event)">
-                    <div class="form-group"><label>اسم الطالب</label><input type="text" id="student-name" class="form-control" placeholder="اسم الطالب" required></div>
+                    <!-- حقل اختيار الطالب المعدل -->
+                    <div class="form-group">
+                        <label>اسم الطالب</label>
+                        <div class="student-input-wrapper">
+                            <select id="student-name" class="form-control student-select" required>
+                                <option value="" disabled selected>جاري تحميل الطلاب...</option>
+                            </select>
+                            <button type="button" class="btn-add-student" onclick="toggleNewStudentInput('entry')" title="إضافة طالب جديد">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <!-- حقل إضافة طالب جديد -->
+                        <div id="new-student-entry" class="new-student-container">
+                            <input type="text" id="new-student-name-entry" class="form-control" placeholder="اكتب اسم الطالب الجديد هنا...">
+                            <button type="button" class="btn-save-student" onclick="addNewStudent('entry')"><i class="fas fa-check"></i></button>
+                            <button type="button" class="btn-save-student" style="background-color:var(--danger)" onclick="toggleNewStudentInput('entry')"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
                     
                     <!-- الحقول للمتابعة اليومية والأسبوعية (من، إلى، المجموع) -->
                     <div id="range-inputs" class="input-row">
@@ -613,7 +718,25 @@
                 <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">إضافة مختبر جديد (أجزاء)</h3>
                 <form id="reciters-form" onsubmit="handleRecitersSubmit(event)">
                     <div class="input-row">
-                        <div class="form-group"><label>اسم الطالب</label><input type="text" id="reciter-name" class="form-control" placeholder="اسم الطالب" required></div>
+                        <!-- حقل اختيار الطالب المعدل -->
+                        <div class="form-group" style="grid-column: span 2; min-width: 100%;">
+                            <label>اسم الطالب</label>
+                            <div class="student-input-wrapper">
+                                <select id="reciter-name" class="form-control student-select" required>
+                                    <option value="" disabled selected>جاري تحميل الطلاب...</option>
+                                </select>
+                                <button type="button" class="btn-add-student" onclick="toggleNewStudentInput('reciter')" title="إضافة طالب جديد">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <!-- حقل إضافة طالب جديد -->
+                            <div id="new-student-reciter" class="new-student-container">
+                                <input type="text" id="new-student-name-reciter" class="form-control" placeholder="اسم الطالب الجديد...">
+                                <button type="button" class="btn-save-student" onclick="addNewStudent('reciter')"><i class="fas fa-check"></i></button>
+                                <button type="button" class="btn-save-student" style="background-color:var(--danger)" onclick="toggleNewStudentInput('reciter')"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+
                         <!-- الحقل المعدل -->
                         <div class="form-group">
                             <label>الجزء</label>
@@ -636,7 +759,24 @@
                 <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">اختبار مراحل</h3>
                 <form id="stages-form" onsubmit="handleStagesSubmit(event)">
                     <div class="input-row">
-                        <div class="form-group"><label>اسم الطالب</label><input type="text" id="stages-name" class="form-control" placeholder="اسم الطالب" required></div>
+                        <!-- حقل اختيار الطالب المعدل -->
+                        <div class="form-group" style="grid-column: span 2; min-width: 100%;">
+                            <label>اسم الطالب</label>
+                            <div class="student-input-wrapper">
+                                <select id="stages-name" class="form-control student-select" required>
+                                    <option value="" disabled selected>جاري تحميل الطلاب...</option>
+                                </select>
+                                <button type="button" class="btn-add-student" onclick="toggleNewStudentInput('stage')" title="إضافة طالب جديد">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                            <!-- حقل إضافة طالب جديد -->
+                            <div id="new-student-stage" class="new-student-container">
+                                <input type="text" id="new-student-name-stage" class="form-control" placeholder="اسم الطالب الجديد...">
+                                <button type="button" class="btn-save-student" onclick="addNewStudent('stage')"><i class="fas fa-check"></i></button>
+                                <button type="button" class="btn-save-student" style="background-color:var(--danger)" onclick="toggleNewStudentInput('stage')"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
                         
                         <div class="form-group">
                             <label>المرحلة</label>
@@ -721,7 +861,7 @@
     </main>
 
     <!-- النافذة المنبثقة للمطور -->
-    <div id="dev-info-modal" onclick="if(event.target === this) toggleDevInfo()">
+    <div id="dev-info-modal" class="modal-bg" onclick="if(event.target === this) toggleDevInfo()">
         <div class="modal-content">
             <button class="close-modal" onclick="toggleDevInfo()">&times;</button>
             
@@ -745,6 +885,26 @@
             </div>
 
             <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 1rem;">جميع الحقوق محفوظة &copy; 2026</p>
+        </div>
+    </div>
+
+    <!-- النافذة المنبثقة لإدارة الطلاب (جديد) -->
+    <div id="students-manager-modal" class="modal-bg" onclick="if(event.target === this) closeStudentManager()">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeStudentManager()">&times;</button>
+            
+            <div class="dev-avatar" style="background: var(--success);"><i class="fas fa-users-cog"></i></div>
+            <h3 class="dev-name">إدارة الطلاب</h3>
+            <p class="dev-role">قائمة الطلاب المسجلين في الحلقة</p>
+
+            <div class="modal-body-scroll" id="students-list-container">
+                <!-- سيتم توليد القائمة هنا -->
+                <p style="text-align:center; color:var(--text-light);">جاري التحميل...</p>
+            </div>
+            
+            <div style="margin-top:1rem; font-size:0.8rem; color:var(--text-light); text-align:center;">
+                تنبيه: حذف طالب يزيله من القائمة فقط، ولا يحذف سجلاته السابقة.
+            </div>
         </div>
     </div>
 
@@ -777,6 +937,7 @@
         let cachedSnapshot = null; 
         let selectedTrackingFreq = 'daily'; 
         let editDocId = null;
+        let allStudents = []; // مصفوفة لتخزين أسماء الطلاب
         
         // --- متغير وضع تصوير القسم ---
         let isScreenshotMode = false;
@@ -814,6 +975,181 @@
                 icon.classList.replace('fa-sun', 'fa-moon');
             }
         };
+
+        // --- إدارة الطلاب (Students Management) ---
+        
+        // 1. فتح نافذة إدارة الطلاب
+        window.openStudentManager = () => {
+            renderStudentList();
+            const modal = document.getElementById('students-manager-modal');
+            modal.style.display = 'flex';
+        }
+
+        // 2. إغلاق نافذة إدارة الطلاب
+        window.closeStudentManager = () => {
+            const modal = document.getElementById('students-manager-modal');
+            modal.style.display = 'none';
+        }
+
+        // 3. حذف طالب
+        window.deleteStudent = async (id, name) => {
+            if(confirm(`هل أنت متأكد من حذف الطالب "${name}"؟\nملاحظة: سيتم إزالته من قائمة الاختيار فقط، ولن يتم حذف سجلاته القديمة.`)) {
+                try {
+                    await deleteDoc(doc(db, "students", id));
+                    showToast('تم حذف الطالب', 'success');
+                    renderStudentList(); // إعادة رسم القائمة فوراً
+                } catch (error) {
+                    console.error("Error deleting student: ", error);
+                    showToast('فشل الحذف', 'error');
+                }
+            }
+        }
+
+        // 4. رسم قائمة الطلاب داخل النافذة
+        function renderStudentList() {
+            const container = document.getElementById('students-list-container');
+            container.innerHTML = '';
+
+            if (allStudents.length === 0) {
+                container.innerHTML = '<p style="text-align:center; color:var(--text-light);">لا يوجد طلاب مسجلين بعد.</p>';
+                return;
+            }
+
+            allStudents.forEach(student => {
+                const item = document.createElement('div');
+                item.className = 'student-list-item';
+                item.innerHTML = `
+                    <span class="student-name">${student.name}</span>
+                    <button class="btn-delete-small" onclick="deleteStudent('${student.id}', '${student.name}')" title="حذف الطالب">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // 5. الاستماع لتغييرات مجموعة الطلاب (عام)
+        function loadStudents() {
+            const studentsRef = collection(db, "students");
+            // ترتيب الطلاب أبجدياً
+            const q = query(studentsRef, orderBy("name", "asc"));
+            
+            onSnapshot(q, (snapshot) => {
+                allStudents = [];
+                snapshot.forEach(doc => {
+                    allStudents.push({ id: doc.id, name: doc.data().name });
+                });
+                updateStudentSelects();
+                // تحديث القائمة داخل المودال إذا كانت مفتوحة
+                if(document.getElementById('students-manager-modal').style.display === 'flex') {
+                    renderStudentList();
+                }
+            }, (error) => {
+                console.error("Error loading students: ", error);
+            });
+        }
+
+        // 6. تحديث القوائم المنسدلة في جميع النماذج
+        function updateStudentSelects() {
+            const selects = [
+                document.getElementById('student-name'),
+                document.getElementById('reciter-name'),
+                document.getElementById('stages-name')
+            ];
+
+            selects.forEach(select => {
+                if(!select) return;
+                const currentVal = select.value; // حفظ القيمة المختارة حالياً
+                select.innerHTML = '<option value="" disabled selected>اختر اسم الطالب</option>';
+                
+                allStudents.forEach(student => {
+                    const option = document.createElement('option');
+                    option.value = student.name;
+                    option.textContent = student.name;
+                    select.appendChild(option);
+                });
+
+                // استعادة القيمة المختارة إذا كانت لا تزال موجودة
+                if (currentVal && allStudents.some(s => s.name === currentVal)) {
+                    select.value = currentVal;
+                }
+            });
+        }
+
+        // 7. إظهار/إخفاء حقل إضافة طالب جديد
+        window.toggleNewStudentInput = (formType) => {
+            const containerId = `new-student-${formType}`;
+            const container = document.getElementById(containerId);
+            const inputId = `new-student-name-${formType}`;
+            const input = document.getElementById(inputId);
+            
+            if (container.style.display === 'flex') {
+                container.style.display = 'none';
+                input.value = '';
+            } else {
+                container.style.display = 'flex';
+                container.classList.add('active');
+                input.focus();
+            }
+        }
+
+        // 8. حفظ طالب جديد
+        window.addNewStudent = async (formType) => {
+            const inputId = `new-student-name-${formType}`;
+            const input = document.getElementById(inputId);
+            const name = input.value.trim();
+
+            if (!name) {
+                showToast('يرجى كتابة اسم الطالب', 'warning');
+                return;
+            }
+
+            // التحقق من التكرار (اختياري ولكن مفيد)
+            if (allStudents.some(s => s.name === name)) {
+                showToast('الطالب موجود مسبقاً', 'error');
+                // اختيار الطالب الموجود
+                const selectMap = {
+                    'entry': 'student-name',
+                    'reciter': 'reciter-name',
+                    'stage': 'stages-name'
+                };
+                const select = document.getElementById(selectMap[formType]);
+                if(select) select.value = name;
+                
+                toggleNewStudentInput(formType);
+                return;
+            }
+
+            try {
+                await addDoc(collection(db, "students"), {
+                    name: name,
+                    createdAt: serverTimestamp()
+                });
+                showToast('تمت إضافة الطالب بنجاح', 'success');
+                
+                // بعد الإضافة، سيقوم loadStudents بتحديث القائمة تلقائياً
+                // نقوم باختيار الطالب الجديد في النموذج الحالي
+                setTimeout(() => {
+                    const selectMap = {
+                        'entry': 'student-name',
+                        'reciter': 'reciter-name',
+                        'stage': 'stages-name'
+                    };
+                    const select = document.getElementById(selectMap[formType]);
+                    if(select) {
+                        select.value = name;
+                        // تحريك بسيط لتأكيد الاختيار
+                        select.style.backgroundColor = 'var(--success)';
+                        setTimeout(() => select.style.backgroundColor = '', 300);
+                    }
+                    toggleNewStudentInput(formType);
+                }, 500); // انتظار بسيط لتحديث السناب شوت
+
+            } catch (error) {
+                console.error("Error adding student: ", error);
+                showToast('فشل الإضافة، تحقق من الاتصال', 'error');
+            }
+        }
 
         // --- توليد خيارات الأجزاء الشهرية ---
         const partsSelect = document.getElementById('stages-unit');
@@ -873,8 +1209,6 @@
                 monthlyInput.style.display = 'none'; // إخفاء حقل النص
                 
                 // التعديل: عدم جعل الحقول إجبارية (إزالة required)
-                // fromInput.setAttribute('required', 'true'); 
-                // toInput.setAttribute('required', 'true');
                 
                 // إزالة التحقق الإجباري من حقل النص
                 monthlyTextInput.removeAttribute('required');
@@ -1126,6 +1460,9 @@
                 userDisplay.style.display = 'inline-block';
                 userDisplay.textContent = `مرحباً`;
                 updateFormVisibility(user);
+                // تحميل الطلاب عند تسجيل الدخول
+                loadStudents();
+                
                 if(document.getElementById('auth-section').style.display === 'block'){
                     navigateTo('reciters');
                 }
@@ -1166,6 +1503,11 @@
             }
 
             const name = document.getElementById('reciter-name').value;
+            if(!name) {
+                showToast('اختر اسم الطالب', 'warning');
+                return;
+            }
+
             const amount = document.getElementById('reciter-amount').value;
             const score = document.getElementById('reciter-score').value;
             const dateStr = document.getElementById('reciter-date').value;
@@ -1211,9 +1553,11 @@
                 } else {
                     await addDoc(collection(db, "daily_records"), dataPayload);
                     showToast('تم حفظ المختبر', 'success');
-                    document.getElementById('reciters-form').reset();
-                    document.getElementById('reciter-date').valueAsDate = new Date();
+                    document.getElementById('reciter-amount').value = '';
+                    document.getElementById('reciter-score').value = '';
                     document.getElementById('reciter-level').value = "";
+                    // إعادة تعيين اسم الطالب
+                    document.getElementById('reciter-name').value = "";
                 }
             } catch(err) { showToast('فشل الحفظ', 'error'); }
             btn.innerHTML = old;
@@ -1228,6 +1572,12 @@
                 return;
             }
 
+            const name = document.getElementById('stages-name').value;
+            if(!name) {
+                showToast('اختر اسم الطالب', 'warning');
+                return;
+            }
+
             const btn = e.target.querySelector('button[type="submit"]');
             const old = btn.innerHTML;
             btn.innerHTML = '<span class="loader"></span> جاري الحفظ...';
@@ -1237,7 +1587,7 @@
                 const amount = amountInput ? amountInput.value :1; 
 
                 const dataPayload = {
-                    qwe: document.getElementById('stages-name').value,
+                    qwe: name,
                     asd: parseInt(amount),
                     unit: document.getElementById('stages-unit').value,
                     score: parseInt(document.getElementById('stages-score').value),
@@ -1254,9 +1604,12 @@
                     dataPayload.uoi = serverTimestamp();
                     await addDoc(collection(db, "daily_records"), dataPayload);
                     showToast('تم حفظ المرحلة', 'success');
-                    document.getElementById('stages-form').reset();
-                    document.getElementById('stages-amount').value = '1';
+                    document.getElementById('stages-unit').value = "";
+                    document.getElementById('stages-score').value = "";
+                    document.getElementById('stages-notes').value = "";
                     document.getElementById('stages-level').value = "";
+                    // إعادة تعيين اسم الطالب
+                    document.getElementById('stages-name').value = "";
                 }
             } catch(err) { showToast('فشل الحفظ', 'error'); }
             btn.innerHTML = old;
@@ -1270,6 +1623,12 @@
             if(!level) {
                 document.getElementById('level').focus();
                 showToast('لاتنسى التقييم', 'warning');
+                return;
+            }
+
+            const name = document.getElementById('student-name').value;
+            if(!name) {
+                showToast('اختر اسم الطالب', 'warning');
                 return;
             }
 
@@ -1300,7 +1659,7 @@
                     }
 
                     let dataPayload = {
-                        qwe: document.getElementById('student-name').value,
+                        qwe: name,
                         asd: asdVal, 
                         asdText: asdText, 
                         unit: "", 
@@ -1333,15 +1692,18 @@
                         showToast('تم الحفظ', 'success');
                         if (frequency === 'monthly') {
                             document.getElementById('monthly-text').value = "";
-                            document.getElementById('student-name').value = "";
                             document.getElementById('notes').value = "";
                             document.getElementById('level').value = ""; 
                         } else {
-                            document.getElementById('entry-form').reset();
+                            document.getElementById('amount-from').value = "";
+                            document.getElementById('amount-to').value = "";
                             document.getElementById('amount-total').value = "";
+                            document.getElementById('notes').value = "";
                             document.getElementById('attendance').value = 'present';
                             document.getElementById('level').value = ""; 
                         }
+                        // إعادة تعيين اسم الطالب
+                        document.getElementById('student-name').value = "";
                     }
                 }
             } catch(err) { showToast('فشل الحفظ', 'error'); }
@@ -1417,14 +1779,18 @@
         window.handleCancelEdit = (silent = false) => {
             editDocId = null;
             
-            document.getElementById('entry-form').reset();
-            document.getElementById('reciters-form').reset();
-            document.getElementById('stages-form').reset();
+            // تفريغ الحقول
+            document.getElementById('student-name').value = "";
+            document.getElementById('reciter-name').value = "";
+            document.getElementById('stages-name').value = "";
             
+            document.getElementById('amount-from').value = "";
+            document.getElementById('amount-to').value = "";
             document.getElementById('amount-total').value = "";
             document.getElementById('monthly-text').value = "";
             document.getElementById('stages-amount').value = '1';
             document.getElementById('reciter-date').valueAsDate = new Date();
+            document.getElementById('notes').value = "";
 
             document.querySelectorAll('.btn-cancel-edit').forEach(btn => btn.style.display = 'none');
 
@@ -1941,4 +2307,3 @@
     </script>
 </body>
 </html>
-
