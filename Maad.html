@@ -10,92 +10,144 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            /* الألوان الأساسية - الوضع الفاتح */
-            --primary-color: #1c5746; 
-            --primary-dark: #000000;                                
-            --secondary-color: #1c5746;
-            --bg-color: #f3f6f5;
+            /* الألوان الأساسية - الطابع الإسلامي */
+            --primary-color: #064e3b; /* أخضر إسلامي غامق */
+            --primary-dark: #022c22;                                
+            --secondary-color: #065f46;
+            --gold-color: #D4AF37; /* اللون الذهبي للحواف */
+            
+            /* الخلفيات والنصوص */
+            --bg-color: #f0fdf4; /* خلفية خضراء فاتحة جداً */
             --card-bg: #FFFFFF;
             --text-main: #1F2937;
-            --text-light: #6B7280;
-            --border-color: #E5E7EB;
-            --danger: #ff0000;
-            --success: #10B981;
-            --info: #3B82F6;
-            --radius: 15px;
-            --shadow: 0 5px 7px 3px #000000, 0px 0px 0px 0px #575b63;
+            --text-light: #4b5563;
+            
+            /* الحدود والظلال */
+            --border-color: #D4AF37; /* حدود ذهبية */
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(212, 175, 55, 0.1);
             --input-bg: #FFFFFF;
-            --table-hover: #f9fafb;
+            
+            /* الألوان التفاعلية */
+            --danger: #dc2626;
+            --success: #15803d;
+            --info: #0ea5e9;
+            
+            /* الأبعاد */
+            --radius: 12px;
+            --table-hover: #f0fdf4;
         }
 
         /* متغيرات الوضع المظلم */
         body.dark-mode {
-            --bg-color: #111827;
-            --card-bg: #1F2937;
-            --text-main: #F9FAFB;
-            --text-light: #9CA3AF;
-            --border-color: #374151;
-            --shadow: 0 5px 7px 3px #000000, 0px 0px 0px 0px #000;
-            --input-bg: #374151;
-            --table-hover: #482d2d;
+            --bg-color: #064e3b;
+            --card-bg: #022c22;
+            --text-main: #fbbf24;
+            --text-light: #a7f3d0;
+            --border-color: #fbbf24; /* ذهبي فاتح للمود دارك */
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            --input-bg: #065f46;
+            --table-hover: #064e3b;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s, color 0.3s, border-color 0.3s; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', sans-serif; -webkit-tap-highlight-color: transparent; transition: background-color 0.3s, color 0.3s, border-color 0.3s, box-shadow 0.3s; }
 
         body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.6; padding-bottom: 80px; min-height: 100vh; }
 
-        header { background-color: var(--card-bg); box-shadow: var(--shadow); position: sticky; top: 0; z-index: 100; padding: 0.5rem 0; border-bottom: 1px solid var(--border-color); }
+        /* رأس الصفحة */
+        header { background-color: var(--card-bg); box-shadow: var(--shadow); position: sticky; top: 0; z-index: 100; padding: 0.5rem 0; border-bottom: 2px solid var(--gold-color); }
         .navbar { max-width: 1200px; margin: 0 auto; padding: 0.5rem 1rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
-        .logo { font-size:1.2rem; font-weight: 700; color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem; }
+        .logo { font-size:1.2rem; font-weight: 700; color: var(--primary-color); display: flex; align-items: center; gap: 0.5rem; text-shadow: 1px 1px 0px var(--gold-color); }
         .nav-actions { display: flex; align-items: center; gap: 8px; }
         
         /* تنسيق الأزرار العامة */
-        .nav-actions button { background: none; border: 1px solid var(--border-color); cursor: pointer; font-size: 0.85rem; color: var(--text-main); font-weight: 600; transition: color 0.3s, background 0.3s; padding: 0.4rem 0.8rem; border-radius: 20px; display: flex; align-items: center; gap: 5px;}
-        .nav-actions button:hover { color: var(--primary-color); background-color: var(--table-hover); }
+        .nav-actions button { background: var(--card-bg); border: 1px solid var(--gold-color); cursor: pointer; font-size: 0.85rem; color: var(--primary-color); font-weight: 600; transition: all 0.3s; padding: 0.4rem 0.8rem; border-radius: 20px; display: flex; align-items: center; gap: 5px;}
+        .nav-actions button:hover { color: #fff; background-color: var(--primary-color); border-color: var(--primary-color); box-shadow: 0 4px 10px rgba(6, 78, 59, 0.3); }
+        
         .btn-home { color: var(--text-main) !important; display: none; }
-        .btn-login { background-color: var(--primary-color) !important; color: white !important; border: none !important; }
-        .btn-dev-info { color: var(--info) !important; background-color: rgba(59, 130, 246, 0.1) !important; border:1px solid rgba(59, 130, 246, 0.2) !important; }
-        .btn-students-mgr { color: var(--success) !important; background-color: rgba(16, 185, 129, 0.1) !important; border:1px solid rgba(16, 185, 129, 0.2) !important; }
+        .btn-login { background-color: var(--primary-color) !important; color: #fff !important; border: none !important; box-shadow: 0 4px 6px rgba(6, 78, 59, 0.4); }
+        .btn-dev-info { color: var(--info) !important; background-color: rgba(14, 165, 233, 0.1) !important; border-color: var(--info) !important; }
+        .btn-students-mgr { color: var(--success) !important; background-color: rgba(21, 128, 61, 0.1) !important; border-color: var(--success) !important; }
         
         /* زر إعدادات الساعات */
-        .btn-duty-settings { color: #d97706 !important; background-color: rgba(217, 119, 6, 0.1) !important; border:1px solid rgba(217, 119, 6, 0.2) !important; }
+        .btn-duty-settings { color: #b45309 !important; background-color: rgba(180, 83, 9, 0.1) !important; border-color: #b45309 !important; }
 
         main { max-width: 1200px; margin: 1rem auto; padding: 0 1rem; position: relative; }
 
         /* --- الصفحة الرئيسية --- */
         #home-view { display: block; animation: fadeIn 0.5s ease-in; }
-        .welcome-hero { text-align: center; padding: 3rem 1rem; background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); border-radius: var(--radius); color: white; margin-bottom: 2rem; box-shadow: var(--shadow); }
-        .welcome-hero h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
-        .welcome-hero p { font-size: 1rem; opacity: 0.9; }
+        
+        .welcome-hero { 
+            text-align: center; 
+            padding: 3rem 1rem; 
+            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); 
+            border-radius: var(--radius); 
+            color: white; 
+            margin-bottom: 2rem; 
+            box-shadow: var(--shadow);
+            border: 2px solid var(--gold-color);
+            position: relative;
+            overflow: hidden;
+        }
+        /* زخرفة بسيطة */
+        .welcome-hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.2) 0%, transparent 20%);
+            pointer-events: none;
+        }
+
+        .welcome-hero h1 { font-size: 1.8rem; margin-bottom: 0.5rem; position: relative; z-index: 2; }
+        .welcome-hero p { font-size: 1rem; opacity: 0.9; position: relative; z-index: 2; }
         
         .back-btn {
             position: fixed;
             top: 80px;
             left: 20%;
             transform: translateX(-50%);
-            background: #15b07a;
+            background: var(--primary-color);
             color: white;
-            padding: 3px 3px;
+            padding: 5px 15px;
             border-radius: 25px;
             text-decoration: none;
             font-size: 14px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border: 1px solid var(--gold-color);
             transition: 0.3s;
             z-index: 999;
         }
-        .back-btn:hover{ background:#0c6b49; transform:translateX(-50%) scale(1.05); }
+        .back-btn:hover{ background: var(--primary-dark); transform:translateX(-50%) scale(1.05); }
 
-        .section-title { font-size: 1.2rem; font-weight: 700; color: var(--text-main); margin: 2rem 0 1rem 0; border-right: 4px solid var(--primary-color); padding-right: 10px; }
+        .section-title { font-size: 1.3rem; font-weight: 700; color: var(--primary-color); margin: 2rem 0 1rem 0; border-right: 4px solid var(--gold-color); padding-right: 10px; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
 
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; }
         
-        .menu-card { background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; cursor: pointer; transition: transform 0.3s, box-shadow 0.3s; border: 2px solid transparent; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 150px; }
-        .menu-card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0, 0.1); border-color: var(--primary-color); }
-        .menu-card i { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 0.5rem; }
+        /* البطاقات الذهبية */
+        .menu-card { 
+            background: var(--card-bg); 
+            padding: 1.5rem; 
+            border-radius: var(--radius); 
+            box-shadow: var(--shadow); 
+            text-align: center; 
+            cursor: pointer; 
+            transition: transform 0.3s, box-shadow 0.3s; 
+            border: 2px solid var(--gold-color); /* الحد الذهبي */
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            justify-content: center; 
+            min-height: 150px; 
+        }
+        .menu-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 10px 20px -5px rgba(212, 175, 55, 0.4); /* ظل ذهبي */
+            border-color: var(--primary-color); 
+        }
+        .menu-card i { font-size: 2.5rem; color: var(--primary-color); margin-bottom: 0.5rem; filter: drop-shadow(0 2px 2px rgba(212, 175, 55, 0.3)); }
         .menu-card h2 { font-size: 1.1rem; color: var(--text-main); margin-bottom: 0.5rem; }
         .menu-card p { font-size: 0.85rem; color: var(--text-light); }
 
-        /* تنسيق خاص لبطاقات المتابعة الثلاثة */
+        /* تنسيق خاص لبطاقات المتابعة */
         .tracking-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -110,24 +162,29 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
-            border: 2px solid transparent;
+            border: 2px solid var(--gold-color); /* الحد الذهبي */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 120px;
         }
-        .tracking-card:hover { border-color: var(--secondary-color); transform: translateY(-3px); }
-        .tracking-card i { font-size: 1.8rem; color: var(--secondary-color); margin-bottom: 0.5rem; }
+        .tracking-card:hover { 
+            border-color: var(--primary-color); 
+            transform: translateY(-3px);
+            background-color: #f8fafc;
+        }
+        .tracking-card i { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 0.5rem; }
         .tracking-card h4 { font-size: 1rem; color: var(--text-main); margin: 0; }
 
         /* --- لوحة التحكم والبيانات --- */
         #dashboard-view { display: none; animation: fadeIn 0.5s ease-in; }
         
-        #auth-section { display: none; max-width: 100%; margin: 1rem auto; background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; width: 100%; }
+        #auth-section { display: none; max-width: 100%; margin: 1rem auto; background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; width: 100%; border: 1px solid var(--gold-color); }
         .form-group { margin-bottom:1rem; text-align: right; }
         .form-group label { display: block; margin-bottom: 0.5rem; font-weight: 600; font-size: 0.9rem; color: var(--text-main); }
-        .form-control { width: 100%; padding: 0.8rem; border: 1px solid var(--border-color); border-radius: 8px; font-size: 1rem; background-color: var(--input-bg); color: var(--text-main); }
+        .form-control { width: 100%; padding: 0.8rem; border: 1px solid var(--gold-color); border-radius: 8px; font-size: 1rem; background-color: var(--input-bg); color: var(--text-main); transition: border-color 0.3s; }
+        .form-control:focus { outline: none; border-color: var(--primary-color); box-shadow: 0 0 0 3px rgba(6, 78, 59, 0.1); }
         
         /* تنسيق حقل اختيار الطالب الجديد */
         .student-input-wrapper {
@@ -139,8 +196,8 @@
             flex: 1;
         }
         .btn-add-student {
-            background-color: var(--secondary-color);
-            color: white;
+            background-color: var(--gold-color);
+            color: #fff;
             border: none;
             width: 42px;
             height: 42px;
@@ -151,8 +208,9 @@
             justify-content: center;
             font-size: 1.2rem;
             flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
-        .btn-add-student:hover { background-color: var(--primary-dark); }
+        .btn-add-student:hover { background-color: #b59328; }
         
         .new-student-container {
             display: none;
@@ -174,82 +232,94 @@
 
         /* تنسيق خاص للحقول الصغيرة داخل المتابعة */
         .input-row .form-group { margin-bottom: 0; } 
-        .btn-submit { width: 100%; padding: 0.8rem; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size:1rem; }
+        .btn-submit { width: 100%; padding: 0.8rem; background-color: var(--primary-color); color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; font-size:1rem; border: 1px solid var(--primary-dark); }
+        .btn-submit:hover { background-color: var(--primary-dark); }
 
         /* النماذج */
-        #teacher-panel, #reciters-panel, #stages-panel, #report-panel { display: none; background: var(--card-bg); padding:1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 2rem; border-right:5px solid var(--secondary-color); }
+        #teacher-panel, #reciters-panel, #stages-panel, #report-panel { display: none; background: var(--card-bg); padding:1.5rem; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 2rem; border-right: 4px solid var(--gold-color); border: 1px solid var(--gold-color); }
         .input-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; }
 
+        /* بطاقات الإحصائيات */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .stat-card { background: var(--card-bg); padding: 1.2rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; }
-        .stat-value { font-size: 2rem; font-weight: 700; color: var(--primary-color); }
-        .stat-label { font-size: 0.85rem; color: var(--text-light); }
+        .stat-card { 
+            background: var(--card-bg); 
+            padding: 1.2rem; 
+            border-radius: var(--radius); 
+            box-shadow: var(--shadow); 
+            text-align: center; 
+            border: 2px solid var(--gold-color); /* الحد الذهبي */
+        }
+        .stat-value { font-size: 2rem; font-weight: 700; color: var(--primary-color); text-shadow: 1px 1px 0px rgba(212, 175, 55, 0.2); }
+        .stat-label { font-size: 0.85rem; color: var(--text-light); font-weight: 600; }
 
-        .table-container { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow-x: auto; border: 1px solid var(--border-color); -webkit-overflow-scrolling: touch; }
+        .table-container { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow-x: auto; border: 2px solid var(--gold-color); -webkit-overflow-scrolling: touch; }
         table { width: 100%; border-collapse: collapse; min-width: 700px; } 
-        th, td { padding: 0.8rem; text-align: right; border-bottom: 1px solid var(--border-color); vertical-align: middle; white-space: nowrap; }
-        th { color: var(--text-light); font-weight: 600; }
+        th, td { padding: 0.8rem; text-align: right; border-bottom: 1px solid rgba(212, 175, 55, 0.3); vertical-align: middle; white-space: nowrap; }
+        th { color: #fff; font-weight: 600; background-color: var(--primary-color); border-bottom: 2px solid var(--gold-color); }
         tr:hover td { background-color: var(--table-hover); }
         
         /* تنسيق شارة المجموع */
         .total-badge {
-            background-color: rgba(14, 165, 233, 0.1);
-            color: #0284c7;
+            background-color: rgba(6, 78, 59, 0.1);
+            color: var(--primary-color);
             padding: 2px 6px;
             border-radius: 4px;
             font-size: 0.75rem;
             font-weight: bold;
             margin-right: 5px;
             display: inline-block;
+            border: 1px solid var(--gold-color);
         }
         body.dark-mode .total-badge {
-            background-color: rgba(56, 189, 248, 0.2);
-            color: #38bdf8;
+            background-color: rgba(212, 175, 55, 0.2);
+            color: var(--gold-color);
+            border-color: var(--gold-color);
         }
 
-        .btn-delete { background-color: rgba(254, 226, 226, 0.8); color: #991B1B; border: 1px solid rgba(254, 226, 226, 1); padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
-        .btn-delete:hover { background-color: #EF4444; color: white; }
+        .btn-delete { background-color: rgba(254, 226, 226, 0.8); color: #991B1B; border: 1px solid #fecaca; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+        .btn-delete:hover { background-color: #EF4444; color: white; border-color: #EF4444; }
         body.dark-mode .btn-delete { background-color: rgba(127, 29, 29, 0.3); color: #fca5a5; border-color: #7f1d1d; }
         body.dark-mode .btn-delete:hover { background-color: #ef4444; color: white; }
 
-        .btn-edit { background-color: rgba(219, 234, 254, 0.8); color: #1E40AF; border: 1px solid rgba(219, 234, 254, 1); padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; margin-left: 5px; }
+        .btn-edit { background-color: rgba(219, 234, 254, 0.8); color: #1E40AF; border: 1px solid #bfdbfe; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.85rem; transition: all 0.3s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; margin-left: 5px; }
         .btn-edit:hover { background-color: #3B82F6; color: white; }
         body.dark-mode .btn-edit { background-color: rgba(30, 64, 175, 0.3); color: #93c5fd; border-color: #1e3a8a; }
         body.dark-mode .btn-edit:hover { background-color: #3b82f6; color: white; }
 
         /* زر وضع خط الفصل */
-        .btn-separator { background-color: #095e80; color: white; border: 1px solid #095e80; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.3s; display: none; margin-left: 10px; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 2px 4px rgba(239, 68, 68, 0.2); }
-        .btn-separator:hover { background-color: #ff3030; border-color: #000000; transform: translateY(-1px); }
+        .btn-separator { background-color: var(--primary-color); color: white; border: 1px solid var(--primary-dark); padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.3s; display: none; margin-left: 10px; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .btn-separator:hover { background-color: var(--primary-dark); border-color: var(--gold-color); transform: translateY(-1px); }
 
         /* زر مسح الكل */
-        .btn-delete-all { background-color: #ffffff; color: #DC2626; border: 1px solid #FECACA; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.3s; display: none; margin-right: auto; display: flex; align-items: center; gap: 0.5rem; }
-        .btn-delete-all:hover { background-color: #ff0000; color: white; border-color: #DC2626; }
-        body.dark-mode .btn-delete-all { background-color: #095e80; color: #ffffff; border-color: #d10000; }
+        .btn-delete-all { background-color: #fff; color: #DC2626; border: 1px solid #fecaca; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.3s; display: none; margin-right: auto; display: flex; align-items: center; gap: 0.5rem; }
+        .btn-delete-all:hover { background-color: #dc2626; color: white; border-color: #DC2626; }
+        body.dark-mode .btn-delete-all { background-color: rgba(220, 38, 38, 0.1); color: #fca5a5; border-color: #b91c1c; }
         body.dark-mode .btn-delete-all:hover { background-color: #dc2626; color: white; }
 
         /* زر حفظ كصورة */
-        .btn-screenshot { background-color: #095e80; color: white; border: 1px solid #000000; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.3s; display: none; margin-left: 10px; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 2px 4px rgba(139, 92, 246, 0.2); }
-        .btn-screenshot:hover { background-color: #0011ff; border-color: #6D28D9; transform: translateY(-1px); }
+        .btn-screenshot { background-color: var(--gold-color); color: #fff; border: 1px solid #b59328; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-size: 0.9rem; font-weight: 600; transition: all 0.3s; display: none; margin-left: 10px; display: flex; align-items: center; gap: 0.5rem; box-shadow: 0 4px 6px rgba(212, 175, 55, 0.3); }
+        .btn-screenshot:hover { background-color: #b59328; border-color: #fff; transform: translateY(-1px); color: #fff; }
         
         /* تنشيط لون الزر عند وضع التصوير */
         .btn-screenshot.active {
-            background-color: #10B981; /* أخضر */
-            border-color: #059669;
+            background-color: var(--primary-color);
+            border-color: var(--gold-color);
             animation: pulse 1.5s infinite;
+            color: #fff;
         }
         @keyframes pulse {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
         }
 
         /* زر تبديل الوضع */
         .btn-theme { border: none; background: transparent; color: var(--text-main); font-size: 1.2rem; cursor: pointer; padding: 0.5rem; }
 
-        /* تنسيق صف الخط الأحمر للفصل */
+        /* تنسيق صف الخط الأسود للفصل */
         .separator-row td { padding: 10px 0; border: none; background: var(--card-bg); }
         .red-separator-line {
-            border-top: 5px solid #000000; /* الخط الأحمر */
+            border-top: 4px solid var(--gold-color); /* الخط الذهبي بدلاً من الأسود */
             width: 100%;
             margin: 0;
             position: relative;
@@ -262,14 +332,14 @@
             top: 50%;
             left: 95%;
             transform: translate(-50%, -50%);
-            background-color: #003c53;
+            background-color: var(--primary-color);
             padding: 4px 15px;
-            border: 1px solid #e5e7eb;
-            border-radius: 10px;
+            border: 2px solid var(--gold-color);
+            border-radius: 20px;
             font-size: 0.8rem;
             font-weight: bold;
             color: white;
-            box-shadow: 0 6px 5px #000000;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             white-space: nowrap;
             z-index: 1;
             cursor: pointer;
@@ -280,10 +350,10 @@
             transition: background-color 0.2s;
         }
         .separator-label-container:hover {
-            background-color: #000000;
+            background-color: var(--primary-dark);
+            border-color: #fff;
         }
         
-        /* إخفاء معلومات العدد عند عدم وجود مخفيات */
         .separator-label-container .hidden-count {
             display: none;
             font-size: 0.75rem;
@@ -295,14 +365,13 @@
             display: inline-block;
         }
         
-        /* عرض عدد الساعات على شريط الفصل */
         .separator-hours {
-            background-color: #d97706;
+            background-color: var(--gold-color);
+            color: #fff;
             padding: 4px 10px;
             border-radius: 6px;
             font-size: 0.8rem;
             font-weight: bold;
-            color: white;
             margin-right: 10px;
         }
 
@@ -312,9 +381,9 @@
             top: -12px;
             transform: translateX(-50%);
             background: white;
-            border:4px solid #095e80;
-            color: #ef4444;
-            box-shadow: 0 6px 5px rgb(0, 0, 0);
+            border: 2px solid var(--danger);
+            color: var(--danger);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             width: 24px;
             height: 24px;
             border-radius: 50%;
@@ -326,7 +395,7 @@
             font-weight: bold;
             z-index: 2;
         }
-        .separator-delete-btn:hover { background: #EF4444; color: white; }
+        .separator-delete-btn:hover { background: var(--danger); color: white; }
 
         /* --- نقطة التصوير --- */
         .screenshot-dot-container {
@@ -343,51 +412,57 @@
         }
 
         .screenshot-dot {
-            width: 24px;
-            height: 24px;
-            background-color: #095e80; 
-            border: 2px solid white;
+            width: 32px;
+            height: 32px;
+            background-color: var(--primary-color); 
+            border: 2px solid var(--gold-color);
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            color: var(--gold-color);
+            font-size: 14px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             transition: transform 0.2s;
         }
         .screenshot-dot:hover {
             transform: scale(1.2);
-            background-color: #7C3AED;
+            background-color: var(--gold-color);
+            color: var(--primary-color);
         }
 
         .rating-wrapper { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
         
         .badge { padding: 0.2rem 0.6rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; white-space: nowrap;}
-        .badge-excellent { background-color: #D1FAE5; color: #065F46; }
-        .badge-good { background-color: #DBEAFE; color: #1E40AF; }
-        .badge-average { background-color: #FEF3C7; color: #92400E; } 
-        .badge-needs-improvement { background-color: #FEE2E2; color: #991B1B; }
+        .badge-excellent { background-color: #d1fae5; color: #065f46; border: 1px solid #34d399; }
+        .badge-good { background-color: #dbeafe; color: #1e40af; border: 1px solid #60a5fa; }
+        .badge-average { background-color: #fef3c7; color: #92400e; border: 1px solid #fbbf24; } 
+        .badge-needs-improvement { background-color: #fee2e2; color: #991b1b; border: 1px solid #f87171; }
         
-        body.dark-mode .badge-average { background-color: rgba(245, 158, 11, 0.2); color: #fbbf24; } 
-        .badge-stage { background-color: #E0F2FE; color: #1E3A8A; } 
+        body.dark-mode .badge-excellent { background-color: rgba(6, 95, 70, 0.5); color: #6ee7b7; border-color: #059669; } 
+        body.dark-mode .badge-good { background-color: rgba(30, 64, 175, 0.5); color: #93c5fd; border-color: #2563eb; } 
+        body.dark-mode .badge-average { background-color: rgba(146, 64, 14, 0.5); color: #fcd34d; border-color: #d97706; } 
+        body.dark-mode .badge-needs-improvement { background-color: rgba(127, 29, 29, 0.5); color: #fca5a5; border-color: #dc2626; } 
+
+        .badge-stage { background-color: #f0fdf4; color: #166534; border: 1px solid #4ade80; } 
+        body.dark-mode .badge-stage { background-color: rgba(22, 101, 52, 0.5); color: #86efac; border-color: #16a34a; }
 
         .empty-state { text-align: center; padding: 3rem; color: var(--text-light); }
         
-        .frequency-tag { font-size: 0.75rem; color: var(--text-light); background-color: var(--input-bg); padding: 2px 6px; border-radius: 4px; margin-right: 5px; }
+        .frequency-tag { font-size: 0.75rem; color: var(--text-light); background-color: var(--input-bg); padding: 2px 6px; border-radius: 4px; margin-right: 5px; border: 1px solid var(--border-color); }
 
         #toast-container { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; }
-        .toast { padding: 0.8rem; border-radius: 8px; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); animation: slideIn 0.3s ease-out; text-align: center; font-size: 0.9rem; }
+        .toast { padding: 0.8rem; border-radius: 8px; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); animation: slideIn 0.3s ease-out; text-align: center; font-size: 0.9rem; border: 1px solid rgba(255,255,255,0.2); }
         @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         @keyframes fadeIn { from { opacity: 0; } to { opacity:1; } }
 
-        .loader { border: 3px solid var(--border-color); border-top: 3px solid var(--primary-color); border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
+        .loader { border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid #fff; border-radius: 50%; width: 20px; height: 20px; animation: spin 1s linear infinite; display: inline-block; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
 
         /* تنسيق زر إلغاء التعديل */
         .btn-cancel-edit { 
-            background-color: #1fa55e; 
+            background-color: #6b7280; 
             color: white; 
             width: auto; 
             display: none; 
@@ -400,7 +475,7 @@
             margin-left: 10px;
             transition: background 0.3s;
         }
-        .btn-cancel-edit:hover { background-color: #4B5563; }
+        .btn-cancel-edit:hover { background-color: #4b5563; }
 
         /* --- تصميم النافذة المنبثقة (Modals) --- */
         .modal-bg {
@@ -410,24 +485,24 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.6);
             z-index: 2000;
             align-items: center;
             justify-content: center;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(4px);
         }
 
         .modal-content {
             background-color: var(--card-bg);
             padding: 2rem;
             border-radius: var(--radius);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
             max-width: 500px; 
             width: 90%;
             text-align: center;
             position: relative;
             animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid var(--border-color);
+            border: 2px solid var(--gold-color); /* إطار ذهبي للمودال */
             max-height: 80vh;
             display: flex;
             flex-direction: column;
@@ -464,8 +539,8 @@
             margin: 0 auto 1rem;
             color: white;
             font-size: 2.5rem;
-            border: 4px solid white;
-            box-shadow: var(--shadow);
+            border: 4px solid var(--gold-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
         .dev-name { font-size: 1.4rem; font-weight: 700; color: var(--text-main); margin-bottom: 0.2rem; }
@@ -477,6 +552,7 @@
             padding: 1rem;
             border-radius: 8px;
             margin-bottom:1.5rem;
+            border: 1px solid var(--border-color);
         }
         
         .dev-item {
@@ -490,7 +566,7 @@
         .dev-item:last-child { margin-bottom: 0; }
         .dev-item i { color: var(--primary-color); width: 20px; }
 
-        /* تنسيق قائمة الطلاب داخل المودال */
+        /* قائمة الطلاب */
         .student-list-item {
             display: flex;
             justify-content: space-between;
@@ -513,38 +589,10 @@
         }
         .btn-delete-small:hover { transform: scale(1.2); }
 
-        /* تنسيقات خاصة بمولد التقارير */
-        .report-student-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 10px;
-            min-height: 40px;
-            padding: 10px;
-            background: var(--input-bg);
-            border-radius: 8px;
-            border: 1px solid var(--border-color);
-        }
-        .report-tag {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .report-tag i {
-            cursor: pointer;
-            opacity: 0.7;
-        }
-        .report-tag i:hover {
-            opacity: 1;
-        }
+        /* مولد التقارير */
         .btn-add-to-report {
-            background-color: var(--secondary-color);
-            color: white;
+            background-color: var(--gold-color);
+            color: #fff;
             border: none;
             padding: 0.8rem;
             border-radius: 8px;
@@ -552,31 +600,56 @@
             width: 100%;
             margin-top: 10px;
             font-weight: 600;
+            transition: background 0.3s;
         }
         .btn-add-to-report:hover {
-            background-color: var(--primary-dark);
+            background-color: #b59328;
         }
 
-        /* تنسيق صف التقرير الكبير (الفراغ الكبير) */
-        .summary-row {
-            background-color: #f0fdf4;
-            border-bottom: 2px solid var(--success);
-        }
-        body.dark-mode .summary-row {
-            background-color: rgba(16, 185, 129, 0.1);
-        }
-        .summary-content {
+        .summary-row { background-color: transparent; border-bottom: none; }
+        
+        .report-header-bar {
+            background: linear-gradient(to right, #fff, #f9fafb);
+            border: 2px solid var(--gold-color);
+            color: #0f172a;
+            padding: 12px 20px;
+            border-radius: 12px;
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             align-items: center;
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: var(--primary-color);
-            padding: 10px 0;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 5px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            position: relative;
         }
-        .summary-value {
-            color: #d97706;
-            font-size: 1.4rem;
+        
+        body.dark-mode .report-header-bar {
+            background: var(--card-bg);
+            color: var(--text-main);
+            border-color: var(--gold-color);
+        }
+
+        .report-title-text {
+            font-weight: 800;
+            font-size: 1.1rem;
+            flex: 1;
+            text-align: center;
+            color: var(--primary-color);
+        }
+
+        .report-hours-badge {
+            background-color: var(--primary-color);
+            color: var(--gold-color);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            white-space: nowrap;
+            border: 1px solid var(--gold-color);
         }
 
         @keyframes popIn {
@@ -625,9 +698,8 @@
             
             .section-title { font-size: 1rem; margin: 1.5rem 0 0.8rem 0; }
 
-            .student-input-wrapper {
-                flex-wrap: wrap;
-            }
+            .student-input-wrapper { flex-wrap: wrap; }
+            .report-header-bar { flex-direction: column; text-align: center; }
         }
     </style>
 </head>
@@ -645,7 +717,7 @@
                     <i id="theme-icon" class="fas fa-moon"></i>
                 </button>
 
-                <!-- زر إعدادات الساعات (يحدد ساعات اليوم للشريط الأحمر) -->
+                <!-- زر إعدادات الساعات -->
                 <button id="btn-duty-settings" class="btn-duty-settings" style="display:none;" onclick="openDutySettings()" title="تحديد ساعات الدوام لليوم">
                     <i class="fas fa-clock"></i> <span>ساعات اليوم</span>
                 </button>
@@ -659,7 +731,7 @@
                     <i class="fas fa-user-tie"></i> <span>عن المطور</span>
                 </button>
 
-                <span id="user-display" style="display:none; font-weight:600; font-size: 0.9rem;"></span>
+                <span id="user-display" style="display:none; font-weight:600; font-size: 0.9rem; color: var(--primary-color);"></span>
                 <button id="btn-logout" onclick="handleLogout()" style="display:none; color:var(--danger);"><i class="fas fa-sign-out-alt"></i></button>
                 <button id="btn-login-nav" class="btn-login" onclick="toggleAuthModal()"><i class="fas fa-sign-in-alt"></i> <span>دخول المعلم</span></button>
             </div>
@@ -669,7 +741,7 @@
     <main>
         <!-- قسم تسجيل الدخول -->
         <section id="auth-section">
-            <h3>تسجيل دخول المعلم</h3>
+            <h3 style="color:var(--primary-color); margin-bottom:1rem;">تسجيل دخول المعلم</h3>
             <form id="login-form" onsubmit="handleLogin(event)">
                 <div class="form-group"><label>البريد الإلكتروني</label><input type="email" id="email" class="form-control" required></div>
                 <div class="form-group"><label>كلمة المرور</label><input type="password" id="password" class="form-control" required></div>
@@ -719,11 +791,11 @@
 
         <!-- 2. لوحة التحكم والبيانات -->
         <section id="dashboard-view">
-            <h2 id="page-title" style="margin-bottom: 1.5rem; font-size: 1.2rem; border-bottom: 2px solid var(--primary-color); display: inline-block; padding-bottom: 5px;">السجلات</h2>
+            <h2 id="page-title" style="margin-bottom: 1.5rem; font-size: 1.2rem; color: var(--primary-color); border-bottom: 2px solid var(--gold-color); display: inline-block; padding-bottom: 5px;">السجلات</h2>
 
             <!-- نموذج المتابعة اليومية -->
             <section id="teacher-panel">
-                <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">تسجيل متابعة يومية جديدة</h3>
+                <h3 style="margin-bottom: 1rem; font-size: 1.1rem; color: var(--primary-color);">تسجيل متابعة يومية جديدة</h3>
                 <form id="entry-form" onsubmit="handleSubmit(event)">
                     <div class="form-group">
                         <label>اسم الطالب</label>
@@ -753,11 +825,9 @@
                         </div>
                         <div class="form-group">
                             <label>المجموع</label>
-                            <input type="number" id="amount-total" class="form-control" readonly style="background-color: var(--input-bg); font-weight:bold; color:var(--primary-color);">
+                            <input type="number" id="amount-total" class="form-control" readonly style="background-color: var(--input-bg); font-weight:bold; color:var(--primary-color); border-color: var(--gold-color);">
                         </div>
                     </div>
-
-                    <!-- تم إزالة حقل ساعات الدوام من هنا حسب الطلب -->
                     
                     <div class="input-row" style="margin-top: 1rem;">
                         <div class="form-group"><label>التقييم</label><select id="level" class="form-control" required><option value="" disabled selected>اختر التقييم...</option><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
@@ -782,9 +852,11 @@
                 </form>
             </section>
 
-            <!-- نموذج التقارير (الأسبوعي والشهري) -->
+            <!-- نموذج التقارير -->
             <section id="report-panel">
-                <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">توليد تقرير جديد وحفظه</h3>
+                <h3 style="margin-bottom: 1rem; font-size: 1.1rem; color: var(--primary-color);">حساب التقرير للطلاب النشطين</h3>
+                <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-light);">سيتم حساب التقرير تلقائياً لجميع الطلاب الذين لديهم سجلات يومية في الفترة المحددة أدناه.</p>
+                
                 <div class="input-row">
                     <div class="form-group">
                         <label>تاريخ البداية</label>
@@ -795,30 +867,15 @@
                         <input type="date" id="report-end-date" class="form-control">
                     </div>
                 </div>
-                
-                <div class="form-group">
-                    <label>تحديد الطلاب</label>
-                    <div class="student-input-wrapper">
-                        <select id="report-student-select" class="form-control student-select">
-                            <option value="" disabled selected>اختر طالباً للإضافة</option>
-                        </select>
-                        <button type="button" class="btn-add-student" onclick="addStudentToReportList()" title="إضافة للقائمة">
-                            <i class="fas fa-plus"></i>
-                        </button>
-                    </div>
-                    <div id="report-selected-list" class="report-student-tags">
-                        <span style="color:var(--text-light); font-size:0.85rem; padding:5px;">لم يتم اختيار طلاب بعد...</span>
-                    </div>
-                </div>
 
                 <button type="button" class="btn-add-to-report" onclick="generateAndSaveReport()">
-                    <i class="fas fa-file-invoice"></i> حفظ التقرير في السجلات
+                    <i class="fas fa-calculator"></i> حساب وحفظ التقرير
                 </button>
             </section>
 
             <!-- نموذج المختبرين في الأجزاء -->
             <section id="reciters-panel">
-                <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">إضافة مختبر جديد (أجزاء)</h3>
+                <h3 style="margin-bottom: 1rem; font-size: 1.1rem; color: var(--primary-color);">إضافة مختبر جديد (أجزاء)</h3>
                 <form id="reciters-form" onsubmit="handleRecitersSubmit(event)">
                     <div class="input-row">
                         <div class="form-group" style="grid-column: span 2; min-width: 100%;">
@@ -843,7 +900,7 @@
                             <input type="text" id="reciter-amount" class="form-control" placeholder="اكتب اسم الجزء هنا..." required>
                         </div>
                         <div class="form-group"><label>الدرجة من 100%</label><input type="number" id="reciter-score" class="form-control" min="0" max="100" placeholder="100" required></div>
-                        <div class="form-group"><label>التقييم</label><select id="reciter-level" class="form-control" required><option value="" disabled selected>اختر التقييم...</option><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
+                        <div class="form-group"><label>التقييم</label><select id="reciter-level" class="form-control" required><option value="" disabled selected="اختر التقييم..."><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
                     </div>
                     <div class="form-group" style="margin-top:10px;"><label>تاريخ الاختبار</label><input type="date" id="reciter-date" class="form-control" required></div>
                     <div style="text-align:left; margin-top: 1rem;">
@@ -855,7 +912,7 @@
 
             <!-- نموذج اختبار المراحل -->
             <section id="stages-panel">
-                <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">اختبار مراحل</h3>
+                <h3 style="margin-bottom: 1rem; font-size: 1.1rem; color: var(--primary-color);">اختبار مراحل</h3>
                 <form id="stages-form" onsubmit="handleStagesSubmit(event)">
                     <div class="input-row">
                         <div class="form-group" style="grid-column: span 2; min-width: 100%;">
@@ -908,7 +965,7 @@
 
             <section class="stats-grid">
                 <div class="stat-card"><div class="stat-label">المتابعة المذكورة</div><div class="stat-value" id="stat-total">0</div></div>
-                <div class="stat-card"><div class="stat-label">ممتاز</div><div class="stat-value" id="stat-excellent" style="color:var(--secondary-color);">0</div></div>
+                <div class="stat-card"><div class="stat-label">ممتاز</div><div class="stat-value" id="stat-excellent" style="color:var(--success);">0</div></div>
                 <div class="stat-card"><div class="stat-label">يحتاج مراجعة</div><div class="stat-value" id="stat-review" style="color:var(--danger);">0</div></div>
             </section>
 
@@ -930,7 +987,7 @@
                             <span>صورة</span>
                         </button>
                     </div>
-                    <h3 style="font-size: 1.1rem; margin-right: 10px;">السجل</h3>
+                    <h3 style="font-size: 1.1rem; margin-right: 10px; color: var(--primary-color);">السجل</h3>
                 </div>
                 <div class="table-container">
                     <table id="records-table">
@@ -938,7 +995,6 @@
                             <tr>
                                 <th>الطالب</th>
                                 <th>المقدار</th>
-                                <!-- تمت إزالة عمود ساعات الدوام من الجدول كما طلب المستخدم -->
                                 <th>التقييم</th> 
                                 <th id="th-score" class="col-score" style="display:none;">الدرجة من 100%</th>
                                 <th>ملاحظات</th>
@@ -959,9 +1015,9 @@
         <div class="modal-content">
             <button class="close-modal" onclick="closeDutySettings()">&times;</button>
             
-            <div class="dev-avatar" style="background: #d97706;"><i class="fas fa-clock"></i></div>
+            <div class="dev-avatar" style="background: var(--gold-color); color: var(--primary-dark);"><i class="fas fa-clock"></i></div>
             <h3 class="dev-name">ساعات اليوم</h3>
-            <p class="dev-role">تحديد عدد الساعات التي سيتم وضعها على الشريط الأحمر والتقارير</p>
+            <p class="dev-role">تحديد عدد الساعات التي سيتم وضعها على الشريط الذهبي والتقارير</p>
 
             <div class="form-group" style="text-align: right;">
                 <label>عدد الساعات لليوم</label>
@@ -992,7 +1048,7 @@
                 </div>
                 <div class="dev-item">
                     <i class="fas fa-code-branch"></i>
-                    <span>الإصدار 1.0.0</span>
+                    <span>الإصدار 2.0.0</span>
                 </div>
             </div>
 
@@ -1047,15 +1103,11 @@
         let selectedTrackingFreq = 'daily'; 
         let editDocId = null;
         let allStudents = []; 
-        let reportSelectedStudents = [];
-        
-        // متغير لتخزين ساعات اليوم الحالية التي يحددها المعلم
         let todayTotalHours = 0; 
-        
         let isScreenshotMode = false;
         let collapsedSeparators = JSON.parse(localStorage.getItem('hifz_platform_collapsed') || '{}');
 
-        // --- إعدادات الساعات (الشريط الأحمر) ---
+        // --- إعدادات الساعات ---
         window.openDutySettings = () => {
             if (!auth.currentUser) {
                 showToast('يجب تسجيل الدخول للوصول لهذه الإعدادات', 'warning');
@@ -1072,7 +1124,6 @@
         window.saveDutySettings = () => {
             const val = document.getElementById('default-duty-input').value;
             todayTotalHours = parseFloat(val) || 0;
-            
             showToast(`تم تحديد ساعات اليوم بـ ${todayTotalHours} ساعات`, 'success');
             closeDutySettings();
         }
@@ -1178,8 +1229,7 @@
             const selects = [
                 document.getElementById('student-name'),
                 document.getElementById('reciter-name'),
-                document.getElementById('stages-name'),
-                document.getElementById('report-student-select') 
+                document.getElementById('stages-name')
             ];
 
             selects.forEach(select => {
@@ -1268,16 +1318,6 @@
             }
         }
 
-        const partsSelect = document.getElementById('stages-unit');
-        if(partsSelect){
-            for(let i=1; i<=30; i++) {
-                const option = document.createElement('option');
-                option.value = `الجزء ${i}`;
-                option.textContent = `الجزء ${i}`;
-                partsSelect.appendChild(option);
-            }
-        }
-
         window.toggleDevInfo = () => {
             const modal = document.getElementById('dev-info-modal');
             if (modal.style.display === 'flex') {
@@ -1285,13 +1325,6 @@
             } else {
                 modal.style.display = 'flex';
             }
-        }
-
-        window.handleStagesUnitChange = function() {
-            const val = this.value;
-            const amountInput = document.getElementById('stages-amount');
-            if (!amountInput) return; 
-            amountInput.value = 1; 
         }
 
         window.openTracking = (freq) => {
@@ -1304,18 +1337,8 @@
             teacherPanel.style.display = 'none';
             reportPanel.style.display = 'none';
 
-            const rangeInputs = document.getElementById('range-inputs');
-            const levelGroup = document.getElementById('level').parentElement;
-            const attendanceGroup = document.getElementById('attendance-group');
-            const notesGroup = document.getElementById('notes').parentElement;
-
             if (freq === 'daily') {
                 teacherPanel.style.display = 'block';
-                rangeInputs.style.display = 'grid';
-                levelGroup.style.display = 'block';
-                attendanceGroup.style.display = 'block';
-                notesGroup.style.display = 'block';
-                
                 navigateTo('dashboard', 'متابعة يومية');
             } 
             else if (freq === 'weekly' || freq === 'monthly') {
@@ -1346,50 +1369,15 @@
             document.getElementById('amount-total').value = total;
         }
 
-        window.addStudentToReportList = () => {
-            const select = document.getElementById('report-student-select');
-            const name = select.value;
-            if(!name) return;
-
-            if(!reportSelectedStudents.includes(name)) {
-                reportSelectedStudents.push(name);
-                renderReportStudentsList();
-            }
-            select.value = ""; 
-        }
-
-        window.removeStudentFromReport = (name) => {
-            reportSelectedStudents = reportSelectedStudents.filter(s => s !== name);
-            renderReportStudentsList();
-        }
-
-        function renderReportStudentsList() {
-            const container = document.getElementById('report-selected-list');
-            container.innerHTML = '';
-            
-            if(reportSelectedStudents.length === 0) {
-                container.innerHTML = '<span style="color:var(--text-light); font-size:0.85rem; padding:5px;">لم يتم اختيار طلاب بعد...</span>';
-                return;
-            }
-
-            reportSelectedStudents.forEach(name => {
-                const tag = document.createElement('span');
-                tag.className = 'report-tag';
-                tag.innerHTML = `${name} <i class="fas fa-times" onclick="removeStudentFromReport('${name}')"></i>`;
-                container.appendChild(tag);
-            });
-        }
-
+        /**
+         * تعديل دالة إنشاء التقرير لاستبعاد السجلات الفارغة وغير المسجلة في القائمة الرئيسية
+         */
         window.generateAndSaveReport = async () => {
             const startDateStr = document.getElementById('report-start-date').value;
             const endDateStr = document.getElementById('report-end-date').value;
 
             if(!startDateStr || !endDateStr) {
                 showToast('يرجى تحديد تاريخ البداية والنهاية', 'warning');
-                return;
-            }
-            if(reportSelectedStudents.length === 0) {
-                showToast('يرجى اختيار طالب واحد على الأقل', 'warning');
                 return;
             }
 
@@ -1407,7 +1395,7 @@
 
                 const dailyRecords = cachedSnapshot.docs.filter(docSnap => {
                     const d = docSnap.data();
-                    return d.frequency === 'daily' && d.uoi && reportSelectedStudents.includes(d.qwe);
+                    return d.frequency === 'daily' && d.uoi;
                 });
 
                 const studentStats = {};
@@ -1417,14 +1405,32 @@
                     const docDate = d.uoi.toDate();
                     
                     if (docDate >= startDate && docDate <= endDate) {
-                        if (!studentStats[d.qwe]) {
-                            studentStats[d.qwe] = { pages: 0 };
+                        const studentName = d.qwe;
+
+                        // 1. التحقق من أن اسم الطالب موجود وصحيح (ليس فارغ أو undefined)
+                        if (!studentName || studentName.trim() === '' || studentName === 'undefined') return;
+
+                        // 2. التحقق من أن الطالب موجود في القائمة الرئيسية (إدارة الطلاب)
+                        const isValidStudent = allStudents.some(s => s.name === studentName);
+                        if (!isValidStudent) return;
+
+                        if (!studentStats[studentName]) {
+                            studentStats[studentName] = { pages: 0 };
                         }
-                        studentStats[d.qwe].pages += (d.asd || 0);
+                        studentStats[studentName].pages += (d.asd || 0);
                     }
                 });
 
-                Object.keys(studentStats).forEach(studentName => {
+                const activeStudentNames = Object.keys(studentStats);
+                if (activeStudentNames.length === 0) {
+                    showToast('لا توجد سجلات يومية لهذه الفترة الزمنية للطلاب المسجلين', 'info');
+                    return;
+                }
+
+                const freqLabel = selectedTrackingFreq === 'weekly' ? 'الأسبوعي' : 'الشهري';
+                const reportTitle = `تقرير ${freqLabel} (${startDateDisplay} - ${endDateDisplay})`;
+                
+                activeStudentNames.forEach(studentName => {
                     const stats = studentStats[studentName];
                     
                     const newDocRef = doc(collection(db, "daily_records"));
@@ -1444,8 +1450,6 @@
                     count++;
                 });
 
-                // --- إضافة صف "فراغ كبير" لساعات اليوم كما طلب المستخدم ---
-                // نجمع الساعات من الفواصل الموجودة في الفترة المحددة
                 let totalPeriodHours = 0;
                 cachedSnapshot.docs.forEach(docSnap => {
                     const d = docSnap.data();
@@ -1457,27 +1461,25 @@
                     }
                 });
 
-                // إضافة سجل التلخيص (الفراغ الكبير)
-                if (totalPeriodHours > 0) {
+                if (totalPeriodHours > 0 || count > 0) {
                     const summaryRef = doc(collection(db, "daily_records"));
+                    const futureTime = new Date();
+                    futureTime.setSeconds(futureTime.getSeconds() + 10);
+                    
                     batch.set(summaryRef, {
-                        type: 'summary', // نوع جديد للتعريف
-                        qwe: "ملخص الساعات", 
+                        type: 'summary',
+                        qwe: reportTitle,
                         asd: totalPeriodHours,
-                        asdText: `مجموع ساعات الفترة`,
-                        frequency: selectedTrackingFreq,
-                        uoi: serverTimestamp()
+                        asdText: `${totalPeriodHours} ساعة`,
+                        frequency: selectedTrackingFreq, 
+                        uoi: Timestamp.fromDate(futureTime) 
                     });
                     count++;
                 }
 
                 if (count > 0) {
                     await batch.commit();
-                    showToast(`تم حفظ تقرير ${count} طلاب بنجاح`, 'success');
-                    reportSelectedStudents = [];
-                    renderReportStudentsList();
-                } else {
-                    showToast('لا توجد بيانات يومية لهؤلاء الطلاب في الفترة المحددة', 'info');
+                    showToast(`تم حساب وحفظ تقرير ${activeStudentNames.length} طالب بنجاح`, 'success');
                 }
 
             } catch(err) {
@@ -1507,19 +1509,30 @@
                     separatorFreq = 'stages';
                 }
 
-                // إضافة الفاصل مع تخزين عدد الساعات
                 await addDoc(collection(db, "daily_records"), {
                     type: 'separator',
                     frequency: separatorFreq, 
                     dayLabel: dayName, 
-                    separatorHours: todayTotalHours, // تخزين الساعات هنا
+                    separatorHours: todayTotalHours,
                     uoi: serverTimestamp()
                 });
 
-                showToast('تم وضع الخط وتسجيل الساعات', 'success');
+                await addDoc(collection(db, "daily_records"), {
+                    qwe: "",
+                    asd: 0,
+                    asdText: "",
+                    unit: "",
+                    zxc: "",
+                    nmk: "",
+                    frequency: separatorFreq,
+                    attr: "present",
+                    uoi: serverTimestamp()
+                });
+
+                showToast('تم وضع الخط وتسجيل طالب جديد فارغ', 'success');
             } catch(err) {
                 console.error(err);
-                showToast('في خطا لان النت ضعيف ☢', 'error');
+                showToast('في خطأ لان النت ضعيف ☢', 'error');
             }
         }
 
@@ -1591,7 +1604,6 @@
             const headers = document.getElementById('records-table').querySelectorAll('th');
             headers[0].textContent = "الطالب";
             headers[1].textContent = "المقدار";
-            // تم إزالة عمود الساعات
             headers[2].textContent = "التقييم";
             headers[3].style.display = ''; 
             headers[4].textContent = "ملاحظات";
@@ -1644,8 +1656,16 @@
 
             if(isAdmin) {
                 clearBtn.style.display = 'flex';
-                sepBtn.style.display = 'flex';
                 shotBtn.style.display = 'flex'; 
+                
+                if (currentView === 'dashboard' && (selectedTrackingFreq === 'weekly' || selectedTrackingFreq === 'monthly')) {
+                    sepBtn.style.display = 'none';
+                } else if (currentView === 'dashboard' || currentView === 'reciters' || currentView === 'stages') {
+                    sepBtn.style.display = 'flex';
+                } else {
+                    sepBtn.style.display = 'none';
+                }
+
             } else {
                 clearBtn.style.display = 'none';
                 sepBtn.style.display = 'none';
@@ -1899,7 +1919,6 @@
                     zxc: level, 
                     frequency: frequency, 
                     nmk: document.getElementById('notes').value
-                    // تمت إزالة dutyHours من الحفظ
                 };
 
                 const fromVal = document.getElementById('amount-from').value;
@@ -2036,7 +2055,7 @@
         };
 
         window.handleDeleteSection = async (sepId) => {
-            if (!confirm('هل أنت متأكد من حذف هذا الخط الأحمر وكل البيانات التابعة له؟')) return;
+            if (!confirm('هل أنت متأكد من حذف هذا الخط الذهبي وكل البيانات التابعة له؟')) return;
 
             try {
                 const docs = cachedSnapshot.docs;
@@ -2157,8 +2176,13 @@
             }
 
             let rowsToCapture = [];
-            for (let i = separatorIndex + 1; i < allRows.length; i++) {
-                if (allRows[i].classList.contains('separator-row')) break;
+            
+            for (let i = separatorIndex; i < allRows.length; i++) {
+                if (allRows[i].classList.contains('separator-row') || allRows[i].classList.contains('summary-row')) {
+                    if (i !== separatorIndex) {
+                        break;
+                    }
+                }
                 rowsToCapture.push(allRows[i]);
             }
 
@@ -2167,7 +2191,7 @@
                 return;
             }
 
-            showToast('تم الالتقاط', 'info');
+            showToast('جاري الالتقاط...', 'info');
 
             const tempTable = document.createElement('table');
             tempTable.style.width = '100%';
@@ -2189,58 +2213,23 @@
             }
 
             Array.from(thead.querySelectorAll('th')).forEach(th => {
-                th.style.backgroundColor = '#f3f4f6';
-                th.style.color = '#000';
-                th.style.borderBottom = '2px solid #000';
+                th.style.backgroundColor = '#064e3b'; /* Header Green */
+                th.style.color = '#ffffff';
+                th.style.borderBottom = '2px solid #D4AF37'; /* Gold border */
             });
 
             const remainingColumnsCount = thead.querySelectorAll('th').length;
 
-            // --- التعديل هنا: تحديد نوع التقرير واليوم ---
-            const sepDoc = cachedSnapshot.docs.find(d => d.id === sepId);
-            let titlePrefix = "سجل";
-            let dayName = "";
-
-            if (sepDoc) {
-                const data = sepDoc.data();
-                dayName = data.dayLabel || "";
-                
-                if (data.frequency === 'weekly') {
-                    titlePrefix = "التقرير الأسبوعي";
-                } else if (data.frequency === 'monthly') {
-                    titlePrefix = "التقرير الشهري";
-                } else {
-                    titlePrefix = "سجل"; // Daily default
-                }
-            }
-
-            let fullTitle = titlePrefix;
-            if(dayName) {
-                fullTitle += ` (${dayName})`;
-            }
-            // ----------------------------------------------
-
-            // --- جلب الساعات وإضافتها للصورة ---
-            const sepRowData = allRows[separatorIndex];
-            const hoursElement = sepRowData.querySelector('.separator-hours');
-            const hoursText = hoursElement ? hoursElement.innerText : '';
+            const summaryRow = rowsToCapture.find(row => row.classList.contains('summary-row'));
             
-            let titleHTML = fullTitle; 
-            if(hoursText) {
-                titleHTML += ` <div style="display:inline-block; background:#fef3c7; color:#d97706; padding:2px 8px; border-radius:4px; font-size:0.9em; margin-right:10px; font-weight:bold;">${hoursText}</div>`;
-            }
-            // --------------------------------------
-
-            const titleRow = document.createElement('tr');
-            titleRow.innerHTML = `<td colspan="${remainingColumnsCount}" style="text-align:center; padding:15px; font-weight:bold; font-size:1.2rem; background:#f9fafb; border-bottom:2px solid #ef4444; color: #000;">${titleHTML}</td>`;
-
-            thead.insertBefore(titleRow, thead.firstChild);
-            tempTable.appendChild(thead);
-
             const tbody = document.createElement('tbody');
 
             rowsToCapture.forEach(row => {
                 const clone = row.cloneNode(true);
+                
+                // --- التعديل الجديد: إخفاء زر الكاميرا من الصورة ---
+                const cameraBtn = clone.querySelector('.screenshot-dot-container');
+                if(cameraBtn) cameraBtn.remove();
                 
                 const tdActions = clone.querySelector('.col-actions');
                 if(tdActions) tdActions.remove();
@@ -2281,12 +2270,19 @@
                 const image = canvas.toDataURL("image/png");
                 const link = document.createElement('a');
                 link.href = image;
-                link.download = `سجل-${dayName || 'image'}-${new Date().toISOString().slice(0,10)}.png`;
+                
+                let fileName = 'سجل';
+                if(summaryRow) {
+                    const titleText = summaryRow.querySelector('.report-title-text')?.innerText || '';
+                    if(titleText) fileName = titleText.replace(/\s+/g, '_').substring(0, 20);
+                }
+                
+                link.download = `${fileName}-${new Date().toISOString().slice(0,10)}.png`;
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
                 
-                showToast('تم', 'success');
+                showToast('تم حفظ الصورة بنجاح', 'success');
                 toggleScreenshotMode();
 
             } catch (error) {
@@ -2319,7 +2315,7 @@
             
             let skipMode = false;
             
-            let colSpanCount = 5; // تم تقليل العدد لأننا أزلنا عمود الساعات
+            let colSpanCount = 5;
             if (targetView === 'reciters' || targetView === 'stages') colSpanCount++; 
             if (isAdmin) colSpanCount++; 
 
@@ -2335,20 +2331,36 @@
                     const docSnap = docs[i];
                     const d = docSnap.data();
                     
-                    // معالجة صف التقرير الكبير (Summary)
                     if (d.type === 'summary') {
-                         const tr = document.createElement('tr');
-                         tr.className = 'summary-row';
-                         tr.innerHTML = `
+                        if (targetView !== 'dashboard' || d.frequency !== selectedTrackingFreq) {
+                            continue;
+                        }
+
+                        const tr = document.createElement('tr');
+                        tr.className = 'summary-row';
+                        tr.setAttribute('data-id', docSnap.id);
+
+                        const dotHTML = isAdmin ? `
+                            <div class="screenshot-dot-container">
+                                <div class="screenshot-dot" onclick="captureSection('${docSnap.id}')" title="تصوير هذا التقرير">
+                                    <i class="fas fa-camera"></i>
+                                </div>
+                            </div>
+                        ` : '';
+
+                        tr.innerHTML = `
                             <td colspan="${colSpanCount}">
-                                <div class="summary-content">
-                                    <span>📅 ${d.asdText}</span>
-                                    <span class="summary-value">⏰ ${d.asd} ساعة</span>
+                                <div class="report-header-bar">
+                                    ${dotHTML}
+                                    <div class="report-title-text">${d.qwe}</div>
+                                    <div class="report-hours-badge">
+                                        <i class="fas fa-clock"></i> ${d.asdText}
+                                    </div>
                                 </div>
                             </td>
-                         `;
-                         fragment.appendChild(tr);
-                         continue;
+                        `;
+                        fragment.appendChild(tr);
+                        continue;
                     }
 
                     if (d.type === 'separator') {
