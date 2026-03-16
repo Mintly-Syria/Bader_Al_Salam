@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>حلقة السيدة صفية بنت حيي رضي الله عنها</title>
+    <title>حلقة سيدنا على بن ابي طالب</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -271,6 +271,10 @@
         .screenshot-dot { width: 25px; height: 25px; background-color: var(--primary-color); border: 2px solid var(--gold-color); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--gold-color); font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .screenshot-dot:hover { transform: scale(1.2); background-color: var(--gold-color); color: var(--primary-color); }
 
+        /* --- التعديل: إخفاء أزرار الحذف عند ظهور الكاميرا --- */
+        body.screenshot-mode .btn-delete-report { display: none !important; }
+        body.screenshot-mode .separator-delete-btn { display: none !important; }
+
         .rating-wrapper { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
         
         .badge { padding: 0.15rem 0.5rem; border-radius: 9999px; font-size: 0.65rem; font-weight: 600; white-space: nowrap;}
@@ -455,7 +459,8 @@
                     </div>
                     
                     <div class="input-row" style="margin-top: 0.5rem;">
-                        <div class="form-group"><label>التقييم</label><select id="level" class="form-control" required><option value="" disabled selected>التقييم...</option><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
+                        <!-- Added ID="level-group" to this div for targeting -->
+                        <div id="level-group" class="form-group"><label>التقييم</label><select id="level" class="form-control" required><option value="" disabled selected>التقييم...</option><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
                         <div class="form-group" id="attendance-group"><label>الحالة</label><select id="attendance" class="form-control"><option value="present" selected>حضور</option><option value="absent">غياب</option></select></div>
                     </div>
                     <div class="form-group" style="margin-top:5px;"><label>ملاحظة</label><input type="text" id="notes" class="form-control" placeholder="ملاحظات..."></div>
@@ -939,8 +944,10 @@
 
                 if (count > 0 || totalPeriodHours > 0) {
                     const summaryRef = doc(collection(db, "daily_records"));
+                    
+                    // --- FIX: Force header timestamp to be far in the future so it appears at the top (DESC order) ---
                     const futureTime = new Date();
-                    futureTime.setSeconds(futureTime.getSeconds() + 10);
+                    futureTime.setFullYear(2100); // Set to year 2100
                     
                     batch.set(summaryRef, {
                         type: 'summary',
@@ -1144,19 +1151,31 @@
 
         window.handleSubmit = async (e) => {
             e.preventDefault();
-            const level = document.getElementById('level').value;
-            if(!level) return document.getElementById('level').focus() || showToast('التقييم مطلوب', 'warning');
             const name = document.getElementById('student-name').value;
             if(!name) return showToast('اختر الطالب', 'warning');
+            
+            const attendance = document.getElementById('attendance').value;
             const btn = e.target.querySelector('button[type="submit"]'); const old = btn.innerHTML; btn.innerHTML = '<span class="loader"></span>';
             try {
                 const f = document.getElementById('frequency').value; 
                 let asdVal = 0, asdText = "";
-                const from = document.getElementById('amount-from').value; const to = document.getElementById('amount-to').value; const total = document.getElementById('amount-total').value;
-                if (from && to) { asdVal = parseInt(total) || 0; asdText = `من ${from} إلى ${to}`; } else { asdVal = parseInt(total) || 0; }
+                let level = "";
+                
+                // If present, validate and get values
+                if (attendance === 'present') {
+                    level = document.getElementById('level').value;
+                    if(!level) return document.getElementById('level').focus() || showToast('التقييم مطلوب', 'warning') || (btn.innerHTML = old);
+                    
+                    const from = document.getElementById('amount-from').value; const to = document.getElementById('amount-to').value; const total = document.getElementById('amount-total').value;
+                    if (from && to) { asdVal = parseInt(total) || 0; asdText = `من ${from} إلى ${to}`; } else { asdVal = parseInt(total) || 0; }
+                }
+
                 let data = { qwe: name, asd: asdVal, asdText: asdText, unit: "", zxc: level, frequency: f, nmk: document.getElementById('notes').value };
-                if(from && to) { data.page_from = parseInt(from); data.page_to = parseInt(to); }
-                data.attr = document.getElementById('attendance').value;
+                if(attendance === 'present' && document.getElementById('amount-from').value) { 
+                    data.page_from = parseInt(document.getElementById('amount-from').value); 
+                    data.page_to = parseInt(document.getElementById('amount-to').value); 
+                }
+                data.attr = attendance;
                 if (editDocId) { await updateDoc(doc(db, "daily_records", editDocId), data); showToast('تم التحديث', 'success'); handleCancelEdit(); }
                 else { data.uoi = serverTimestamp(); await addDoc(collection(db, "daily_records"), data); showToast('تم الحفظ', 'success'); document.getElementById('amount-from').value=""; document.getElementById('amount-to').value=""; document.getElementById('amount-total').value=""; document.getElementById('notes').value=""; document.getElementById('attendance').value='present'; document.getElementById('level').value=""; document.getElementById('student-name').value=""; }
             } catch(err) { showToast('فشل الحفظ', 'error'); }
@@ -1177,10 +1196,17 @@
                 toggleEditButton('#btn-submit-stage', 'تحديث', '#btn-cancel-stage');
             } else {
                 if(d.frequency === 'daily') openTracking('daily'); else if(d.frequency === 'weekly') openTracking('weekly'); else if(d.frequency === 'monthly') openTracking('monthly');
-                document.getElementById('student-name').value = d.qwe; document.getElementById('level').value = d.zxc; document.getElementById('notes').value = d.nmk || '';
+                document.getElementById('student-name').value = d.qwe; 
+                // Only set level if not absent
+                if(d.attr !== 'absent') document.getElementById('level').value = d.zxc;
+                document.getElementById('notes').value = d.nmk || '';
                 if (d.attr) document.getElementById('attendance').value = d.attr;
                 if (d.page_from !== undefined) { document.getElementById('amount-from').value = d.page_from; document.getElementById('amount-to').value = d.page_to; document.getElementById('amount-total').value = (d.page_to - d.page_from) + 1; } else if (d.asd) document.getElementById('amount-total').value = d.asd;
                 toggleEditButton('#btn-submit-entry', 'حفظ التعديلات', '#btn-cancel-entry');
+                
+                // Trigger visibility check based on loaded attendance status
+                const event = new Event('change');
+                document.getElementById('attendance').dispatchEvent(event);
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
@@ -1197,7 +1223,12 @@
             document.getElementById('btn-submit-entry').innerHTML = '<i class="fas fa-cloud-upload-alt"></i> حفظ';
             document.getElementById('btn-submit-reciter').innerHTML = '<i class="fas fa-save"></i> حفظ';
             document.getElementById('btn-submit-stage').innerHTML = '<i class="fas fa-award"></i> حفظ';
-            if(currentView === 'dashboard') document.getElementById('attendance').value = 'present';
+            if(currentView === 'dashboard') {
+                document.getElementById('attendance').value = 'present';
+                // Reset visibility
+                const event = new Event('change');
+                document.getElementById('attendance').dispatchEvent(event);
+            }
             if(!silent) showToast('تم الإلغاء', 'info');
         }
         window.handleDelete = async (id) => { if(confirm('حذف السجل؟')) { try { await deleteDoc(doc(db, "daily_records", id)); if(editDocId === id) handleCancelEdit(); showToast('تم الحذف', 'success'); } catch { showToast('فشل الحذف', 'error'); } } };
@@ -1535,6 +1566,42 @@
             t.innerHTML = msg; c.appendChild(t); setTimeout(() => t.remove(), 3000);
         }
         document.getElementById('reciter-date').valueAsDate = new Date();
+
+        // --- NEW: Handle Absence Logic ---
+        document.getElementById('attendance').addEventListener('change', function() {
+            const val = this.value;
+            const levelGroup = document.getElementById('level-group');
+            const rangeInputs = document.getElementById('range-inputs');
+            
+            // Get references to inputs to toggle 'required'
+            const levelInput = document.getElementById('level');
+            const fromInput = document.getElementById('amount-from');
+            const toInput = document.getElementById('amount-to');
+            
+            if (val === 'absent') {
+                // Hide fields
+                levelGroup.style.display = 'none';
+                rangeInputs.style.display = 'none';
+                
+                // Remove 'required' attribute to allow save without them
+                levelInput.required = false;
+                fromInput.required = false;
+                toInput.required = false;
+                
+                // Clear page total for clarity
+                document.getElementById('amount-total').value = 0;
+            } else {
+                // Show fields
+                levelGroup.style.display = ''; // Reset to CSS default
+                rangeInputs.style.display = ''; // Reset to CSS default
+                
+                // Add 'required' attribute back
+                levelInput.required = true;
+                // Note: from/to are optional in the original design (only total matters for logic), 
+                // but usually if you want to enforce presence, set to true. 
+                // The logic in calculateTotal handles them being empty.
+            }
+        });
     </script>
 </body>
 </html>
