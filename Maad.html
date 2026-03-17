@@ -1277,36 +1277,13 @@
             }
         };
 
+        // --- الدالة المعدلة: حذف خط الفصل فقط ---
         window.handleDeleteSection = async (sepId) => { 
-            if (!confirm('حذف الخط والبيانات؟')) return; 
+            if (!confirm('هل أنت متأكد من حذف خط الفصل؟')) return; 
             try { 
-                const docs = cachedSnapshot.docs; 
-                let sepIndex = -1; 
-                for(let i=0; i<docs.length; i++) { 
-                    if(docs[i].id === sepId) { 
-                        sepIndex = i; 
-                        break; 
-                    } 
-                } 
-                if(sepIndex === -1) return; 
-                
-                const batch = writeBatch(db); 
-                let count = 0; 
-                
-                batch.delete(docs[sepIndex].ref); 
-                count++; 
-                
-                for(let i = sepIndex + 1; i < docs.length; i++) { 
-                    const d = docs[i].data(); 
-                    if(d.type === 'separator' || d.type === 'summary') break; 
-                    
-                    batch.delete(docs[i].ref); 
-                    count++; 
-                } 
-                
-                await batch.commit(); 
-                showToast(`تم حذف ${count} سجلات`, 'success'); 
-                if(editDocId && count > 0) handleCancelEdit(true); 
+                // حذف السطر فقط دون التأثير على البيانات التي بعده
+                await deleteDoc(doc(db, "daily_records", sepId)); 
+                showToast('تم حذف خط الفصل', 'success'); 
             } catch { showToast('فشل الحذف', 'error'); } 
         };
 
