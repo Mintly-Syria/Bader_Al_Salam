@@ -47,31 +47,18 @@
 
         /* زر حول المعهد (أعلى اليسار) */
         .top-left-about {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            z-index: 1000;
+            position: fixed; top: 20px; left: 20px; z-index: 1000;
         }
 
         .btn-small {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid var(--gold-color);
-            color: var(--gold-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-family: 'Tajawal', sans-serif;
-            font-weight: 700;
-            font-size: 0.9rem;
-            cursor: pointer;
-            backdrop-filter: blur(5px);
-            transition: 0.3s;
-            text-decoration: none;
-            display: inline-block;
+            background: rgba(0, 0, 0, 0.4); border: 1px solid var(--gold-color);
+            color: var(--gold-color); padding: 8px 16px; border-radius: 20px;
+            font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 0.9rem;
+            cursor: pointer; backdrop-filter: blur(5px); transition: 0.3s;
+            text-decoration: none; display: inline-block;
         }
-
         .btn-small:hover {
-            background: var(--gold-color);
-            color: var(--islamic-green-dark);
+            background: var(--gold-color); color: var(--islamic-green-dark);
             box-shadow: 0 0 15px var(--gold-glow);
         }
 
@@ -79,11 +66,9 @@
         .theme-btn {
             position: fixed; bottom: 20px; left: 20px;
             width: 45px; height: 45px; border-radius: 50%;
-            background: rgba(0, 0, 0, 0.3);
-            border: 2px solid var(--gold-color);
+            background: rgba(0, 0, 0, 0.3); border: 2px solid var(--gold-color);
             display: flex; justify-content: center; align-items: center;
-            cursor: pointer; z-index: 1000;
-            box-shadow: 0 0 15px var(--gold-glow);
+            cursor: pointer; z-index: 1000; box-shadow: 0 0 15px var(--gold-glow);
             transition: transform 0.3s;
         }
         .theme-btn:hover { transform: scale(1.1) rotate(90deg); }
@@ -109,9 +94,8 @@
 
         /* الهيدر */
         header {
-            min-height: 60vh;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            text-align: center; padding: 80px 20px 20px;
+            min-height: 60vh; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; padding: 80px 20px 20px;
             position: relative; z-index: 2;
         }
         .logo-wrapper { position: relative; margin-bottom: 1.5rem; }
@@ -138,24 +122,16 @@
         main { padding: 10px 15px 80px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
         
         .search-container {
-            width: 100%; max-width: 600px; margin: 0 auto 30px;
-            position: relative;
+            width: 100%; max-width: 600px; margin: 0 auto 30px; position: relative;
         }
         .search-input {
             width: 100%; padding: 15px 50px 15px 20px;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--glass-border);
-            border-radius: 50px;
-            color: #fff;
-            font-family: 'Cairo', sans-serif;
-            font-size: 1rem;
-            outline: none;
-            backdrop-filter: blur(5px);
-            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border);
+            border-radius: 50px; color: #fff; font-family: 'Cairo', sans-serif;
+            font-size: 1rem; outline: none; backdrop-filter: blur(5px); transition: 0.3s;
         }
         .search-input:focus {
-            border-color: var(--gold-color);
-            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--gold-color); background: rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 15px var(--gold-glow);
         }
         .search-icon {
@@ -168,9 +144,8 @@
         }
         .card {
             background: var(--glass-bg); backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid var(--glass-border); border-radius: 16px;
-            padding: 25px 15px; display: flex; flex-direction: column;
+            -webkit-backdrop-filter: blur(10px); border: 1px solid var(--glass-border);
+            border-radius: 16px; padding: 25px 15px; display: flex; flex-direction: column;
             align-items: center; text-decoration: none; color: white;
             transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             position: relative; overflow: hidden;
@@ -219,6 +194,26 @@
         .modal-title { color: var(--gold-color); font-family: 'Tajawal', sans-serif; font-size: 1.8rem; margin-bottom: 15px; }
         .modal-text { line-height: 1.8; color: #e5e7eb; font-size: 1rem; }
 
+        /* تنسيق زر التثبيت المخصص */
+        .pwa-install-btn {
+            display: none; /* مخفي افتراضياً */
+            margin: 0 auto 15px auto;
+            background: var(--gold-color);
+            color: var(--islamic-green-dark);
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-family: 'Cairo', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 15px var(--gold-glow);
+            animation: bounceIn 0.5s ease;
+            transition: transform 0.2s;
+        }
+        .pwa-install-btn:hover { transform: scale(1.05); }
+        .pwa-install-btn:active { transform: scale(0.95); }
+
         footer {
             text-align: center; padding: 25px; border-top: 1px solid rgba(212, 175, 55, 0.2);
             background: rgba(0,0,0,0.3); backdrop-filter: blur(10px);
@@ -228,6 +223,7 @@
         /* Animations */
         @keyframes pulseGlow { 0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); } }
         @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes bounceIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         
         @media (max-width: 380px) {
             .logo-img { width: 100px; height: 100px; }
@@ -354,6 +350,10 @@
     </div>
 
     <footer>
+        <!-- زر تثبيت التطبيق -->
+        <button id="installPwaBtn" class="pwa-install-btn">
+            📥 تثبيت التطبيق
+        </button>
         <p>جميع الحقوق محفوظة &copy; <span style="color: var(--gold-color);">معهد بدر السلام</span> 2026</p>
     </footer>
 
@@ -415,6 +415,39 @@
                 }).catch(registrationError => {
                     console.log('SW registration failed: ', registrationError);
                 });
+            });
+        }
+
+        // --- 6. زر التثبيت المخصص (جديد) ---
+        let deferredPrompt;
+        const installBtn = document.getElementById('installPwaBtn');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // منع ظهور نافذة المتصفح الافتراضية
+            e.preventDefault();
+            // تخزين الحدث لاستخدامه لاحقاً
+            deferredPrompt = e;
+            // إظهار الزر الخاص بنا
+            if(installBtn) installBtn.style.display = 'block';
+        });
+
+        if(installBtn) {
+            installBtn.addEventListener('click', () => {
+                if (deferredPrompt) {
+                    // طلب التثبيت من المستخدم
+                    deferredPrompt.prompt();
+                    // انتظار الرد
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        } else {
+                            console.log('User dismissed the install prompt');
+                        }
+                        deferredPrompt = null;
+                        // إخفاء الزر
+                        installBtn.style.display = 'none';
+                    });
+                }
             });
         }
     </script>
