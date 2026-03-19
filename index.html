@@ -4,13 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>معهد بدر السلام</title>
-    <!-- ربط ملف PWA -->
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#022c22">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
-    
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;500;700;900&family=Tajawal:wght@300;500;800&display=swap" rel="stylesheet">
     
     <style>
@@ -37,32 +34,40 @@
             position: relative;
         }
 
-        /* الخلفية الزخرفية */
         .bg-pattern {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: radial-gradient(var(--gold-glow) 1px, transparent 1px);
-            background-size: 40px 40px;
-            opacity: 0.05; z-index: -1; pointer-events: none;
+            background-size: 40px 40px; opacity: 0.05; z-index: -1; pointer-events: none;
         }
 
-        /* زر حول المعهد (أعلى اليسار) */
-        .top-left-about {
-            position: fixed; top: 20px; left: 20px; z-index: 1000;
+        /* --- الأزرار العلوية --- */
+        .top-controls {
+            position: fixed; top: 20px; left: 20px; /* اليسار في العربية هو أعلى اليمين بصرياً، لكننا نستخدم left في RTL */
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
         }
 
-        .btn-small {
+        .btn-small, .btn-install {
             background: rgba(0, 0, 0, 0.4); border: 1px solid var(--gold-color);
             color: var(--gold-color); padding: 8px 16px; border-radius: 20px;
-            font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 0.9rem;
+            font-family: 'Tajawal', sans-serif; font-weight: 700; font-size: 0.85rem;
             cursor: pointer; backdrop-filter: blur(5px); transition: 0.3s;
-            text-decoration: none; display: inline-block;
+            text-decoration: none; display: inline-flex; align-items: center; justify-content: center;
         }
-        .btn-small:hover {
+
+        .btn-install {
             background: var(--gold-color); color: var(--islamic-green-dark);
+            border-color: var(--gold-color); font-weight: 800;
+            box-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        .btn-small:hover, .btn-install:hover {
+            transform: translateY(-2px);
             box-shadow: 0 0 15px var(--gold-glow);
         }
 
-        /* زر تغيير الألوان (أسفل اليسار) */
+        /* زر تغيير الألوان */
         .theme-btn {
             position: fixed; bottom: 20px; left: 20px;
             width: 45px; height: 45px; border-radius: 50%;
@@ -72,11 +77,7 @@
             transition: transform 0.3s;
         }
         .theme-btn:hover { transform: scale(1.1) rotate(90deg); }
-        .theme-icon {
-            width: 20px; height: 20px;
-            background: conic-gradient(var(--gold-color), #ffffff, var(--islamic-green-light), var(--gold-color));
-            border-radius: 50%;
-        }
+        .theme-icon { width: 20px; height: 20px; background: conic-gradient(var(--gold-color), #ffffff, var(--islamic-green-light), var(--gold-color)); border-radius: 50%; }
         .palette {
             position: fixed; bottom: 75px; left: 20px;
             background: rgba(0, 10, 5, 0.95); backdrop-filter: blur(15px);
@@ -86,10 +87,7 @@
             transition: 0.3s ease; z-index: 999; box-shadow: 0 5px 20px rgba(0,0,0,0.5);
         }
         .palette.active { opacity: 1; visibility: visible; transform: translateY(0); }
-        .color-option {
-            width: 30px; height: 30px; border-radius: 50%; cursor: pointer;
-            border: 2px solid transparent; transition: 0.2s;
-        }
+        .color-option { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
         .color-option.selected { border-color: white; transform: scale(1.2); }
 
         /* الهيدر */
@@ -120,10 +118,7 @@
 
         /* البحث والبطاقات */
         main { padding: 10px 15px 80px; max-width: 1200px; margin: 0 auto; position: relative; z-index: 2; }
-        
-        .search-container {
-            width: 100%; max-width: 600px; margin: 0 auto 30px; position: relative;
-        }
+        .search-container { width: 100%; max-width: 600px; margin: 0 auto 30px; position: relative; }
         .search-input {
             width: 100%; padding: 15px 50px 15px 20px;
             background: rgba(255, 255, 255, 0.05); border: 1px solid var(--glass-border);
@@ -134,14 +129,9 @@
             border-color: var(--gold-color); background: rgba(255, 255, 255, 0.1);
             box-shadow: 0 0 15px var(--gold-glow);
         }
-        .search-icon {
-            position: absolute; right: 20px; top: 50%; transform: translateY(-50%);
-            color: var(--gold-color); pointer-events: none;
-        }
+        .search-icon { position: absolute; right: 20px; top: 50%; transform: translateY(-50%); color: var(--gold-color); pointer-events: none; }
 
-        .card-grid {
-            display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; perspective: 1000px;
-        }
+        .card-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; perspective: 1000px; }
         .card {
             background: var(--glass-bg); backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px); border: 1px solid var(--glass-border);
@@ -160,16 +150,10 @@
             margin-bottom: 15px; transition: 0.4s;
         }
         .card:hover .img-box { background: var(--gold-color); transform: scale(1.1); }
-        .img-box img {
-            width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-            border: 2px solid #022c22;
-        }
-        .card h3 {
-            font-size: 0.95rem; margin: 0; color: var(--text-main);
-            text-align: center; line-height: 1.4; font-weight: 700;
-        }
+        .img-box img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid #022c22; }
+        .card h3 { font-size: 0.95rem; margin: 0; color: var(--text-main); text-align: center; line-height: 1.4; font-weight: 700; }
 
-        /* Modal (نافذة منبثقة) */
+        /* Modal */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(8px);
@@ -194,26 +178,6 @@
         .modal-title { color: var(--gold-color); font-family: 'Tajawal', sans-serif; font-size: 1.8rem; margin-bottom: 15px; }
         .modal-text { line-height: 1.8; color: #e5e7eb; font-size: 1rem; }
 
-        /* تنسيق زر التثبيت المخصص */
-        .pwa-install-btn {
-            display: none; /* مخفي افتراضياً */
-            margin: 0 auto 15px auto;
-            background: var(--gold-color);
-            color: var(--islamic-green-dark);
-            border: none;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-family: 'Cairo', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            box-shadow: 0 4px 15px var(--gold-glow);
-            animation: bounceIn 0.5s ease;
-            transition: transform 0.2s;
-        }
-        .pwa-install-btn:hover { transform: scale(1.05); }
-        .pwa-install-btn:active { transform: scale(0.95); }
-
         footer {
             text-align: center; padding: 25px; border-top: 1px solid rgba(212, 175, 55, 0.2);
             background: rgba(0,0,0,0.3); backdrop-filter: blur(10px);
@@ -223,13 +187,12 @@
         /* Animations */
         @keyframes pulseGlow { 0%, 100% { opacity: 0.3; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.1); } }
         @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-        @keyframes bounceIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         
         @media (max-width: 380px) {
             .logo-img { width: 100px; height: 100px; }
             h1.site-title { font-size: 1.6rem; }
             .card-grid { grid-template-columns: 1fr; max-width: 280px; margin: 0 auto; }
-            .btn-small { padding: 6px 12px; font-size: 0.8rem; }
+            .btn-small, .btn-install { padding: 6px 10px; font-size: 0.75rem; }
         }
         @media (min-width: 769px) {
             .logo-img { width: 160px; height: 160px; }
@@ -248,12 +211,14 @@
 
     <div class="bg-pattern"></div>
 
-    <!-- زر حول المعهد (أعلى اليسار) -->
-    <div class="top-left-about">
+    <!-- الأزرار العلوية (دائماً ظاهرة) -->
+    <div class="top-controls">
         <button class="btn-small" id="openAboutBtn">حول المعهد</button>
+        <!-- زر التثبيت: دائماً ظاهر، لا يحتاج لشرط -->
+        <button class="btn-install" id="installPwaBtn">📥 تثبيت التطبيق</button>
     </div>
 
-    <!-- زر تغيير اللون (أسفل اليسار) -->
+    <!-- زر تغيير اللون -->
     <div class="theme-btn" id="themeToggle">
         <div class="theme-icon"></div>
     </div>
@@ -273,14 +238,12 @@
     </header>
 
     <main>
-        <!-- شريط البحث -->
         <div class="search-container">
             <input type="text" id="searchInput" class="search-input" placeholder="ابحث عن اسم المدرس...">
             <span class="search-icon">🔍</span>
         </div>
 
         <div class="card-grid">
-            <!-- البطاقات -->
             <a href="Maad.html" class="card">
                 <div class="img-box"><img src="https://i.postimg.cc/MKQdRKCP/5866036315810368746-121.jpg" alt="معاذ"></div>
                 <h3>المدرس معاذ المحمد</h3>
@@ -336,7 +299,6 @@
         </div>
     </main>
 
-    <!-- نافذة حول المعهد -->
     <div class="modal-overlay" id="aboutModal">
         <div class="modal-content">
             <button class="modal-close" id="closeAboutBtn">&times;</button>
@@ -344,16 +306,12 @@
             <p class="modal-text">
                 معهد بدر السلام
                 <br><br>
-                للقران الكريم 
+                للقران الكريم وعلومه
             </p>
         </div>
     </div>
 
     <footer>
-        <!-- زر تثبيت التطبيق -->
-        <button id="installPwaBtn" class="pwa-install-btn">
-            📥 تثبيت التطبيق
-        </button>
         <p>جميع الحقوق محفوظة &copy; <span style="color: var(--gold-color);">معهد بدر السلام</span> 2026</p>
     </footer>
 
@@ -418,38 +376,39 @@
             });
         }
 
-        // --- 6. زر التثبيت المخصص (جديد) ---
+        // --- 6. منطق زر التثبيت (دائماً ظاهر) ---
         let deferredPrompt;
         const installBtn = document.getElementById('installPwaBtn');
 
+        // الاستماع لحدث التثبيت (قد يأتي متأخراً أو أبداً)
         window.addEventListener('beforeinstallprompt', (e) => {
-            // منع ظهور نافذة المتصفح الافتراضية
+            // نحتفظ بالحدث ولكن لا نخفي الزر (لأنه ظاهر دائماً حسب طلبك)
             e.preventDefault();
-            // تخزين الحدث لاستخدامه لاحقاً
             deferredPrompt = e;
-            // إظهار الزر الخاص بنا
-            if(installBtn) installBtn.style.display = 'block';
+            console.log('Install prompt captured');
         });
 
-        if(installBtn) {
-            installBtn.addEventListener('click', () => {
-                if (deferredPrompt) {
-                    // طلب التثبيت من المستخدم
-                    deferredPrompt.prompt();
-                    // انتظار الرد
-                    deferredPrompt.userChoice.then((choiceResult) => {
-                        if (choiceResult.outcome === 'accepted') {
-                            console.log('User accepted the install prompt');
-                        } else {
-                            console.log('User dismissed the install prompt');
-                        }
-                        deferredPrompt = null;
-                        // إخفاء الزر
-                        installBtn.style.display = 'none';
-                    });
-                }
-            });
-        }
+        // عند الضغط على الزر
+        installBtn.addEventListener('click', () => {
+            if (deferredPrompt) {
+                // إذا كان التثبيت متاحاً: قم بتثبيته
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install');
+                    } else {
+                        console.log('User dismissed the install');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                // إذا لم يكن التثبيت متاحاً: لا تفعل شيئاً (حسب طلبك)
+                // ولكن لإعلام المستخدم برفق سنضع رسالة صغيرة في الكونسول أو يمكن تركها فارغة
+                console.log('التثبيت غير متاح حالياً عبر المتصفح.');
+                // إذا أردت تنبيهاً للمستخدم، يمكنك إلغاء التعليق عن السطر التالي:
+                // alert('التثبيت غير متاح تلقائياً حالياً. يرجى استخدام خيار المتصفح "إضافة للشاشة الرئيسية".');
+            }
+        });
     </script>
 </body>
 </html>
