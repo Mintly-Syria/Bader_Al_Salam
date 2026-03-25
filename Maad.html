@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         :root {
             /* الألوان الأساسية */
@@ -208,7 +210,7 @@
         .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
         .stat-label { font-size: 0.75rem; color: var(--text-light); font-weight: 600; }
 
-        .table-container { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow-x: auto; border: 2px solid var(--gold-color); -webkit-overflow-scrolling: touch; }
+        .table-container { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow: visible; border: 2px solid var(--gold-color); }
         table { width: 100%; border-collapse: collapse; min-width: 500px; } 
         th, td { padding: 0.5rem 0.3rem; text-align: right; border-bottom: 1px solid rgba(212, 175, 55, 0.3); vertical-align: middle; white-space: nowrap; font-size: 0.8rem; }
         th { color: #fff; font-weight: 600; background-color: var(--primary-color); border-bottom: 2px solid var(--gold-color); font-size: 0.85rem; }
@@ -271,9 +273,14 @@
         .screenshot-dot { width: 25px; height: 25px; background-color: var(--primary-color); border: 2px solid var(--gold-color); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--gold-color); font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .screenshot-dot:hover { transform: scale(1.2); background-color: var(--gold-color); color: var(--primary-color); }
 
+        .export-dot-container { position: absolute; left: 35px; top: 50%; transform: translateY(-50%); z-index: 5; display: flex; }
+        .export-dot { width: 25px; height: 25px; background-color: var(--success); border: 2px solid var(--primary-color); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .export-dot:hover { transform: scale(1.2); background-color: var(--primary-color); color: var(--success); }
+
         /* --- التعديل: إخفاء أزرار الحذف عند ظهور الكاميرا --- */
         body.screenshot-mode .btn-delete-report { display: none !important; }
         body.screenshot-mode .separator-delete-btn { display: none !important; }
+        body.screenshot-mode .export-dot-container { display: none !important; }
 
         .rating-wrapper { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
         
@@ -590,7 +597,7 @@
                     <div style="display:flex; gap:5px; margin-right: auto; flex-wrap: wrap;">
                         <button id="btn-clear-all" onclick="handleClearAll()" class="btn-delete-all"><i class="fas fa-trash-alt"></i> <span id="btn-clear-text">مسح الكل</span></button>
                         <button id="btn-separator" onclick="addSeparatorLine()" class="btn-separator"><i class="fas fa-grip-lines"></i> <span id="sep-text">فصل</span></button>
-                        <button id="btn-screenshot" onclick="toggleScreenshotMode()" class="btn-screenshot"><i class="fas fa-camera"></i> <span>صورة</span></button>
+                        <button id="btn-screenshot" onclick="openExportModal()" class="btn-screenshot"><i class="fas fa-file-export"></i> <span>تصدير</span></button>
                     </div>
                     <h3 style="font-size: 1rem; margin-right: 5px; color: var(--primary-color);">السجل</h3>
                 </div>
@@ -649,6 +656,18 @@
             <div class="dev-avatar" style="background: var(--success);"><i class="fas fa-users-cog"></i></div>
             <h3 class="dev-name">إدارة الطلاب</h3>
             <div class="modal-body-scroll" id="students-list-container"></div>
+        </div>
+    </div>
+
+    <div id="export-modal" class="modal-bg" onclick="if(event.target === this) closeExportModal()">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeExportModal()">&times;</button>
+            <div class="dev-avatar" style="background: var(--gold-color);"><i class="fas fa-file-export"></i></div>
+            <h3 class="dev-name">خيارات التصدير</h3>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 1rem;">
+                <button onclick="captureSectionAsImage()" class="btn-submit" style="background: var(--primary-color);"><i class="fas fa-camera"></i> التقط صورة</button>
+                <button onclick="exportToExcel()" class="btn-submit" style="background: var(--info);"><i class="fas fa-file-excel"></i> تصدير Excel</button>
+            </div>
         </div>
     </div>
 
@@ -1353,7 +1372,70 @@
         window.toggleScreenshotMode = () => {
             isScreenshotMode = !isScreenshotMode; const btn = document.getElementById('btn-screenshot'); const body = document.body;
             if (isScreenshotMode) { btn.classList.add('active'); btn.innerHTML = '<i class="fas fa-times-circle"></i>'; body.classList.add('screenshot-mode'); showToast('اختر قسماً للتصوير', 'info'); }
-            else { btn.classList.remove('active'); btn.innerHTML = '<i class="fas fa-camera"></i> <span>صورة</span>'; body.classList.remove('screenshot-mode'); }
+            else { btn.classList.remove('active'); btn.innerHTML = '<i class="fas fa-file-export"></i> <span>تصدير</span>'; body.classList.remove('screenshot-mode'); }
+        };
+
+        let currentExportSepId = null;
+
+        window.openExportModal = (sepId = null) => {
+            currentExportSepId = sepId;
+            document.getElementById('export-modal').style.display = 'flex';
+        };
+
+        window.closeExportModal = () => {
+            currentExportSepId = null;
+            document.getElementById('export-modal').style.display = 'none';
+        };
+
+        window.captureSectionAsImage = () => {
+            closeExportModal();
+            toggleScreenshotMode();
+        };
+
+        window.exportToExcel = () => {
+            closeExportModal();
+            let table;
+            if (currentExportSepId) {
+                // Export specific section
+                const rows = Array.from(document.querySelectorAll(`tr[data-sep-id="${currentExportSepId}"]`));
+                if (rows.length === 0) return showToast('لا توجد بيانات للتصدير', 'error');
+                
+                // Create a temporary table with the rows
+                const tempTable = document.createElement('table');
+                tempTable.innerHTML = document.querySelector('#records-table').innerHTML;
+                const tempBody = tempTable.querySelector('#records-body');
+                tempBody.innerHTML = '';
+                
+                // Add separator row first
+                const separatorRow = document.querySelector(`tr.separator-row[data-id="${currentExportSepId}"]`);
+                if (separatorRow) {
+                    const sepClone = separatorRow.cloneNode(true);
+                    if (sepClone.querySelector('.screenshot-dot-container')) sepClone.querySelector('.screenshot-dot-container').remove();
+                    if (sepClone.querySelector('.export-dot-container')) sepClone.querySelector('.export-dot-container').remove();
+                    if (sepClone.querySelector('.separator-delete-btn')) sepClone.querySelector('.separator-delete-btn').remove();
+                    tempBody.appendChild(sepClone);
+                }
+                
+                rows.forEach(row => {
+                    const clone = row.cloneNode(true);
+                    // Remove action columns and dots
+                    if (clone.querySelector('.col-actions')) clone.querySelector('.col-actions').remove();
+                    if (clone.querySelector('.screenshot-dot-container')) clone.querySelector('.screenshot-dot-container').remove();
+                    if (clone.querySelector('.export-dot-container')) clone.querySelector('.export-dot-container').remove();
+                    tempBody.appendChild(clone);
+                });
+                table = tempTable;
+            } else {
+                // Export entire table
+                table = document.querySelector('#records-table');
+            }
+            if (!table) return showToast('لا توجد بيانات للتصدير', 'error');
+            
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.table_to_sheet(table);
+            XLSX.utils.book_append_sheet(wb, ws, 'البيانات');
+            XLSX.writeFile(wb, 'تقرير.xlsx');
+            showToast('تم تصدير Excel بنجاح', 'success');
         };
 
         // --- UPDATED CAPTURE FUNCTION (HIDE HEADERS FOR WEEKLY/MONTHLY) ---
@@ -1455,6 +1537,7 @@
                 const clone = row.cloneNode(true); 
                 // Remove UI elements
                 if(clone.querySelector('.screenshot-dot-container')) clone.querySelector('.screenshot-dot-container').remove(); 
+                if(clone.querySelector('.export-dot-container')) clone.querySelector('.export-dot-container').remove(); 
                 if(clone.querySelector('.col-actions')) clone.querySelector('.col-actions').remove(); 
                 if(clone.querySelector('.btn-delete-report')) clone.querySelector('.btn-delete-report').remove();
                 
@@ -1509,6 +1592,7 @@
             let s=0, e=0, n=0; const isAdmin = auth.currentUser !== null;
             let visibleCount =0; const fragment = document.createDocumentFragment(); let skipMode = false;
             let colSpanCount = 5; if (targetView === 'reciters' || targetView === 'stages') colSpanCount++; if (isAdmin) colSpanCount++; 
+            let currentSepId = null;
 
             if(snap.empty) { empty.style.display='block'; table.style.display='none'; } else {
                 empty.style.display='none'; table.style.display='table';
@@ -1604,6 +1688,7 @@
                         
                         if (shouldRender) {
                              const sepId = docSnap.id;
+                             currentSepId = sepId;
                              let isLocked = false;
                              if(!foundFirstSeparator) {
                                  isLocked = true;
@@ -1638,11 +1723,12 @@
                              
                              const tr = document.createElement('tr'); tr.className = 'separator-row'; tr.setAttribute('data-id', sepId);
                              const dotHTML = `<div class="screenshot-dot-container"><div class="screenshot-dot" onclick="captureSection('${sepId}')"><i class="fas fa-camera"></i></div></div>`;
+                             const exportBtnHTML = `<div class="export-dot-container"><div class="export-dot" onclick="openExportModal('${sepId}')"><i class="fas fa-download"></i></div></div>`;
                              
                              const cursorStyle = isLocked ? 'default' : 'pointer';
                              const clickAction = isLocked ? '' : `onclick="toggleCollapse('${docSnap.id}')"`;
 
-                             tr.innerHTML = `<td colspan="${colSpanCount}"><div class="red-separator-line">${dotHTML}<div class="separator-label-container ${hiddenClass}" style="cursor:${cursorStyle}" ${clickAction}><i class="fas ${arrowIcon}" style="margin-left:5px; ${isLocked?'display:none':''}"></i><span>${d.dayLabel || 'فصل'}</span>${hoursText}${hiddenText}</div>${deleteBtnHTML}</div></td>`;
+                             tr.innerHTML = `<td colspan="${colSpanCount}"><div class="red-separator-line">${dotHTML}${exportBtnHTML}<div class="separator-label-container ${hiddenClass}" style="cursor:${cursorStyle}" ${clickAction}><i class="fas ${arrowIcon}" style="margin-left:5px; ${isLocked?'display:none':''}"></i><span>${d.dayLabel || 'فصل'}</span>${hoursText}${hiddenText}</div>${deleteBtnHTML}</div></td>`;
                              
                              fragment.appendChild(tr); 
                              if (isCollapsed && hasNextSeparator) skipMode = true;
@@ -1664,7 +1750,7 @@
                         let actionsHTML = ''; if (isAdmin) { actionsHTML += `<button onclick="handleEdit('${docSnap.id}')" class="btn-edit"><i class="fas fa-pen"></i></button>`; actionsHTML += `<button onclick="handleDelete('${docSnap.id}')" class="btn-delete"><i class="fas fa-trash"></i></button>`; }
                         let scoreHTML = ''; let scoreVal = d.score !== undefined ? d.score : '-'; let displayScore = (scoreVal !== '-') ? scoreVal + '%' : scoreVal; scoreHTML = `<td class="col-score" style="text-align:center; font-weight:bold;">${displayScore}</td>`;
                         let finalActionsHTML = `<td class="col-actions">${actionsHTML}</td>`;
-                        const tr = document.createElement('tr'); tr.innerHTML = `<td style="font-weight:bold; font-size:0.85rem;">${d.qwe} ${statusBadge}</td><td style="font-size:0.85rem;">${displayAmountText}</td><td><div class="rating-wrapper">${badgeClass ? `<span class="badge ${badgeClass}">${badgeText}</span>` : `<span>-</span>`}</div></td>${scoreHTML}<td style="font-size: 0.8rem;">${d.nmk||'-'}</td><td style="font-size: 0.75rem; color:var(--text-light);">${t}</td>${finalActionsHTML}`;
+                        const tr = document.createElement('tr'); tr.setAttribute('data-sep-id', currentSepId); tr.innerHTML = `<td style="font-weight:bold; font-size:0.85rem;">${d.qwe} ${statusBadge}</td><td style="font-size:0.85rem;">${displayAmountText}</td><td><div class="rating-wrapper">${badgeClass ? `<span class="badge ${badgeClass}">${badgeText}</span>` : `<span>-</span>`}</div></td>${scoreHTML}<td style="font-size: 0.8rem;">${d.nmk||'-'}</td><td style="font-size: 0.75rem; color:var(--text-light);">${t}</td>${finalActionsHTML}`;
                         fragment.appendChild(tr);
                     }
                 }
