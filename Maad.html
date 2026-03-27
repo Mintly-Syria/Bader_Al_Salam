@@ -467,7 +467,7 @@
                     
                     <div class="input-row" style="margin-top: 0.5rem;">
                         <!-- Added ID="level-group" to this div for targeting -->
-                        <div id="level-group" class="form-group"><label>التقييم</label><select id="level" class="form-control" required><option value="" disabled selected>التقييم...</option><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
+                        <div id="level-group" class="form-group"><label>التقييم</label><select id="level" class="form-control" required><option value="" disabled selected>التقييم...</option><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="very-good">جيد جداً</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
                         <div class="form-group" id="attendance-group"><label>الحالة</label><select id="attendance" class="form-control"><option value="present" selected>حضور</option><option value="absent">غياب</option></select></div>
                     </div>
                     <div class="form-group" style="margin-top:5px;"><label>ملاحظة</label><input type="text" id="notes" class="form-control" placeholder="ملاحظات..."></div>
@@ -529,7 +529,7 @@
                         </div>
                         <div class="form-group"><label>الجزء</label><input type="text" id="reciter-amount" class="form-control" placeholder="اسم الجزء" required></div>
                         <div class="form-group"><label>الدرجة %</label><input type="number" id="reciter-score" class="form-control" min="0" max="100" placeholder="100" required></div>
-                        <div class="form-group"><label>التقييم</label><select id="reciter-level" class="form-control" required><option value="" disabled selected="التقييم..."><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
+                        <div class="form-group"><label>التقييم</label><select id="reciter-level" class="form-control" required><option value="" disabled selected="التقييم..."><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="very-good">جيد جداً</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
                     </div>
                     <div class="form-group" style="margin-top:5px;"><label>التاريخ</label><input type="date" id="reciter-date" class="form-control" required></div>
                     <div style="text-align:left; margin-top: 0.8rem;">
@@ -576,7 +576,7 @@
                             </select>
                         </div>
                         <div class="form-group"><label>الدرجة %</label><input type="number" id="stages-score" class="form-control" min="0" max="100" placeholder="100" required></div>
-                        <div class="form-group"><label>التقييم</label><select id="stages-level" class="form-control" required><option value="" disabled selected="التقييم..."><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
+                        <div class="form-group"><label>التقييم</label><select id="stages-level" class="form-control" required><option value="" disabled selected="التقييم..."><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="very-good">جيد جداً</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
                     </div>
                     <div class="form-group" style="margin-top:5px;"><label>ملاحظات</label><input type="text" id="stages-notes" class="form-control" placeholder="ملاحظات..."></div>
                     <div style="text-align:left; margin-top: 0.8rem;">
@@ -597,7 +597,7 @@
                     <div style="display:flex; gap:5px; margin-right: auto; flex-wrap: wrap;">
                         <button id="btn-clear-all" onclick="handleClearAll()" class="btn-delete-all"><i class="fas fa-trash-alt"></i> <span id="btn-clear-text">مسح الكل</span></button>
                         <button id="btn-separator" onclick="addSeparatorLine()" class="btn-separator"><i class="fas fa-grip-lines"></i> <span id="sep-text">فصل</span></button>
-                        <button id="btn-screenshot" onclick="openExportModal()" class="btn-screenshot"><i class="fas fa-file-export"></i> <span>تصدير</span></button>
+                        <button id="btn-screenshot" onclick="openExportModal()" class="btn-screenshot" style="display:none;"><i class="fas fa-file-export"></i> <span>تصدير</span></button>
                     </div>
                     <h3 style="font-size: 1rem; margin-right: 5px; color: var(--primary-color);">السجل</h3>
                 </div>
@@ -666,7 +666,7 @@
             <h3 class="dev-name">خيارات التصدير</h3>
             <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 1rem;">
                 <button onclick="captureSectionAsImage()" class="btn-submit" style="background: var(--primary-color);"><i class="fas fa-camera"></i> التقط صورة</button>
-                <button onclick="exportToExcel()" class="btn-submit" style="background: var(--info);"><i class="fas fa-file-excel"></i> تصدير Excel</button>
+                <button onclick="exportToExcel()" class="btn-submit" style="background: var(--info); display:none;"><i class="fas fa-file-excel"></i> تصدير Excel</button>
             </div>
         </div>
     </div>
@@ -1297,7 +1297,7 @@
         };
 
         window.handleDeleteSection = async (sepId) => { 
-            if (!confirm('حذف الخط والبيانات؟')) return; 
+            if (!confirm('حذف الخط فقط؟')) return; 
             try { 
                 const docs = cachedSnapshot.docs; 
                 let sepIndex = -1; 
@@ -1309,23 +1309,9 @@
                 } 
                 if(sepIndex === -1) return; 
                 
-                const batch = writeBatch(db); 
-                let count = 0; 
-                
-                batch.delete(docs[sepIndex].ref); 
-                count++; 
-                
-                for(let i = sepIndex + 1; i < docs.length; i++) { 
-                    const d = docs[i].data(); 
-                    if(d.type === 'separator' || d.type === 'summary') break; 
-                    
-                    batch.delete(docs[i].ref); 
-                    count++; 
-                } 
-                
-                await batch.commit(); 
-                showToast(`تم حذف ${count} سجلات`, 'success'); 
-                if(editDocId && count > 0) handleCancelEdit(true); 
+                await deleteDoc(docs[sepIndex].ref); 
+                showToast('تم حذف الخط', 'success'); 
+                if(editDocId) handleCancelEdit(true); 
             } catch { showToast('فشل الحذف', 'error'); } 
         };
 
@@ -1370,9 +1356,16 @@
         };
 
         window.toggleScreenshotMode = () => {
-            isScreenshotMode = !isScreenshotMode; const btn = document.getElementById('btn-screenshot'); const body = document.body;
-            if (isScreenshotMode) { btn.classList.add('active'); btn.innerHTML = '<i class="fas fa-times-circle"></i>'; body.classList.add('screenshot-mode'); showToast('اختر قسماً للتصوير', 'info'); }
-            else { btn.classList.remove('active'); btn.innerHTML = '<i class="fas fa-file-export"></i> <span>تصدير</span>'; body.classList.remove('screenshot-mode'); }
+            isScreenshotMode = !isScreenshotMode; 
+            const body = document.body;
+            if (isScreenshotMode) { 
+                body.classList.add('screenshot-mode'); 
+                showToast('اختر قسماً للتصوير بالضغط على أيقونة الكاميرا', 'info'); 
+            }
+            else { 
+                body.classList.remove('screenshot-mode'); 
+                showToast('تم إلغاء التقاط الصورة', 'success');
+            }
         };
 
         let currentExportSepId = null;
@@ -1388,7 +1381,8 @@
         };
 
         window.captureSectionAsImage = () => {
-            closeExportModal();
+            const modal = document.getElementById('export-modal');
+            if (modal) modal.style.display = 'none';
             toggleScreenshotMode();
         };
 
@@ -1440,7 +1434,6 @@
 
         // --- UPDATED CAPTURE FUNCTION (HIDE HEADERS FOR WEEKLY/MONTHLY) ---
         window.captureSection = async (sepId) => {
-            if (!isScreenshotMode) return;
             const allRows = Array.from(document.querySelectorAll('#records-body tr'));
             const separatorIndex = allRows.findIndex(row => row.getAttribute('data-id') == sepId);
             if (separatorIndex === -1) return showToast('لم يتم العثور', 'error');
@@ -1454,6 +1447,10 @@
             }
             if (rowsToCapture.length === 0) return showToast('لا توجد بيانات', 'warning');
             showToast('جاري الالتقاط...', 'info');
+
+            // استخراج اسم الحلقة واسم المعلم
+            const circleName = document.querySelector('.logo span')?.innerText || 'الحلقة';
+            const teacherName = document.querySelector('.welcome-hero p')?.innerText || 'المعلم';
 
             // --- GENERATE CUSTOM HEADER BASED ON TYPE ---
             let headerHTML = '';
@@ -1469,7 +1466,9 @@
                     headerHTML = `
                         <tr style="background-color: #f0fdf4; border-bottom: 2px solid var(--primary-color);">
                             <td colspan="6" style="padding: 12px; text-align: center; color: #064e3b; background-color: #f0fdf4 !important;">
-                                <div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 4px;">المتابعة اليومية - ${docData.dayLabel || ''}</div>
+                                <div style="font-size: 1.1rem; font-weight: bold; margin-bottom: 4px;">${circleName}</div>
+                                <div style="font-size: 1rem; font-weight: bold; margin-bottom: 8px;">المتابعة اليومية - ${docData.dayLabel || ''}</div>
+                                <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">${teacherName}</div>
                                 <div style="font-size: 0.9rem; font-weight: normal;">التاريخ: ${dateStr} | عدد الساعات: ${hours}</div>
                             </td>
                         </tr>
@@ -1485,7 +1484,9 @@
                     headerHTML = `
                         <tr style="background-color: #fffbeb; border-bottom: 2px solid var(--gold-color);">
                             <td colspan="6" style="padding: 12px; text-align: center; color: #b45309; background-color: #fffbeb !important;">
-                                <div style="font-size: 1.2rem; font-weight: bold; margin-bottom: 4px;">التقرير ${typeStr}</div>
+                                <div style="font-size: 1.1rem; font-weight: bold; margin-bottom: 4px;">${circleName}</div>
+                                <div style="font-size: 1rem; font-weight: bold; margin-bottom: 8px;">التقرير ${typeStr}</div>
+                                <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">${teacherName}</div>
                                 <div style="font-size: 0.9rem; font-weight: normal; color: #374151;">
                                     التاريخ: ${start} - ${end} <br>
                                     عدد الساعات: ${hours} | عدد الصفحات التي سمعها الطلاب: ${pages}
@@ -1582,7 +1583,6 @@
                 link.click(); 
                 document.body.removeChild(link); 
                 showToast('تم حفظ الصورة', 'success'); 
-                toggleScreenshotMode();
             } catch { showToast('فشل التقاط الصورة', 'error'); }
             finally { if (document.body.contains(container)) document.body.removeChild(container); }
         }
@@ -1723,12 +1723,11 @@
                              
                              const tr = document.createElement('tr'); tr.className = 'separator-row'; tr.setAttribute('data-id', sepId);
                              const dotHTML = `<div class="screenshot-dot-container"><div class="screenshot-dot" onclick="captureSection('${sepId}')"><i class="fas fa-camera"></i></div></div>`;
-                             const exportBtnHTML = `<div class="export-dot-container"><div class="export-dot" onclick="openExportModal('${sepId}')"><i class="fas fa-download"></i></div></div>`;
                              
                              const cursorStyle = isLocked ? 'default' : 'pointer';
                              const clickAction = isLocked ? '' : `onclick="toggleCollapse('${docSnap.id}')"`;
 
-                             tr.innerHTML = `<td colspan="${colSpanCount}"><div class="red-separator-line">${dotHTML}${exportBtnHTML}<div class="separator-label-container ${hiddenClass}" style="cursor:${cursorStyle}" ${clickAction}><i class="fas ${arrowIcon}" style="margin-left:5px; ${isLocked?'display:none':''}"></i><span>${d.dayLabel || 'فصل'}</span>${hoursText}${hiddenText}</div>${deleteBtnHTML}</div></td>`;
+                             tr.innerHTML = `<td colspan="${colSpanCount}"><div class="red-separator-line">${dotHTML}<div class="separator-label-container ${hiddenClass}" style="cursor:${cursorStyle}" ${clickAction}><i class="fas ${arrowIcon}" style="margin-left:5px; ${isLocked?'display:none':''}"></i><span>${d.dayLabel || 'فصل'}</span>${hoursText}${hiddenText}</div>${deleteBtnHTML}</div></td>`;
                              
                              fragment.appendChild(tr); 
                              if (isCollapsed && hasNextSeparator) skipMode = true;
