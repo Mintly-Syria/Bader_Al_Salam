@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>حلقة سيدنا على بن ابي طالب</title>
+    <title>معهد بدر السلام</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -128,9 +128,9 @@
         .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
         .stat-label { font-size: 0.75rem; color: var(--text-light); font-weight: 600; }
 
-        .table-container { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow: visible; border: 2px solid var(--gold-color); }
-        table { width: 100%; border-collapse: collapse; min-width: 500px; } 
-        th, td { padding: 0.5rem 0.3rem; text-align: right; border-bottom: 1px solid rgba(212, 175, 55, 0.3); vertical-align: middle; white-space: nowrap; font-size: 0.8rem; }
+        .table-container { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow-x: auto; border: 2px solid var(--gold-color); }
+        table { width: 100%; border-collapse: collapse; } 
+        th, td { padding: 0.5rem 0.3rem; text-align: right; border-bottom: 1px solid rgba(212, 175, 55, 0.3); vertical-align: middle; font-size: 0.8rem; word-wrap: break-word; overflow-wrap: break-word; }
         th { color: #fff; font-weight: 600; background-color: var(--primary-color); border-bottom: 2px solid var(--gold-color); font-size: 0.85rem; }
         tr:hover td { background-color: var(--table-hover); }
         
@@ -298,6 +298,165 @@
         .btn-delete-report:hover { transform: scale(1.2); }
 
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* استجابة الهاتف - Responsive Design */
+        @media (max-width: 768px) {
+            body { font-size: 13px; }
+            
+            .navbar { padding: 0.3rem 0.5rem; gap: 3px; }
+            .logo { font-size: 0.7rem; }
+            .logo span { display: none; }
+            
+            .nav-actions button { font-size: 0.7rem; padding: 0.25rem 0.5rem; gap: 2px; }
+            .nav-actions button span { display: none; }
+            .nav-actions button i { margin: 0; }
+            
+            main { padding: 0 0.3rem; margin: 0.3rem auto; }
+            
+            .cards-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 0.3rem; }
+            .menu-card { padding: 0.7rem; min-height: 100px; }
+            .menu-card i { font-size: 1.5rem; }
+            .menu-card h2 { font-size: 0.85rem; }
+            .menu-card p { font-size: 0.65rem; }
+            
+            .tracking-grid { grid-template-columns: repeat(3, 1fr); gap: 0.3rem; }
+            .tracking-card { padding: 0.5rem; height: 80px; }
+            .tracking-card i { font-size: 1.2rem; }
+            .tracking-card h4 { font-size: 0.75rem; }
+            
+            .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 0.3rem; }
+            .stat-card { padding: 0.6rem; }
+            .stat-value { font-size: 1.2rem; }
+            .stat-label { font-size: 0.65rem; }
+            
+            .table-container { overflow-x: auto; margin: 0 -0.3rem; border-radius: 0; border-left: none; border-right: none; -webkit-overflow-scrolling: touch; }
+            table { min-width: 100%; width: 100%; }
+            th, td { 
+                padding: 0.4rem 0.25rem; 
+                font-size: 0.7rem;
+                white-space: normal;
+                min-width: 55px;
+            }
+            th { font-size: 0.75rem; }
+            
+            .btn-delete, .btn-edit { 
+                padding: 0.15rem 0.3rem; 
+                font-size: 0.65rem;
+            }
+            
+            #teacher-panel, #reciters-panel, #stages-panel, #report-panel { 
+                padding: 0.8rem;
+            }
+            
+            .section-title { 
+                font-size: 0.95rem; 
+                margin: 1rem 0 0.6rem 0;
+            }
+            
+            .form-group { margin-bottom: 0.4rem; }
+            .form-group label { font-size: 0.75rem; margin-bottom: 0.2rem; }
+            .form-control { font-size: 0.85rem; padding: 0.4rem; }
+            
+            .input-row { 
+                grid-template-columns: 1fr;
+                gap: 0.4rem;
+            }
+            
+            .btn-submit { 
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            
+            .btn-separator, .btn-delete-all, .btn-screenshot { 
+                font-size: 0.7rem;
+                padding: 0.35rem 0.6rem;
+            }
+            
+            .btn-separator span, .btn-delete-all span, .btn-screenshot span { display: none; }
+            
+            .total-badge { 
+                font-size: 0.65rem;
+                padding: 1px 3px;
+            }
+            
+            .separator-label-container {
+                font-size: 0.65rem;
+                padding: 2px 6px;
+            }
+            
+            .separator-hours { 
+                font-size: 0.65rem;
+                padding: 1px 4px;
+            }
+            
+            .badge { font-size: 0.6rem; padding: 0.1rem 0.35rem; }
+            
+            .text-main { font-size: 0.8rem; }
+        }
+
+        @media (max-width: 480px) {
+            .navbar { flex-wrap: wrap; justify-content: center; }
+            .nav-actions { flex-wrap: wrap; }
+            
+            body { font-size: 12px; }
+            
+            .cards-grid { grid-template-columns: 1fr; }
+            .menu-card { min-height: 80px; padding: 0.6rem; }
+            .menu-card i { font-size: 1.3rem; }
+            
+            .tracking-grid { grid-template-columns: repeat(2, 1fr); gap: 0.25rem; }
+            .tracking-card { padding: 0.4rem; height: 70px; }
+            
+            .input-row { grid-template-columns: 1fr; }
+            
+            table { font-size: 0.65rem; }
+            th, td { 
+                padding: 0.3rem 0.15rem; 
+                min-width: auto !important;
+                font-size: 0.65rem;
+            }
+            th { min-width: 50px !important; }
+            
+            .btn-delete, .btn-edit { padding: 0.1rem 0.2rem; font-size: 0.6rem; }
+            
+            #page-title { font-size: 0.9rem; }
+            .section-title { font-size: 0.85rem; }
+            
+            .stats-grid { grid-template-columns: 1fr; gap: 0.25rem; }
+            
+            .form-control { font-size: 0.8rem; }
+            
+            .rating-wrapper { flex-wrap: wrap; }
+            
+            .separator-label-container {
+                position: relative;
+                left: auto;
+                right: 5px;
+                top: auto;
+                transform: none;
+                padding: 2px 4px;
+                font-size: 0.6rem;
+            }
+            
+            .total-badge { font-size: 0.55rem; }
+        }
+
+        @media (max-width: 360px) {
+            body { font-size: 11px; }
+            
+            th, td { 
+                padding: 0.2rem 0.1rem;
+                font-size: 0.55rem;
+            }
+            
+            .btn-delete, .btn-edit { 
+                padding: 0.05rem 0.15rem;
+                font-size: 0.5rem;
+            }
+            
+            .separator-label-container { font-size: 0.55rem; }
+            .total-badge { font-size: 0.5rem; }
+        }
     </style>
 </head>
 <body>
@@ -492,7 +651,7 @@
             </section>
 
             <section>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem; flex-wrap: wrap; gap: 0.5rem;">
                     <div style="display:flex; gap:5px; margin-right: auto; flex-wrap: wrap;">
                         <button id="btn-clear-all" onclick="handleClearAll()" class="btn-delete-all"><i class="fas fa-trash-alt"></i> <span id="btn-clear-text">مسح الكل</span></button>
                         <button id="btn-separator" onclick="addSeparatorLine()" class="btn-separator"><i class="fas fa-grip-lines"></i> <span id="sep-text">فصل</span></button>
@@ -504,13 +663,13 @@
                     <table id="records-table">
                         <thead>
                             <tr>
-                                <th>الطالب</th>
-                                <th>المقدار</th>
-                                <th>التقييم</th> 
-                                <th id="th-score" class="col-score" style="display:none;">الدرجة</th>
-                                <th>ملاحظات</th>
-                                <th>التاريخ</th>
-                                <th id="th-actions" class="col-actions" style="display:none;">إجراءات</th> 
+                                <th style="min-width: 80px;">الطالب</th>
+                                <th style="min-width: 70px;">المقدار</th>
+                                <th style="min-width: 70px;">التقييم</th> 
+                                <th id="th-score" class="col-score" style="display:none; min-width: 60px;">الدرجة</th>
+                                <th style="min-width: 70px;">ملاحظات</th>
+                                <th style="min-width: 70px;">التاريخ</th>
+                                <th id="th-actions" class="col-actions" style="display:none; min-width: 70px;">إجراءات</th> 
                             </tr>
                         </thead>
                         <tbody id="records-body"></tbody>
