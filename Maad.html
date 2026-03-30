@@ -332,12 +332,12 @@
             .table-container { overflow-x: auto; margin: 0 -0.3rem; border-radius: 0; border-left: none; border-right: none; -webkit-overflow-scrolling: touch; }
             table { min-width: 100%; width: 100%; }
             th, td { 
-                padding: 0.4rem 0.25rem; 
-                font-size: 0.7rem;
-                white-space: normal;
-                min-width: 55px;
+                padding: 0.25rem 0.15rem; 
+                font-size: 0.65rem;
+                white-space: nowrap;
+                min-width: 60px;
             }
-            th { font-size: 0.75rem; }
+            th { font-size: 0.7rem; }
             
             .btn-delete, .btn-edit { 
                 padding: 0.15rem 0.3rem; 
@@ -398,24 +398,25 @@
             .navbar { flex-wrap: wrap; justify-content: center; }
             .nav-actions { flex-wrap: wrap; }
             
-            body { font-size: 12px; }
+            body { font-size: 11px; }
             
             .cards-grid { grid-template-columns: 1fr; }
-            .menu-card { min-height: 80px; padding: 0.6rem; }
-            .menu-card i { font-size: 1.3rem; }
+            .menu-card { min-height: 75px; padding: 0.5rem; }
+            .menu-card i { font-size: 1.2rem; }
             
-            .tracking-grid { grid-template-columns: repeat(2, 1fr); gap: 0.25rem; }
-            .tracking-card { padding: 0.4rem; height: 70px; }
+            .tracking-grid { grid-template-columns: repeat(2, 1fr); gap: 0.2rem; }
+            .tracking-card { padding: 0.3rem; height: 65px; }
             
             .input-row { grid-template-columns: 1fr; }
             
-            table { font-size: 0.65rem; }
+            table { font-size: 0.6rem; }
             th, td { 
-                padding: 0.3rem 0.15rem; 
-                min-width: auto !important;
-                font-size: 0.65rem;
+                padding: 0.15rem 0.1rem; 
+                min-width: 55px !important;
+                font-size: 0.6rem;
+                white-space: nowrap;
             }
-            th { min-width: 50px !important; }
+            th { min-width: 55px !important; }
             
             .btn-delete, .btn-edit { padding: 0.1rem 0.2rem; font-size: 0.6rem; }
             
@@ -442,11 +443,13 @@
         }
 
         @media (max-width: 360px) {
-            body { font-size: 11px; }
+            body { font-size: 10px; }
             
             th, td { 
-                padding: 0.2rem 0.1rem;
-                font-size: 0.55rem;
+                padding: 0.1rem 0.05rem;
+                font-size: 0.5rem;
+                white-space: nowrap;
+                min-width: 50px !important;
             }
             
             .btn-delete, .btn-edit { 
