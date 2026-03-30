@@ -3,35 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>حلقة سيدنا على بن ابي طالب</title>
+    <title>معهد بدر السلام</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         :root {
-            /* الألوان الأساسية */
             --primary-color: #064e3b;
             --primary-dark: #022c22;                                
             --secondary-color: #065f46;
             --gold-color: #D4AF37;
-            
-            /* الخلفيات والنصوص */
             --bg-color: #f0fdf4;
             --card-bg: #FFFFFF;
             --text-main: #1F2937;
             --text-light: #4b5563;
-            
-            /* الحدود والظلال */
             --border-color: #D4AF37;
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
             --input-bg: #FFFFFF;
-            
-            /* الألوان التفاعلية */
             --danger: #dc2626;
             --success: #15803d;
             --info: #0ea5e9;
-            
-            /* الأبعاد */
             --radius: 8px;
             --table-hover: #f0fdf4;
         }
@@ -67,38 +60,16 @@
 
         main { max-width: 100%; margin: 0.5rem auto; padding: 0 0.5rem; position: relative; }
 
-        /* --- الصفحة الرئيسية --- */
         #home-view { display: block; animation: fadeIn 0.5s ease-in; }
         
         .welcome-hero { 
-            text-align: center; 
-            padding: 2rem 1rem; 
-            background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); 
-            border-radius: var(--radius); 
-            color: white; 
-            margin-bottom: 1rem; 
-            box-shadow: var(--shadow);
-            border: 2px solid var(--gold-color);
-            position: relative;
-            overflow: hidden;
+            text-align: center; padding: 2rem 1rem; background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); border-radius: var(--radius); color: white; margin-bottom: 1rem; box-shadow: var(--shadow); border: 2px solid var(--gold-color); position: relative; overflow: hidden;
         }
         .welcome-hero h1 { font-size: 1.4rem; margin-bottom: 0.5rem; }
         .welcome-hero p { font-size: 0.9rem; opacity: 0.9; }
         
         .back-btn {
-            position: fixed;
-            top: 40px;
-            left: 20%;
-            transform: translateX(-50%);
-            background: var(--primary-color);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 12px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            border: 1px solid var(--gold-color);
-            z-index: 999;
+            position: fixed; top: 40px; left: 20%; transform: translateX(-50%); background: var(--primary-color); color: white; padding: 4px 12px; border-radius: 20px; text-decoration: none; font-size: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); border: 1px solid var(--gold-color); z-index: 999;
         }
 
         .section-title { font-size: 1.1rem; font-weight: 700; color: var(--primary-color); margin: 1.5rem 0 0.8rem 0; border-right: 3px solid var(--gold-color); padding-right: 8px; }
@@ -106,51 +77,21 @@
         .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.5rem; }
         
         .menu-card { 
-            background: var(--card-bg); 
-            padding: 1rem; 
-            border-radius: var(--radius); 
-            box-shadow: var(--shadow); 
-            text-align: center; 
-            cursor: pointer; 
-            transition: transform 0.2s; 
-            border: 2px solid var(--gold-color); 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
-            min-height: 120px; 
+            background: var(--card-bg); padding: 1rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; cursor: pointer; transition: transform 0.2s; border: 2px solid var(--gold-color); display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 120px;
         }
         .menu-card:hover { transform: translateY(-3px); border-color: var(--primary-color); }
         .menu-card i { font-size: 2rem; color: var(--primary-color); margin-bottom: 0.5rem; }
         .menu-card h2 { font-size: 1rem; color: var(--text-main); margin-bottom: 0.3rem; }
         .menu-card p { font-size: 0.75rem; color: var(--text-light); }
 
-        .tracking-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-            margin-top: 0.8rem;
-        }
+        .tracking-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; margin-top: 0.8rem; }
         .tracking-card {
-            background: var(--card-bg);
-            padding: 0.8rem;
-            border-radius: var(--radius);
-            box-shadow: var(--shadow);
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 2px solid var(--gold-color);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100px;
+            background: var(--card-bg); padding: 0.8rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; cursor: pointer; transition: all 0.2s; border: 2px solid var(--gold-color); display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100px;
         }
         .tracking-card:hover { border-color: var(--primary-color); background-color: #f8fafc; }
         .tracking-card i { font-size: 1.5rem; color: var(--primary-color); margin-bottom: 0.3rem; }
         .tracking-card h4 { font-size: 0.9rem; color: var(--text-main); margin: 0; }
 
-        /* --- لوحة التحكم --- */
         #dashboard-view { display: none; animation: fadeIn 0.5s ease-in; }
         
         #auth-section { display: none; max-width: 100%; margin: 0.5rem auto; background: var(--card-bg); padding: 1rem; border-radius: var(--radius); box-shadow: var(--shadow); text-align: center; width: 100%; border: 1px solid var(--gold-color); }
@@ -172,34 +113,13 @@
         .btn-submit:hover { background-color: var(--primary-dark); }
 
         #teacher-panel, #reciters-panel, #stages-panel, #report-panel { 
-            display: none; 
-            background: var(--card-bg); 
-            padding:1rem; 
-            border-radius: var(--radius); 
-            box-shadow: var(--shadow); 
-            margin-bottom: 1rem; 
-            border-right: 3px solid var(--gold-color); 
-            border: 1px solid var(--gold-color);
-            max-width: 100%; 
-            margin-left: auto; 
-            margin-right: auto;
+            display: none; background: var(--card-bg); padding:1rem; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 1rem; border-right: 3px solid var(--gold-color); border: 1px solid var(--gold-color); max-width: 100%; margin-left: auto; margin-right: auto;
         }
         
         .search-container {
-            background: rgba(212, 175, 55, 0.1);
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px dashed var(--gold-color);
-            margin-bottom: 1rem;
-            text-align: center;
+            background: rgba(212, 175, 55, 0.1); padding: 10px; border-radius: 8px; border: 1px dashed var(--gold-color); margin-bottom: 1rem; text-align: center;
         }
-        .search-label {
-            display: block;
-            font-size: 0.8rem;
-            color: var(--primary-color);
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
+        .search-label { display: block; font-size: 0.8rem; color: var(--primary-color); font-weight: bold; margin-bottom: 5px; }
 
         .input-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 0.5rem; }
 
@@ -208,7 +128,7 @@
         .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
         .stat-label { font-size: 0.75rem; color: var(--text-light); font-weight: 600; }
 
-        .table-container { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow-x: auto; border: 2px solid var(--gold-color); -webkit-overflow-scrolling: touch; }
+        .table-container { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow: visible; border: 2px solid var(--gold-color); }
         table { width: 100%; border-collapse: collapse; min-width: 500px; } 
         th, td { padding: 0.5rem 0.3rem; text-align: right; border-bottom: 1px solid rgba(212, 175, 55, 0.3); vertical-align: middle; white-space: nowrap; font-size: 0.8rem; }
         th { color: #fff; font-weight: 600; background-color: var(--primary-color); border-bottom: 2px solid var(--gold-color); font-size: 0.85rem; }
@@ -255,7 +175,14 @@
         .separator-label-container:hover { background-color: var(--primary-dark); }
         .separator-label-container .hidden-count { display: none; font-size: 0.7rem; background: rgba(255,255,255,0.2); padding: 1px 4px; border-radius: 4px; }
         .separator-label-container.has-hidden .hidden-count { display: inline-block; }
-        .separator-hours { background-color: var(--gold-color); color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-right: 5px; }
+        .separator-hours { background-color: var(--gold-color); color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: bold; margin-right: 5px; cursor: pointer; }
+
+        /* Separator Controls */
+        .sep-controls { display: flex; align-items: center; gap: 5px; margin-left: 5px; border-right: 1px solid rgba(255,255,255,0.3); padding-right: 5px; }
+        .sep-move-btn, .sep-edit-btn { cursor: pointer; color: #fff; opacity: 0.8; transition: all 0.2s; font-size: 0.8rem; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; }
+        .sep-move-btn:hover, .sep-edit-btn:hover { opacity: 1; color: var(--gold-color); transform: scale(1.2); }
+        
+        body.screenshot-mode .sep-controls { display: none; }
 
         .separator-delete-btn {
             position: absolute; left: 50%; top: -10px; transform: translateX(-50%);
@@ -271,9 +198,13 @@
         .screenshot-dot { width: 25px; height: 25px; background-color: var(--primary-color); border: 2px solid var(--gold-color); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--gold-color); font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
         .screenshot-dot:hover { transform: scale(1.2); background-color: var(--gold-color); color: var(--primary-color); }
 
-        /* --- التعديل: إخفاء أزرار الحذف عند ظهور الكاميرا --- */
+        .export-dot-container { position: absolute; left: 35px; top: 50%; transform: translateY(-50%); z-index: 5; display: flex; }
+        .export-dot { width: 25px; height: 25px; background-color: var(--success); border: 2px solid var(--primary-color); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .export-dot:hover { transform: scale(1.2); background-color: var(--primary-color); color: var(--success); }
+
         body.screenshot-mode .btn-delete-report { display: none !important; }
         body.screenshot-mode .separator-delete-btn { display: none !important; }
+        body.screenshot-mode .export-dot-container { display: none !important; }
 
         .rating-wrapper { display: flex; align-items: center; gap: 5px; flex-wrap: wrap; }
         
@@ -292,7 +223,6 @@
         body.dark-mode .badge-stage { background-color: rgba(22, 101, 52, 0.5); color: #86efac; border-color: #16a34a; }
 
         .empty-state { text-align: center; padding: 2rem; color: var(--text-light); font-size: 0.9rem; }
-        .frequency-tag { font-size: 0.65rem; color: var(--text-light); background-color: var(--input-bg); padding: 2px 5px; border-radius: 4px; margin-right: 3px; border: 1px solid var(--border-color); }
 
         #toast-container { position: fixed; bottom: 10px; left: 50%; transform: translateX(-50%); z-index: 1000; display: flex; flex-direction: column; gap: 5px; width: 90%; max-width: 350px; }
         .toast { padding: 0.6rem; border-radius: 6px; color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.15); animation: slideIn 0.3s ease-out; text-align: center; font-size: 0.8rem; border: 1px solid rgba(255,255,255,0.2); }
@@ -335,14 +265,13 @@
             gap: 5px;
             margin-bottom: 2px;
             box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.05);
-            position: relative; /* مهم لتحديد موضع الكاميرا */
+            position: relative;
             transition: background-color 0.2s;
         }
         .report-header-bar:hover { background-color: #f3f4f6; }
         body.dark-mode .report-header-bar { background: var(--card-bg); color: var(--text-main); border-color: var(--gold-color); }
         body.dark-mode .report-header-bar:hover { background-color: #064e3b; }
         
-        /* تعديل: إزالة المؤشر للشريط غير القابل للطي */
         .report-header-bar.no-collapse { cursor: default; }
 
         .report-title-text { font-weight: 800; font-size: 0.85rem; flex: 1; text-align: center; color: var(--primary-color); display: flex; align-items: center; justify-content: center; gap: 5px; }
@@ -350,7 +279,6 @@
         .report-badge { background-color: var(--primary-color); color: #fff; padding: 2px 8px; border-radius: 12px; font-weight: bold; font-size: 0.75rem; display: flex; align-items: center; gap: 4px; white-space: nowrap; border: 1px solid var(--gold-color); }
         .report-badge.pages { background-color: var(--secondary-color); border-color: var(--text-light); }
         
-        /* أيقونة الطي */
         .chevron-toggle {
             font-size: 0.8rem;
             transition: transform 0.3s ease;
@@ -365,7 +293,7 @@
             cursor: pointer; padding: 4px; font-size: 0.9rem;
             display: flex; align-items: center; justify-content: center;
             transition: transform 0.2s;
-            z-index: 10; /* لضمان أن يكون فوق الشريط عند النقر */
+            z-index: 10;
         }
         .btn-delete-report:hover { transform: scale(1.2); }
 
@@ -391,7 +319,6 @@
     </header>
 
     <main>
-        <!-- قسم تسجيل الدخول -->
         <section id="auth-section">
             <h3 style="color:var(--primary-color); margin-bottom:0.8rem; font-size:1rem;">تسجيل دخول المعلم</h3>
             <form id="login-form" onsubmit="handleLogin(event)">
@@ -402,7 +329,6 @@
             </form>
         </section>
 
-        <!-- 1. الصفحة الرئيسية -->
         <section id="home-view">
             <div class="welcome-hero">
                 <h1>مرحباً بكم في حلقة السيدة حفصة رضي الله عنها</h1>
@@ -431,11 +357,9 @@
             </div>
         </section>
 
-        <!-- 2. لوحة التحكم والبيانات -->
         <section id="dashboard-view">
             <h2 id="page-title" style="margin-bottom: 1rem; font-size: 1.1rem; color: var(--primary-color); border-bottom: 2px solid var(--gold-color); display: inline-block; padding-bottom: 3px;">السجلات</h2>
 
-            <!-- نموذج المتابعة اليومية -->
             <section id="teacher-panel">
                 <h3 style="margin-bottom: 0.8rem; font-size: 1rem; color: var(--primary-color);">تسجيل متابعة جديدة</h3>
                 <form id="entry-form" onsubmit="handleSubmit(event)">
@@ -452,15 +376,14 @@
                         </div>
                     </div>
                     
-                    <div id="range-inputs" class="input-row">
-                        <div class="form-group"><label>من</label><input type="number" id="amount-from" class="form-control" placeholder="صفحة" oninput="calculateTotal()"></div>
-                        <div class="form-group"><label>إلى</label><input type="number" id="amount-to" class="form-control" placeholder="صفحة" oninput="calculateTotal()"></div>
-                        <div class="form-group"><label>المجموع</label><input type="number" id="amount-total" class="form-control" readonly style="background-color: var(--input-bg); font-weight:bold; color:var(--primary-color); border-color: var(--gold-color);"></div>
+                    <div id="range-inputs" class="input-row" style="margin-top:0.5rem;">
+                        <div class="form-group"><label>من</label><input type="number" id="amount-from" class="form-control" placeholder="صفحة" step="any" oninput="calculateTotal()"></div>
+                        <div class="form-group"><label>إلى</label><input type="number" id="amount-to" class="form-control" placeholder="صفحة" step="any" oninput="calculateTotal()"></div>
+                        <div class="form-group"><label>المجموع</label><input type="number" id="amount-total" class="form-control" readonly style="background-color: var(--input-bg); font-weight:bold; color:var(--primary-color); border-color: var(--gold-color);" step="any"></div>
                     </div>
                     
                     <div class="input-row" style="margin-top: 0.5rem;">
-                        <!-- Added ID="level-group" to this div for targeting -->
-                        <div id="level-group" class="form-group"><label>التقييم</label><select id="level" class="form-control" required><option value="" disabled selected>التقييم...</option><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
+                        <div id="level-group" class="form-group"><label>التقييم</label><select id="level" class="form-control" required><option value="" disabled selected>التقييم...</option><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="very-good">جيد جداً</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
                         <div class="form-group" id="attendance-group"><label>الحالة</label><select id="attendance" class="form-control"><option value="present" selected>حضور</option><option value="absent">غياب</option></select></div>
                     </div>
                     <div class="form-group" style="margin-top:5px;"><label>ملاحظة</label><input type="text" id="notes" class="form-control" placeholder="ملاحظات..."></div>
@@ -472,38 +395,22 @@
                 </form>
             </section>
 
-            <!-- نموذج التقارير -->
             <section id="report-panel">
                 <h3 style="margin-bottom: 0.8rem; font-size: 1rem; color: var(--primary-color);">إدارة التقارير</h3>
-                
-                <!-- شريط البحث -->
                 <div class="search-container">
                     <label class="search-label"><i class="fas fa-search"></i> بحث عن تقرير</label>
                     <input type="date" id="report-search-date" class="form-control" onchange="handleSearchReport()" placeholder="حدد تاريخاً للبحث">
                     <div id="search-msg" style="font-size:0.75rem; color:var(--text-light); margin-top:5px; height:30px;"></div>
                 </div>
-
                 <hr style="border: 0; border-top: 1px dashed var(--gold-color); margin: 1rem 0;">
-
                 <p style="margin-bottom: 0.5rem; font-size: 0.8rem; color: var(--text-light);">إنشاء تقرير جديد:</p>
-                
                 <div class="input-row">
-                    <div class="form-group">
-                        <label>تاريخ البداية</label>
-                        <input type="date" id="report-start-date" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <label>تاريخ النهاية</label>
-                        <input type="date" id="report-end-date" class="form-control">
-                    </div>
+                    <div class="form-group"><label>تاريخ البداية</label><input type="date" id="report-start-date" class="form-control"></div>
+                    <div class="form-group"><label>تاريخ النهاية</label><input type="date" id="report-end-date" class="form-control"></div>
                 </div>
-
-                <button type="button" class="btn-add-to-report" onclick="generateAndSaveReport()">
-                    <i class="fas fa-calculator"></i> حساب وحفظ التقرير
-                </button>
+                <button type="button" class="btn-add-to-report" onclick="generateAndSaveReport()"><i class="fas fa-calculator"></i> حساب وحفظ التقرير</button>
             </section>
 
-            <!-- نموذج المختبرين في الأجزاء -->
             <section id="reciters-panel">
                 <h3 style="margin-bottom: 0.8rem; font-size: 1rem; color: var(--primary-color);">إضافة مختبر (أجزاء)</h3>
                 <form id="reciters-form" onsubmit="handleRecitersSubmit(event)">
@@ -522,7 +429,7 @@
                         </div>
                         <div class="form-group"><label>الجزء</label><input type="text" id="reciter-amount" class="form-control" placeholder="اسم الجزء" required></div>
                         <div class="form-group"><label>الدرجة %</label><input type="number" id="reciter-score" class="form-control" min="0" max="100" placeholder="100" required></div>
-                        <div class="form-group"><label>التقييم</label><select id="reciter-level" class="form-control" required><option value="" disabled selected="التقييم..."><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
+                        <div class="form-group"><label>التقييم</label><select id="reciter-level" class="form-control" required><option value="" disabled selected="التقييم..."><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="very-good">جيد جداً</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
                     </div>
                     <div class="form-group" style="margin-top:5px;"><label>التاريخ</label><input type="date" id="reciter-date" class="form-control" required></div>
                     <div style="text-align:left; margin-top: 0.8rem;">
@@ -532,7 +439,6 @@
                 </form>
             </section>
 
-            <!-- نموذج اختبار المراحل -->
             <section id="stages-panel">
                 <h3 style="margin-bottom: 0.8rem; font-size: 1rem; color: var(--primary-color);">اختبار مراحل</h3>
                 <form id="stages-form" onsubmit="handleStagesSubmit(event)">
@@ -569,7 +475,7 @@
                             </select>
                         </div>
                         <div class="form-group"><label>الدرجة %</label><input type="number" id="stages-score" class="form-control" min="0" max="100" placeholder="100" required></div>
-                        <div class="form-group"><label>التقييم</label><select id="stages-level" class="form-control" required><option value="" disabled selected="التقييم..."><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
+                        <div class="form-group"><label>التقييم</label><select id="stages-level" class="form-control" required><option value="" disabled selected="التقييم..."><option value="excellent">ممتاز</option><option value="good">جيد</option><option value="very-good">جيد جداً</option><option value="average">متوسط</option><option value="needs-improvement">ضعيف</option></select></div>
                     </div>
                     <div class="form-group" style="margin-top:5px;"><label>ملاحظات</label><input type="text" id="stages-notes" class="form-control" placeholder="ملاحظات..."></div>
                     <div style="text-align:left; margin-top: 0.8rem;">
@@ -590,7 +496,7 @@
                     <div style="display:flex; gap:5px; margin-right: auto; flex-wrap: wrap;">
                         <button id="btn-clear-all" onclick="handleClearAll()" class="btn-delete-all"><i class="fas fa-trash-alt"></i> <span id="btn-clear-text">مسح الكل</span></button>
                         <button id="btn-separator" onclick="addSeparatorLine()" class="btn-separator"><i class="fas fa-grip-lines"></i> <span id="sep-text">فصل</span></button>
-                        <button id="btn-screenshot" onclick="toggleScreenshotMode()" class="btn-screenshot"><i class="fas fa-camera"></i> <span>صورة</span></button>
+                        <button id="btn-screenshot" onclick="openExportModal()" class="btn-screenshot" style="display:none;"><i class="fas fa-file-export"></i> <span>تصدير</span></button>
                     </div>
                     <h3 style="font-size: 1rem; margin-right: 5px; color: var(--primary-color);">السجل</h3>
                 </div>
@@ -615,7 +521,6 @@
         </section>
     </main>
 
-    <!-- المودالات -->
     <div id="duty-settings-modal" class="modal-bg" onclick="if(event.target === this) closeDutySettings()">
         <div class="modal-content">
             <button class="close-modal" onclick="closeDutySettings()">&times;</button>
@@ -627,6 +532,29 @@
                 <input type="number" id="default-duty-input" class="form-control" placeholder="مثال: 3" min="0" step="0.5">
             </div>
             <button type="button" class="btn-submit" onclick="saveDutySettings()">حفظ واستخدام</button>
+        </div>
+    </div>
+
+    <!-- Modal for Separator Edit (Date & Hours) -->
+    <div id="separator-edit-modal" class="modal-bg" onclick="if(event.target === this) closeSeparatorModal()">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeSeparatorModal()">&times;</button>
+            <div class="dev-avatar" style="background: var(--primary-color);"><i class="fas fa-cog"></i></div>
+            <h3 class="dev-name">تعديل معلومات الفاصل</h3>
+            
+            <div class="form-group" style="text-align: right; margin-top: 1rem;">
+                <label>تاريخ الفصل</label>
+                <input type="date" id="sep-edit-date" class="form-control">
+            </div>
+
+            <div class="form-group" style="text-align: right; margin-top: 0.5rem;">
+                <label>عدد الساعات</label>
+                <input type="number" id="sep-edit-hours" class="form-control" min="0" step="0.5">
+            </div>
+
+            <button type="button" class="btn-submit" onclick="saveSeparatorInfo()" style="margin-top: 1rem;">
+                <i class="fas fa-save"></i> حفظ التغييرات
+            </button>
         </div>
     </div>
 
@@ -649,6 +577,18 @@
             <div class="dev-avatar" style="background: var(--success);"><i class="fas fa-users-cog"></i></div>
             <h3 class="dev-name">إدارة الطلاب</h3>
             <div class="modal-body-scroll" id="students-list-container"></div>
+        </div>
+    </div>
+
+    <div id="export-modal" class="modal-bg" onclick="if(event.target === this) closeExportModal()">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeExportModal()">&times;</button>
+            <div class="dev-avatar" style="background: var(--gold-color);"><i class="fas fa-file-export"></i></div>
+            <h3 class="dev-name">خيارات التصدير</h3>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 1rem;">
+                <button onclick="captureSectionAsImage()" class="btn-submit" style="background: var(--primary-color);"><i class="fas fa-camera"></i> التقط صورة</button>
+                <button onclick="exportToExcel()" class="btn-submit" style="background: var(--info); display:none;"><i class="fas fa-file-excel"></i> تصدير Excel</button>
+            </div>
         </div>
     </div>
 
@@ -684,6 +624,126 @@
         let isScreenshotMode = false;
         let collapsedSeparators = JSON.parse(localStorage.getItem('hifz_platform_collapsed') || '{}');
         let currentFilterGroupId = null; 
+        let editingSeparatorId = null; 
+
+        // Separator Modal Functions
+        window.openSeparatorModal = (id) => {
+            if(!auth.currentUser) return showToast('يجب تسجيل الدخول', 'warning');
+            editingSeparatorId = id;
+            const docData = cachedSnapshot.docs.find(d => d.id === id)?.data();
+            if(docData) {
+                // Set hours
+                document.getElementById('sep-edit-hours').value = docData.separatorHours || 0;
+                
+                // Set Date from Timestamp if exists, otherwise today
+                if (docData.uoi) {
+                    const dateObj = docData.uoi.toDate();
+                    // Format to YYYY-MM-DD for input
+                    const year = dateObj.getFullYear();
+                    const month = String(dateObj.getMonth() + 1).padStart(2, '0');
+                    const day = String(dateObj.getDate()).padStart(2, '0');
+                    document.getElementById('sep-edit-date').value = `${year}-${month}-${day}`;
+                } else {
+                    document.getElementById('sep-edit-date').valueAsDate = new Date();
+                }
+            } else {
+                document.getElementById('sep-edit-hours').value = 0;
+                document.getElementById('sep-edit-date').valueAsDate = new Date();
+            }
+            document.getElementById('separator-edit-modal').style.display = 'flex';
+        }
+
+        window.closeSeparatorModal = () => {
+            document.getElementById('separator-edit-modal').style.display = 'none';
+            editingSeparatorId = null;
+        }
+
+        window.saveSeparatorInfo = async () => {
+            if(!editingSeparatorId) return;
+            const dateStr = document.getElementById('sep-edit-date').value;
+            
+            if(!dateStr) return showToast('يرجى اختيار التاريخ', 'warning');
+
+            // Create a Date object from the string (at noon to avoid timezone shifts)
+            const selectedDate = new Date(dateStr);
+            selectedDate.setHours(12, 0, 0, 0);
+
+            // Auto-determine day name from the selected date
+            const dayName = new Intl.DateTimeFormat('ar-SY', { weekday: 'long' }).format(selectedDate);
+            
+            const hours = parseFloat(document.getElementById('sep-edit-hours').value);
+            
+            try {
+                await updateDoc(doc(db, "daily_records", editingSeparatorId), {
+                    dayLabel: dayName,
+                    separatorHours: hours,
+                    // IMPORTANT: Update the timestamp to match the selected date
+                    uoi: Timestamp.fromDate(selectedDate) 
+                });
+                showToast('تم تحديث معلومات الفاصل', 'success');
+                closeSeparatorModal();
+            } catch(e) {
+                console.error(e);
+                showToast('فشل التحديث', 'error');
+            }
+        }
+
+        // --- DIRECT MOVEMENT LOGIC ---
+        window.moveSeparator = async (id, direction) => {
+            if(!auth.currentUser) return showToast('يجب تسجيل الدخول', 'warning');
+            if(!cachedSnapshot) return;
+
+            const docs = cachedSnapshot.docs;
+            let currentIndex = -1;
+
+            // Find index of the separator
+            for(let i=0; i<docs.length; i++) {
+                if(docs[i].id === id) {
+                    currentIndex = i;
+                    break;
+                }
+            }
+
+            if(currentIndex === -1) return showToast('خطأ في تحديد الموقع', 'error');
+
+            // Determine target index based on direction
+            // Visual Up = Higher in list = Lower Index (i-1)
+            // Visual Down = Lower in list = Higher Index (i+1)
+            let targetIndex = direction === 'up' ? currentIndex - 1 : currentIndex + 1;
+
+            // Boundary checks
+            if(targetIndex < 0) return showToast('وصلت لأعلى القائمة', 'warning');
+            if(targetIndex >= docs.length) return showToast('وصلت لأسفل القائمة', 'warning');
+
+            // Get documents
+            const sepDoc = docs[currentIndex];
+            const targetDoc = docs[targetIndex];
+
+            // Check if we are trying to swap with another separator or summary (optional safety)
+            // For now, we allow swapping with any neighbor to keep it simple and robust
+            if (targetDoc.data().type === 'separator' || targetDoc.data().type === 'summary') {
+                return showToast('لا يمكن التحرك فوق فاصل آخر', 'info');
+            }
+
+            try {
+                const sepTs = sepDoc.data().uoi;
+                const targetTs = targetDoc.data().uoi;
+
+                const batch = writeBatch(db);
+                
+                // Set separator time to target's time
+                batch.update(sepDoc.ref, { uoi: targetTs });
+                
+                // Set target's time to separator's old time
+                batch.update(targetDoc.ref, { uoi: sepTs });
+
+                await batch.commit();
+                showToast('تم تحريك الفاصل', 'success');
+            } catch(e) {
+                console.error(e);
+                showToast('فشل التحريك', 'error');
+            }
+        }
 
         window.openDutySettings = () => {
             if (!auth.currentUser) return showToast('يجب تسجيل الدخول', 'warning');
@@ -813,10 +873,32 @@
                 navigateTo('dashboard', freq === 'weekly' ? 'متابعة أسبوعية' : 'متابعة شهرية');
             }
         }
+
         window.calculateTotal = () => {
-            const f = parseFloat(document.getElementById('amount-from').value) || 0;
-            const t = parseFloat(document.getElementById('amount-to').value) || 0;
-            document.getElementById('amount-total').value = (t >= f) ? (t - f) + 1 : 0;
+            const fromStr = document.getElementById('amount-from').value;
+            const toStr = document.getElementById('amount-to').value;
+            const f = parseFloat(fromStr);
+            const t = parseFloat(toStr);
+
+            if (isNaN(f) && isNaN(t)) {
+                document.getElementById('amount-total').value = '';
+                return;
+            }
+
+            const fromHasDecimal = fromStr.includes('.') || fromStr.includes(',');
+            const toHasDecimal = toStr.includes('.') || toStr.includes(',');
+
+            if (fromHasDecimal || toHasDecimal) {
+                const valF = isNaN(f) ? 0 : f;
+                const valT = isNaN(t) ? 0 : t;
+                document.getElementById('amount-total').value = valF + valT;
+            } else {
+                if (t >= f && !isNaN(f) && !isNaN(t)) {
+                    document.getElementById('amount-total').value = (t - f) + 1;
+                } else {
+                    document.getElementById('amount-total').value = 0;
+                }
+            }
         }
 
         window.scrollToReport = () => {
@@ -944,10 +1026,8 @@
 
                 if (count > 0 || totalPeriodHours > 0) {
                     const summaryRef = doc(collection(db, "daily_records"));
-                    
-                    // --- FIX: Force header timestamp to be far in the future so it appears at the top (DESC order) ---
                     const futureTime = new Date();
-                    futureTime.setFullYear(2100); // Set to year 2100
+                    futureTime.setFullYear(2100);
                     
                     batch.set(summaryRef, {
                         type: 'summary',
@@ -982,6 +1062,7 @@
             }
 
             try {
+                // Default to today, but user can edit later
                 const now = new Date();
                 const dayName = now.toLocaleDateString('ar-SY', { weekday: 'long' });
                 let separatorFreq = selectedTrackingFreq; 
@@ -995,7 +1076,7 @@
                     separatorHours: todayTotalHours, 
                     uoi: serverTimestamp()
                 });
-                showToast('تم وضع الخط وحفظ الساعات', 'success');
+                showToast('تم وضع الخط وحفظ الساعات (يمكنك تعديل التاريخ من الإعدادات)', 'success');
             } catch(err) { showToast('خطأ', 'error'); }
         }
 
@@ -1161,23 +1242,46 @@
                 let asdVal = 0, asdText = "";
                 let level = "";
                 
-                // If present, validate and get values
                 if (attendance === 'present') {
                     level = document.getElementById('level').value;
-                    if(!level) return document.getElementById('level').focus() || showToast('التقييم مطلوب', 'warning') || (btn.innerHTML = old);
+                    if(!level) {
+                        btn.innerHTML = old;
+                        document.getElementById('level').focus();
+                        return showToast('التقييم مطلوب', 'warning');
+                    }
                     
-                    const from = document.getElementById('amount-from').value; const to = document.getElementById('amount-to').value; const total = document.getElementById('amount-total').value;
-                    if (from && to) { asdVal = parseInt(total) || 0; asdText = `من ${from} إلى ${to}`; } else { asdVal = parseInt(total) || 0; }
+                    const from = document.getElementById('amount-from').value; 
+                    const to = document.getElementById('amount-to').value; 
+                    const total = document.getElementById('amount-total').value;
+                    if (from && to) { 
+                        asdVal = parseFloat(total) || 0; 
+                        asdText = `من ${from} إلى ${to}`; 
+                    } else { 
+                        asdVal = parseFloat(total) || 0; 
+                    }
                 }
 
                 let data = { qwe: name, asd: asdVal, asdText: asdText, unit: "", zxc: level, frequency: f, nmk: document.getElementById('notes').value };
-                if(attendance === 'present' && document.getElementById('amount-from').value) { 
-                    data.page_from = parseInt(document.getElementById('amount-from').value); 
-                    data.page_to = parseInt(document.getElementById('amount-to').value); 
+                
+                if (document.getElementById('amount-from').value) { 
+                    data.page_from = parseFloat(document.getElementById('amount-from').value); 
+                    data.page_to = parseFloat(document.getElementById('amount-to').value);
                 }
+                
                 data.attr = attendance;
                 if (editDocId) { await updateDoc(doc(db, "daily_records", editDocId), data); showToast('تم التحديث', 'success'); handleCancelEdit(); }
-                else { data.uoi = serverTimestamp(); await addDoc(collection(db, "daily_records"), data); showToast('تم الحفظ', 'success'); document.getElementById('amount-from').value=""; document.getElementById('amount-to').value=""; document.getElementById('amount-total').value=""; document.getElementById('notes').value=""; document.getElementById('attendance').value='present'; document.getElementById('level').value=""; document.getElementById('student-name').value=""; }
+                else { 
+                    data.uoi = serverTimestamp(); 
+                    await addDoc(collection(db, "daily_records"), data); 
+                    showToast('تم الحفظ', 'success'); 
+                    document.getElementById('amount-from').value=""; 
+                    document.getElementById('amount-to').value=""; 
+                    document.getElementById('amount-total').value=""; 
+                    document.getElementById('notes').value=""; 
+                    document.getElementById('attendance').value='present'; 
+                    document.getElementById('level').value=""; 
+                    document.getElementById('student-name').value=""; 
+                }
             } catch(err) { showToast('فشل الحفظ', 'error'); }
             btn.innerHTML = old;
         };
@@ -1197,14 +1301,20 @@
             } else {
                 if(d.frequency === 'daily') openTracking('daily'); else if(d.frequency === 'weekly') openTracking('weekly'); else if(d.frequency === 'monthly') openTracking('monthly');
                 document.getElementById('student-name').value = d.qwe; 
-                // Only set level if not absent
                 if(d.attr !== 'absent') document.getElementById('level').value = d.zxc;
                 document.getElementById('notes').value = d.nmk || '';
                 if (d.attr) document.getElementById('attendance').value = d.attr;
-                if (d.page_from !== undefined) { document.getElementById('amount-from').value = d.page_from; document.getElementById('amount-to').value = d.page_to; document.getElementById('amount-total').value = (d.page_to - d.page_from) + 1; } else if (d.asd) document.getElementById('amount-total').value = d.asd;
+                
+                if (d.page_from !== undefined && d.page_to !== undefined) { 
+                    document.getElementById('amount-from').value = d.page_from; 
+                    document.getElementById('amount-to').value = d.page_to; 
+                    calculateTotal();
+                } else if (d.asd) {
+                    document.getElementById('amount-total').value = d.asd;
+                }
+                
                 toggleEditButton('#btn-submit-entry', 'حفظ التعديلات', '#btn-cancel-entry');
                 
-                // Trigger visibility check based on loaded attendance status
                 const event = new Event('change');
                 document.getElementById('attendance').dispatchEvent(event);
             }
@@ -1216,8 +1326,10 @@
             const cancelBtn = document.getElementById(cancelId.replace('#','')); if(cancelBtn) cancelBtn.style.display = 'inline-flex';
         }
         window.handleCancelEdit = (silent = false) => {
-            editDocId = null; ['student-name', 'reciter-name', 'stages-name'].forEach(id=>document.getElementById(id).value="");
-            ['amount-from', 'amount-to', 'amount-total', 'notes', 'stages-notes'].forEach(id=>document.getElementById(id).value=""); document.getElementById('stages-amount').value='1';
+            editDocId = null; 
+            ['student-name', 'reciter-name', 'stages-name'].forEach(id=>document.getElementById(id).value="");
+            ['amount-from', 'amount-to', 'amount-total', 'notes', 'stages-notes'].forEach(id=>document.getElementById(id).value=""); 
+            document.getElementById('stages-amount').value='1';
             document.getElementById('reciter-date').valueAsDate = new Date();
             document.querySelectorAll('.btn-cancel-edit').forEach(b => b.style.display = 'none');
             document.getElementById('btn-submit-entry').innerHTML = '<i class="fas fa-cloud-upload-alt"></i> حفظ';
@@ -1225,7 +1337,6 @@
             document.getElementById('btn-submit-stage').innerHTML = '<i class="fas fa-award"></i> حفظ';
             if(currentView === 'dashboard') {
                 document.getElementById('attendance').value = 'present';
-                // Reset visibility
                 const event = new Event('change');
                 document.getElementById('attendance').dispatchEvent(event);
             }
@@ -1240,10 +1351,7 @@
                     const docs = cachedSnapshot.docs;
                     let sepIndex = -1;
                     for(let i=0; i<docs.length; i++) {
-                        if(docs[i].id === id) {
-                            sepIndex = i;
-                            break;
-                        }
+                        if(docs[i].id === id) { sepIndex = i; break; }
                     }
                     if(sepIndex === -1) return;
 
@@ -1256,7 +1364,6 @@
                     for(let i = sepIndex + 1; i < docs.length; i++) {
                         const d = docs[i].data();
                         if(d.type === 'separator' || d.type === 'summary') break;
-                        
                         batch.delete(docs[i].ref);
                         count++;
                     }
@@ -1278,35 +1385,17 @@
         };
 
         window.handleDeleteSection = async (sepId) => { 
-            if (!confirm('حذف الخط والبيانات؟')) return; 
+            if (!confirm('حذف الخط فقط؟')) return; 
             try { 
                 const docs = cachedSnapshot.docs; 
                 let sepIndex = -1; 
                 for(let i=0; i<docs.length; i++) { 
-                    if(docs[i].id === sepId) { 
-                        sepIndex = i; 
-                        break; 
-                    } 
+                    if(docs[i].id === sepId) { sepIndex = i; break; } 
                 } 
                 if(sepIndex === -1) return; 
-                
-                const batch = writeBatch(db); 
-                let count = 0; 
-                
-                batch.delete(docs[sepIndex].ref); 
-                count++; 
-                
-                for(let i = sepIndex + 1; i < docs.length; i++) { 
-                    const d = docs[i].data(); 
-                    if(d.type === 'separator' || d.type === 'summary') break; 
-                    
-                    batch.delete(docs[i].ref); 
-                    count++; 
-                } 
-                
-                await batch.commit(); 
-                showToast(`تم حذف ${count} سجلات`, 'success'); 
-                if(editDocId && count > 0) handleCancelEdit(true); 
+                await deleteDoc(docs[sepIndex].ref); 
+                showToast('تم حذف الخط', 'success'); 
+                if(editDocId) handleCancelEdit(true); 
             } catch { showToast('فشل الحذف', 'error'); } 
         };
 
@@ -1351,16 +1440,79 @@
         };
 
         window.toggleScreenshotMode = () => {
-            isScreenshotMode = !isScreenshotMode; const btn = document.getElementById('btn-screenshot'); const body = document.body;
-            if (isScreenshotMode) { btn.classList.add('active'); btn.innerHTML = '<i class="fas fa-times-circle"></i>'; body.classList.add('screenshot-mode'); showToast('اختر قسماً للتصوير', 'info'); }
-            else { btn.classList.remove('active'); btn.innerHTML = '<i class="fas fa-camera"></i> <span>صورة</span>'; body.classList.remove('screenshot-mode'); }
+            isScreenshotMode = !isScreenshotMode; 
+            const body = document.body;
+            if (isScreenshotMode) { 
+                body.classList.add('screenshot-mode'); 
+                showToast('اختر قسماً للتصوير بالضغط على أيقونة الكاميرا', 'info'); 
+            }
+            else { 
+                body.classList.remove('screenshot-mode'); 
+                showToast('تم إلغاء التقاط الصورة', 'success');
+            }
+        };
+
+        let currentExportSepId = null;
+
+        window.openExportModal = (sepId = null) => {
+            currentExportSepId = sepId;
+            document.getElementById('export-modal').style.display = 'flex';
+        };
+
+        window.closeExportModal = () => {
+            currentExportSepId = null;
+            document.getElementById('export-modal').style.display = 'none';
+        };
+
+        window.captureSectionAsImage = () => {
+            const modal = document.getElementById('export-modal');
+            if (modal) modal.style.display = 'none';
+            toggleScreenshotMode();
+        };
+
+        window.exportToExcel = () => {
+            closeExportModal();
+            let table;
+            if (currentExportSepId) {
+                const rows = Array.from(document.querySelectorAll(`tr[data-sep-id="${currentExportSepId}"]`));
+                if (rows.length === 0) return showToast('لا توجد بيانات للتصدير', 'error');
+                const tempTable = document.createElement('table');
+                tempTable.innerHTML = document.querySelector('#records-table').innerHTML;
+                const tempBody = tempTable.querySelector('#records-body');
+                tempBody.innerHTML = '';
+                const separatorRow = document.querySelector(`tr.separator-row[data-id="${currentExportSepId}"]`);
+                if (separatorRow) {
+                    const sepClone = separatorRow.cloneNode(true);
+                    if (sepClone.querySelector('.screenshot-dot-container')) sepClone.querySelector('.screenshot-dot-container').remove();
+                    if (sepClone.querySelector('.export-dot-container')) sepClone.querySelector('.export-dot-container').remove();
+                    if (sepClone.querySelector('.separator-delete-btn')) sepClone.querySelector('.separator-delete-btn').remove();
+                    if (sepClone.querySelector('.sep-controls')) sepClone.querySelector('.sep-controls').remove();
+                    tempBody.appendChild(sepClone);
+                }
+                rows.forEach(row => {
+                    const clone = row.cloneNode(true);
+                    if (clone.querySelector('.col-actions')) clone.querySelector('.col-actions').remove();
+                    if (clone.querySelector('.screenshot-dot-container')) clone.querySelector('.screenshot-dot-container').remove();
+                    if (clone.querySelector('.export-dot-container')) clone.querySelector('.export-dot-container').remove();
+                    tempBody.appendChild(clone);
+                });
+                table = tempTable;
+            } else {
+                table = document.querySelector('#records-table');
+            }
+            if (!table) return showToast('لا توجد بيانات للتصدير', 'error');
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.table_to_sheet(table);
+            XLSX.utils.book_append_sheet(wb, ws, 'البيانات');
+            XLSX.writeFile(wb, 'تقرير.xlsx');
+            showToast('تم تصدير Excel بنجاح', 'success');
         };
 
         window.captureSection = async (sepId) => {
-            if (!isScreenshotMode) return;
             const allRows = Array.from(document.querySelectorAll('#records-body tr'));
             const separatorIndex = allRows.findIndex(row => row.getAttribute('data-id') == sepId);
             if (separatorIndex === -1) return showToast('لم يتم العثور', 'error');
+            
             let rowsToCapture = [];
             for (let i = separatorIndex; i < allRows.length; i++) {
                 if (allRows[i].classList.contains('separator-row') || allRows[i].classList.contains('summary-row')) { 
@@ -1370,20 +1522,129 @@
             }
             if (rowsToCapture.length === 0) return showToast('لا توجد بيانات', 'warning');
             showToast('جاري الالتقاط...', 'info');
-            const tempTable = document.createElement('table'); tempTable.style.width = '100%'; tempTable.style.borderCollapse = 'collapse'; tempTable.style.backgroundColor = '#ffffff';
-            const thead = document.querySelector('#records-table thead').cloneNode(true);
-            if(thead.querySelector('.col-actions')) thead.querySelector('.col-actions').remove();
-            if(thead.querySelector('.col-score') && thead.querySelector('.col-score').style.display === 'none') thead.querySelector('.col-score').remove();
-            Array.from(thead.querySelectorAll('th')).forEach(th => { th.style.backgroundColor = '#064e3b'; th.style.color = '#ffffff'; th.style.borderBottom = '2px solid #D4AF37'; });
+
+            const circleName = document.querySelector('.logo span')?.innerText || 'الحلقة';
+            const teacherName = document.querySelector('.welcome-hero p')?.innerText || 'المعلم';
+
+            let headerHTML = '';
+            const targetRow = rowsToCapture[0];
+            const docId = targetRow.getAttribute('data-id');
+            const docData = cachedSnapshot.docs.find(d => d.id === docId)?.data();
+
+            if (docData) {
+                if (docData.type === 'separator' && docData.frequency === 'daily') {
+                    const dateStr = docData.uoi ? docData.uoi.toDate().toLocaleDateString('ar-EG', {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}) : '';
+                    const hours = docData.separatorHours || 0;
+                    headerHTML = `
+                        <tr style="background-color: #f0fdf4; border-bottom: 2px solid var(--primary-color);">
+                            <td colspan="6" style="padding: 12px; text-align: center; color: #064e3b; background-color: #f0fdf4 !important;">
+                                <div style="font-size: 1.1rem; font-weight: bold; margin-bottom: 4px;">${circleName}</div>
+                                <div style="font-size: 1rem; font-weight: bold; margin-bottom: 8px;">المتابعة اليومية - ${docData.dayLabel || ''}</div>
+                                <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">${teacherName}</div>
+                                <div style="font-size: 0.9rem; font-weight: normal;">التاريخ: ${dateStr} | عدد الساعات: ${hours}</div>
+                            </td>
+                        </tr>
+                    `;
+                } 
+                else if (docData.type === 'summary') {
+                    const typeStr = docData.frequency === 'weekly' ? 'الأسبوعي' : 'الشهري';
+                    const start = docData.reportStartDate ? docData.reportStartDate.toDate().toLocaleDateString('ar-EG') : '';
+                    const end = docData.reportEndDate ? docData.reportEndDate.toDate().toLocaleDateString('ar-EG') : '';
+                    const hours = docData.asd || 0; 
+                    const pages = docData.totalPages || 0;
+                    headerHTML = `
+                        <tr style="background-color: #fffbeb; border-bottom: 2px solid var(--gold-color);">
+                            <td colspan="6" style="padding: 12px; text-align: center; color: #b45309; background-color: #fffbeb !important;">
+                                <div style="font-size: 1.1rem; font-weight: bold; margin-bottom: 4px;">${circleName}</div>
+                                <div style="font-size: 1rem; font-weight: bold; margin-bottom: 8px;">التقرير ${typeStr}</div>
+                                <div style="font-size: 0.85rem; font-weight: 600; margin-bottom: 4px;">${teacherName}</div>
+                                <div style="font-size: 0.9rem; font-weight: normal; color: #374151;">
+                                    التاريخ: ${start} - ${end} <br>
+                                    عدد الساعات: ${hours} | عدد الصفحات التي سمعها الطلاب: ${pages}
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                }
+            }
+
+            const tempTable = document.createElement('table'); 
+            tempTable.style.width = '100%'; 
+            tempTable.style.borderCollapse = 'collapse'; 
+            tempTable.style.backgroundColor = '#ffffff';
+            tempTable.style.direction = 'rtl';
+            
             const tbody = document.createElement('tbody');
-            rowsToCapture.forEach(row => { const clone = row.cloneNode(true); if(clone.querySelector('.screenshot-dot-container')) clone.querySelector('.screenshot-dot-container').remove(); if(clone.querySelector('.col-actions')) clone.querySelector('.col-actions').remove(); if(clone.querySelector('.btn-delete-report')) clone.querySelector('.btn-delete-report').remove();
-            Array.from(clone.children).forEach(td => { td.style.backgroundColor = '#ffffff'; td.style.color = '#000000'; td.style.borderBottom = '1px solid #e5e7eb'; }); tbody.appendChild(clone); });
+            
+            if(headerHTML) {
+                tbody.innerHTML = headerHTML;
+            }
+
+            if (docData && docData.type !== 'summary') {
+                const headerRow = document.querySelector('#records-table thead tr').cloneNode(true);
+                const headerActions = headerRow.querySelector('.col-actions');
+                if(headerActions) headerActions.remove();
+                const headerScore = headerRow.querySelector('.col-score');
+                if(headerScore && headerScore.style.display === 'none') headerScore.remove();
+                
+                Array.from(headerRow.children).forEach(th => { 
+                    th.style.backgroundColor = '#064e3b'; 
+                    th.style.color = '#ffffff'; 
+                    th.style.borderBottom = '2px solid #D4AF37';
+                    th.style.padding = '10px';
+                    th.style.fontFamily = 'Cairo, sans-serif';
+                });
+                tbody.appendChild(headerRow);
+            }
+
+            rowsToCapture.forEach(row => { 
+                const clone = row.cloneNode(true); 
+                if(clone.querySelector('.screenshot-dot-container')) clone.querySelector('.screenshot-dot-container').remove(); 
+                if(clone.querySelector('.export-dot-container')) clone.querySelector('.export-dot-container').remove(); 
+                if(clone.querySelector('.col-actions')) clone.querySelector('.col-actions').remove(); 
+                if(clone.querySelector('.btn-delete-report')) clone.querySelector('.btn-delete-report').remove();
+                if(clone.querySelector('.sep-controls')) clone.querySelector('.sep-controls').remove();
+                
+                Array.from(clone.children).forEach(td => { 
+                    td.style.backgroundColor = '#ffffff'; 
+                    td.style.color = '#000000'; 
+                    td.style.borderBottom = '1px solid #e5e7eb';
+                    td.style.fontFamily = 'Cairo, sans-serif';
+                }); 
+                tbody.appendChild(clone); 
+            });
+            
             tempTable.appendChild(tbody);
-            const container = document.createElement('div'); container.style.position = 'fixed'; container.style.left = '-9999px'; container.style.top = '0'; container.style.padding = '20px'; container.style.background = '#ffffff'; container.style.width = 'fit-content'; container.appendChild(tempTable); document.body.appendChild(container);
+            
+            const container = document.createElement('div'); 
+            container.style.position = 'fixed'; 
+            container.style.left = '-9999px'; 
+            container.style.top = '0'; 
+            container.style.padding = '20px'; 
+            container.style.background = '#ffffff'; 
+            container.style.width = 'fit-content'; 
+            container.appendChild(tempTable); 
+            document.body.appendChild(container);
+
             try {
-                const canvas = await html2canvas(container, { scale: 2, useCORS: true, backgroundColor: '#ffffff', logging: false });
-                const image = canvas.toDataURL("image/png"); const link = document.createElement('a'); link.href = image; let fileName = 'سجل'; if(rowsToCapture[0].classList.contains('summary-row')) fileName = rowsToCapture[0].querySelector('.report-title-text')?.innerText.replace(/\s+/g, '_').substring(0, 15) || 'تقرير';
-                link.download = `${fileName}-${new Date().toISOString().slice(0,10)}.png`; document.body.appendChild(link); link.click(); document.body.removeChild(link); showToast('تم حفظ الصورة', 'success'); toggleScreenshotMode();
+                const canvas = await html2canvas(container, { 
+                    scale: 2, 
+                    useCORS: true, 
+                    backgroundColor: '#ffffff',
+                    logging: false 
+                });
+                const image = canvas.toDataURL("image/png"); 
+                const link = document.createElement('a'); 
+                link.href = image; 
+                let fileName = 'سجل'; 
+                if(rowsToCapture[0].classList.contains('summary-row')) {
+                    fileName = rowsToCapture[0].querySelector('.report-title-text')?.innerText.replace(/\s+/g, '_').substring(0, 15) || 'تقرير';
+                }
+                link.download = `${fileName}-${new Date().toISOString().slice(0,10)}.png`; 
+                document.body.appendChild(link); 
+                link.click(); 
+                document.body.removeChild(link); 
+                showToast('تم حفظ الصورة', 'success'); 
             } catch { showToast('فشل التقاط الصورة', 'error'); }
             finally { if (document.body.contains(container)) document.body.removeChild(container); }
         }
@@ -1393,13 +1654,12 @@
             let s=0, e=0, n=0; const isAdmin = auth.currentUser !== null;
             let visibleCount =0; const fragment = document.createDocumentFragment(); let skipMode = false;
             let colSpanCount = 5; if (targetView === 'reciters' || targetView === 'stages') colSpanCount++; if (isAdmin) colSpanCount++; 
+            let currentSepId = null;
 
             if(snap.empty) { empty.style.display='block'; table.style.display='none'; } else {
                 empty.style.display='none'; table.style.display='table';
                 const docs = snap.docs;
                 let foundFirstSeparator = false; 
-                
-                // --- إضافة متتبع لتحديد أحدث تقرير ---
                 let foundLatestReport = false;
 
                 for (let i =0; i < docs.length; i++) {
@@ -1409,24 +1669,17 @@
                         continue;
                     }
 
-                    // --- منطق عرض التقرير الملخص ---
                     if (d.type === 'summary') {
                         if (targetView !== 'dashboard' || d.frequency !== selectedTrackingFreq) continue;
                         
-                        // هل هذا التقرير هو الأحدث؟
                         const isLatestReport = !foundLatestReport;
-                        if (isLatestReport) {
-                            foundLatestReport = true; // تمييز أننا وجدنا أحدث تقرير
-                        }
+                        if (isLatestReport) foundLatestReport = true;
                         
-                        // إذا كان أحدث تقرير، نمنع الطي
                         let isCollapsed = false;
                         if (!isLatestReport) {
-                            // للتقارير القديمة فقط نتحقق من الحالة المحفوظة
                             isCollapsed = !!collapsedSeparators[docSnap.id];
                         }
 
-                        // تطبيق منطق الطي للبيانات التالية
                         skipMode = isCollapsed;
 
                         const tr = document.createElement('tr'); tr.className = 'summary-row'; tr.setAttribute('data-id', docSnap.id);
@@ -1444,18 +1697,15 @@
                         const pagesBadge = d.totalPages ? `<div class="report-badge pages"><i class="fas fa-file-alt"></i> ${d.totalPages} صفحة</div>` : '';
                         const hoursBadge = `<div class="report-badge"><i class="fas fa-clock"></i> ${d.asdText}</div>`;
                         
-                        // تحديد واجهة المستخدم حسب نوع التقرير
                         let chevronHTML = '';
                         let headerClass = 'report-header-bar';
                         let clickAttr = '';
 
                         if (isLatestReport) {
-                            // أحدث تقرير: لا سهم، لا نقر
                             chevronHTML = `<i class="fas fa-lock" style="font-size:0.7rem; margin-left:5px; color:var(--gold-color);" title="التقرير الحالي مفتوح دائماً"></i>`;
                             headerClass += ' no-collapse';
                             clickAttr = '';
                         } else {
-                            // تقرير قديم: سهم + نقر
                             const chevronClass = isCollapsed ? 'fa-chevron-left' : 'fa-chevron-down';
                             const chevronRotateClass = isCollapsed ? 'rotated' : '';
                             chevronHTML = `<i class="fas fa-chevron-down chevron-toggle ${chevronRotateClass}"></i>`;
@@ -1488,6 +1738,7 @@
                         
                         if (shouldRender) {
                              const sepId = docSnap.id;
+                             currentSepId = sepId;
                              let isLocked = false;
                              if(!foundFirstSeparator) {
                                  isLocked = true;
@@ -1518,7 +1769,19 @@
                              const arrowIcon = isCollapsed ? 'fa-chevron-right' : 'fa-chevron-down';
                              const hiddenClass = isCollapsed && count > 0 ? 'has-hidden' : ''; 
                              const hiddenText = isCollapsed && count > 0 ? `<span class="hidden-count">(${count})</span>` : '';
-                             const hoursText = d.separatorHours ? `<span class="separator-hours">⏱ ${d.separatorHours}س</span>` : '';
+                             const hoursText = d.separatorHours ? `<span class="separator-hours" onclick="openSeparatorModal('${docSnap.id}')">⏱ ${d.separatorHours}س</span>` : '';
+
+                             // New Controls HTML
+                             let controlsHTML = '';
+                             if(isAdmin) {
+                                 controlsHTML = `
+                                    <div class="sep-controls">
+                                        <div class="sep-edit-btn" onclick="openSeparatorModal('${docSnap.id}')" title="تعديل المعلومات"><i class="fas fa-cog"></i></div>
+                                        <div class="sep-move-btn" onclick="moveSeparator('${docSnap.id}', 'up')" title="تحريك للأعلى"><i class="fas fa-arrow-up"></i></div>
+                                        <div class="sep-move-btn" onclick="moveSeparator('${docSnap.id}', 'down')" title="تحريك للأسفل"><i class="fas fa-arrow-down"></i></div>
+                                    </div>
+                                 `;
+                             }
                              
                              const tr = document.createElement('tr'); tr.className = 'separator-row'; tr.setAttribute('data-id', sepId);
                              const dotHTML = `<div class="screenshot-dot-container"><div class="screenshot-dot" onclick="captureSection('${sepId}')"><i class="fas fa-camera"></i></div></div>`;
@@ -1526,7 +1789,7 @@
                              const cursorStyle = isLocked ? 'default' : 'pointer';
                              const clickAction = isLocked ? '' : `onclick="toggleCollapse('${docSnap.id}')"`;
 
-                             tr.innerHTML = `<td colspan="${colSpanCount}"><div class="red-separator-line">${dotHTML}<div class="separator-label-container ${hiddenClass}" style="cursor:${cursorStyle}" ${clickAction}><i class="fas ${arrowIcon}" style="margin-left:5px; ${isLocked?'display:none':''}"></i><span>${d.dayLabel || 'فصل'}</span>${hoursText}${hiddenText}</div>${deleteBtnHTML}</div></td>`;
+                             tr.innerHTML = `<td colspan="${colSpanCount}"><div class="red-separator-line">${dotHTML}<div class="separator-label-container ${hiddenClass}" style="cursor:${cursorStyle}" ${clickAction}><i class="fas ${arrowIcon}" style="margin-left:5px; ${isLocked?'display:none':''}"></i><span>${d.dayLabel || 'فصل'}</span>${hoursText}${hiddenText}${controlsHTML}</div>${deleteBtnHTML}</div></td>`;
                              
                              fragment.appendChild(tr); 
                              if (isCollapsed && hasNextSeparator) skipMode = true;
@@ -1548,7 +1811,7 @@
                         let actionsHTML = ''; if (isAdmin) { actionsHTML += `<button onclick="handleEdit('${docSnap.id}')" class="btn-edit"><i class="fas fa-pen"></i></button>`; actionsHTML += `<button onclick="handleDelete('${docSnap.id}')" class="btn-delete"><i class="fas fa-trash"></i></button>`; }
                         let scoreHTML = ''; let scoreVal = d.score !== undefined ? d.score : '-'; let displayScore = (scoreVal !== '-') ? scoreVal + '%' : scoreVal; scoreHTML = `<td class="col-score" style="text-align:center; font-weight:bold;">${displayScore}</td>`;
                         let finalActionsHTML = `<td class="col-actions">${actionsHTML}</td>`;
-                        const tr = document.createElement('tr'); tr.innerHTML = `<td style="font-weight:bold; font-size:0.85rem;">${d.qwe} ${statusBadge}</td><td style="font-size:0.85rem;">${displayAmountText}</td><td><div class="rating-wrapper">${badgeClass ? `<span class="badge ${badgeClass}">${badgeText}</span>` : `<span>-</span>`}</div></td>${scoreHTML}<td style="font-size: 0.8rem;">${d.nmk||'-'}</td><td style="font-size: 0.75rem; color:var(--text-light);">${t}</td>${finalActionsHTML}`;
+                        const tr = document.createElement('tr'); tr.setAttribute('data-sep-id', currentSepId); tr.innerHTML = `<td style="font-weight:bold; font-size:0.85rem;">${d.qwe} ${statusBadge}</td><td style="font-size:0.85rem;">${displayAmountText}</td><td><div class="rating-wrapper">${badgeClass ? `<span class="badge ${badgeClass}">${badgeText}</span>` : `<span>-</span>`}</div></td>${scoreHTML}<td style="font-size: 0.8rem;">${d.nmk||'-'}</td><td style="font-size: 0.75rem; color:var(--text-light);">${t}</td>${finalActionsHTML}`;
                         fragment.appendChild(tr);
                     }
                 }
@@ -1567,41 +1830,22 @@
         }
         document.getElementById('reciter-date').valueAsDate = new Date();
 
-        // --- NEW: Handle Absence Logic ---
+        // إخفاء/إظهار حقول من/إلى عند تغيير حالة الحضور
         document.getElementById('attendance').addEventListener('change', function() {
             const val = this.value;
             const levelGroup = document.getElementById('level-group');
             const rangeInputs = document.getElementById('range-inputs');
             
-            // Get references to inputs to toggle 'required'
-            const levelInput = document.getElementById('level');
-            const fromInput = document.getElementById('amount-from');
-            const toInput = document.getElementById('amount-to');
-            
             if (val === 'absent') {
-                // Hide fields
                 levelGroup.style.display = 'none';
                 rangeInputs.style.display = 'none';
-                
-                // Remove 'required' attribute to allow save without them
-                levelInput.required = false;
-                fromInput.required = false;
-                toInput.required = false;
-                
-                // Clear page total for clarity
                 document.getElementById('amount-total').value = 0;
             } else {
-                // Show fields
-                levelGroup.style.display = ''; // Reset to CSS default
-                rangeInputs.style.display = ''; // Reset to CSS default
-                
-                // Add 'required' attribute back
-                levelInput.required = true;
-                // Note: from/to are optional in the original design (only total matters for logic), 
-                // but usually if you want to enforce presence, set to true. 
-                // The logic in calculateTotal handles them being empty.
+                levelGroup.style.display = '';
+                rangeInputs.style.display = '';
             }
-        });
+        }); 
     </script>
+
 </body>
 </html>
