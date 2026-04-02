@@ -1,3 +1,4 @@
+مروة z
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -128,9 +129,9 @@
         .stat-value { font-size: 1.5rem; font-weight: 700; color: var(--primary-color); }
         .stat-label { font-size: 0.75rem; color: var(--text-light); font-weight: 600; }
 
-        .table-container { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow: visible; border: 2px solid var(--gold-color); }
-        table { width: 100%; border-collapse: collapse; min-width: 500px; } 
-        th, td { padding: 0.5rem 0.3rem; text-align: right; border-bottom: 1px solid rgba(212, 175, 55, 0.3); vertical-align: middle; white-space: nowrap; font-size: 0.8rem; }
+        .table-container { background: var(--card-bg); border-radius: var(--radius); box-shadow: var(--shadow); overflow-x: auto; border: 2px solid var(--gold-color); }
+        table { width: 100%; border-collapse: collapse; } 
+        th, td { padding: 0.5rem 0.3rem; text-align: right; border-bottom: 1px solid rgba(212, 175, 55, 0.3); vertical-align: middle; font-size: 0.8rem; word-wrap: break-word; overflow-wrap: break-word; }
         th { color: #fff; font-weight: 600; background-color: var(--primary-color); border-bottom: 2px solid var(--gold-color); font-size: 0.85rem; }
         tr:hover td { background-color: var(--table-hover); }
         
@@ -155,7 +156,7 @@
         body.dark-mode .btn-delete-all { background-color: rgba(220, 38, 38, 0.1); color: #fca5a5; border-color: #b91c1c; }
         body.dark-mode .btn-delete-all:hover { background-color: #dc2626; color: white; }
 
-        .btn-screenshot { background-color: var(--gold-color); color: #fff; border: 1px solid #b59328; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: all 0.3s; display: none; margin-left: 5px; display: flex; align-items: center; gap: 5px; box-shadow: 0 4px 6px rgba(212, 175, 55, 0.3); }
+        .btn-screenshot { background-color: var(--gold-color); color: #fff; border: 1px solid #b59328; padding: 0.4rem 0.8rem; border-radius: 6px; cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: all 0.3s; display: none; margin-left: 5px; display: flex; align-items: center; gap: 5px; box-shadow: 0 4px 6px rgba(2, 96, 133, 0.644); }
         .btn-screenshot:hover { background-color: #b59328; border-color: #fff; transform: translateY(-1px); color: #fff; }
         .btn-screenshot.active { background-color: var(--primary-color); border-color: var(--gold-color); animation: pulse 1.5s infinite; color: #fff; }
         @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); } }
@@ -193,10 +194,34 @@
         }
         .separator-delete-btn:hover { background: var(--danger); color: white; }
 
-        .screenshot-dot-container { position: absolute; left: 5px; top: 50%; transform: translateY(-50%); z-index: 5; display: none; }
+        /* Make camera dot appear as the first item in the header, larger and muted */
+        .screenshot-dot-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-inline-start: 6px;
+            margin-inline-end: 250px;
+            z-index: 1;
+            order: -1; /* ensure it's placed first in the flex container */
+        }
         body.screenshot-mode .screenshot-dot-container { display: flex; }
-        .screenshot-dot { width: 25px; height: 25px; background-color: var(--primary-color); border: 2px solid var(--gold-color); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--gold-color); font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .screenshot-dot:hover { transform: scale(1.2); background-color: var(--gold-color); color: var(--primary-color); }
+        .screenshot-dot {
+            width: 34px;
+            height: 34px;
+            background-color: rgb(4, 255, 17); /* muted light background */
+            border: 5px solid rgb(0, 0, 0);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-color);
+            font-size: 14px;
+            box-shadow: 0 2px 6px rgb(0, 255, 242);
+            transition: transform 0.12s ease, background-color 0.12s ease;
+        }
+        .screenshot-dot:hover { transform: scale(1.06); background-color: rgb(255, 0, 0); }
 
         .export-dot-container { position: absolute; left: 35px; top: 50%; transform: translateY(-50%); z-index: 5; display: flex; }
         .export-dot { width: 25px; height: 25px; background-color: var(--success); border: 2px solid var(--primary-color); border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
@@ -298,13 +323,175 @@
         .btn-delete-report:hover { transform: scale(1.2); }
 
         @keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        /* استجابة الهاتف - Responsive Design */
+        @media (max-width: 768px) {
+            body { font-size: 13px; }
+            
+            .navbar { padding: 0.3rem 0.5rem; gap: 3px; }
+            .logo { font-size: 0.7rem; }
+            .logo span { display: none; }
+            
+            .nav-actions button { font-size: 0.7rem; padding: 0.25rem 0.5rem; gap: 2px; }
+            .nav-actions button span { display: none; }
+            .nav-actions button i { margin: 0; }
+            
+            main { padding: 0 0.3rem; margin: 0.3rem auto; }
+            
+            .cards-grid { grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 0.3rem; }
+            .menu-card { padding: 0.7rem; min-height: 100px; }
+            .menu-card i { font-size: 1.5rem; }
+            .menu-card h2 { font-size: 0.85rem; }
+            .menu-card p { font-size: 0.65rem; }
+            
+            .tracking-grid { grid-template-columns: repeat(3, 1fr); gap: 0.3rem; }
+            .tracking-card { padding: 0.5rem; height: 80px; }
+            .tracking-card i { font-size: 1.2rem; }
+            .tracking-card h4 { font-size: 0.75rem; }
+            
+            .stats-grid { grid-template-columns: repeat(3, 1fr); gap: 0.3rem; }
+            .stat-card { padding: 0.6rem; }
+            .stat-value { font-size: 1.2rem; }
+            .stat-label { font-size: 0.65rem; }
+            
+            .table-container { overflow-x: auto; margin: 0 -0.3rem; border-radius: 0; border-left: none; border-right: none; -webkit-overflow-scrolling: touch; }
+            table { min-width: 100%; width: 100%; }
+            th, td { 
+                padding: 0.25rem 0.15rem; 
+                font-size: 0.65rem;
+                white-space: nowrap;
+                min-width: 60px;
+            }
+            th { font-size: 0.7rem; }
+            
+            .btn-delete, .btn-edit { 
+                padding: 0.15rem 0.3rem; 
+                font-size: 0.65rem;
+            }
+            
+            #teacher-panel, #reciters-panel, #stages-panel, #report-panel { 
+                padding: 0.8rem;
+            }
+            
+            .section-title { 
+                font-size: 0.95rem; 
+                margin: 1rem 0 0.6rem 0;
+            }
+            
+            .form-group { margin-bottom: 0.4rem; }
+            .form-group label { font-size: 0.75rem; margin-bottom: 0.2rem; }
+            .form-control { font-size: 0.85rem; padding: 0.4rem; }
+            
+            .input-row { 
+                grid-template-columns: 1fr;
+                gap: 0.4rem;
+            }
+            
+            .btn-submit { 
+                padding: 0.5rem;
+                font-size: 0.8rem;
+            }
+            
+            .btn-separator, .btn-delete-all, .btn-screenshot { 
+                font-size: 0.7rem;
+                padding: 0.35rem 0.6rem;
+            }
+            
+            .btn-separator span, .btn-delete-all span, .btn-screenshot span { display: none; }
+            
+            .total-badge { 
+                font-size: 0.65rem;
+                padding: 1px 3px;
+            }
+            
+            .separator-label-container {
+                font-size: 0.65rem;
+                padding: 2px 6px;
+            }
+            
+            .separator-hours { 
+                font-size: 0.65rem;
+                padding: 1px 4px;
+            }
+            
+            .badge { font-size: 0.6rem; padding: 0.1rem 0.35rem; }
+            
+            .text-main { font-size: 0.8rem; }
+        }
+
+        @media (max-width: 480px) {
+            .navbar { flex-wrap: wrap; justify-content: center; }
+            .nav-actions { flex-wrap: wrap; }
+            
+            body { font-size: 11px; }
+            
+            .cards-grid { grid-template-columns: 1fr; }
+            .menu-card { min-height: 75px; padding: 0.5rem; }
+            .menu-card i { font-size: 1.2rem; }
+            
+            .tracking-grid { grid-template-columns: repeat(2, 1fr); gap: 0.2rem; }
+            .tracking-card { padding: 0.3rem; height: 65px; }
+            
+            .input-row { grid-template-columns: 1fr; }
+            
+            table { font-size: 0.6rem; }
+            th, td { 
+                padding: 0.15rem 0.1rem; 
+                min-width: 55px !important;
+                font-size: 0.6rem;
+                white-space: nowrap;
+            }
+            th { min-width: 55px !important; }
+            
+            .btn-delete, .btn-edit { padding: 0.1rem 0.2rem; font-size: 0.6rem; }
+            
+            #page-title { font-size: 0.9rem; }
+            .section-title { font-size: 0.85rem; }
+            
+            .stats-grid { grid-template-columns: 1fr; gap: 0.25rem; }
+            
+            .form-control { font-size: 0.8rem; }
+            
+            .rating-wrapper { flex-wrap: wrap; }
+            
+            .separator-label-container {
+                position: relative;
+                left: auto;
+                right: 5px;
+                top: auto;
+                transform: none;
+                padding: 2px 4px;
+                font-size: 0.6rem;
+            }
+            
+            .total-badge { font-size: 0.55rem; }
+        }
+
+        @media (max-width: 360px) {
+            body { font-size: 10px; }
+            
+            th, td { 
+                padding: 0.1rem 0.05rem;
+                font-size: 0.5rem;
+                white-space: nowrap;
+                min-width: 50px !important;
+            }
+            
+            .btn-delete, .btn-edit { 
+                padding: 0.05rem 0.15rem;
+                font-size: 0.5rem;
+            }
+            
+            .separator-label-container { font-size: 0.55rem; }
+            .total-badge { font-size: 0.5rem; }
+        }
     </style>
 </head>
 <body>
     <a href="index.html" class="back-btn">⬅ العودة للرئيسية</a>
     <header>
         <div class="navbar">
-           <div class="logo"><i class="fas fa-quran"></i> <span>حلقة السيدة زينب رضي الله عنها</span></div>
+            <div class="logo"><i class="fas fa-quran"></i> <span>حلقة السيدة زينب رضي الله عنها</span></div>
             <div class="nav-actions">
                 <button id="btn-home" class="btn-home" onclick="navigateTo('home')"><i class="fas fa-home"></i></button>
                 <button class="btn-theme" onclick="toggleTheme()" title="تغيير المظهر"><i id="theme-icon" class="fas fa-moon"></i></button>
@@ -334,6 +521,7 @@
                 <h1>مرحباً بكم في حلقة السيدة زينب رضي الله عنها</h1>
                 <p>المعلمة مروة محمد المصطفى</p>
             </div>
+
 
             <div class="section-title">المتابعة العامة</div>
             <div class="tracking-grid">
@@ -492,7 +680,7 @@
             </section>
 
             <section>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.8rem; flex-wrap: wrap; gap: 0.5rem;">
                     <div style="display:flex; gap:5px; margin-right: auto; flex-wrap: wrap;">
                         <button id="btn-clear-all" onclick="handleClearAll()" class="btn-delete-all"><i class="fas fa-trash-alt"></i> <span id="btn-clear-text">مسح الكل</span></button>
                         <button id="btn-separator" onclick="addSeparatorLine()" class="btn-separator"><i class="fas fa-grip-lines"></i> <span id="sep-text">فصل</span></button>
@@ -504,13 +692,13 @@
                     <table id="records-table">
                         <thead>
                             <tr>
-                                <th>الطالب</th>
-                                <th>المقدار</th>
-                                <th>التقييم</th> 
-                                <th id="th-score" class="col-score" style="display:none;">الدرجة</th>
-                                <th>ملاحظات</th>
-                                <th>التاريخ</th>
-                                <th id="th-actions" class="col-actions" style="display:none;">إجراءات</th> 
+                                <th style="min-width: 80px;">الطالب</th>
+                                <th style="min-width: 70px;">المقدار</th>
+                                <th style="min-width: 70px;">التقييم</th> 
+                                <th id="th-score" class="col-score" style="display:none; min-width: 60px;">الدرجة</th>
+                                <th style="min-width: 70px;">ملاحظات</th>
+                                <th style="min-width: 70px;">التاريخ</th>
+                                <th id="th-actions" class="col-actions" style="display:none; min-width: 70px;">إجراءات</th> 
                             </tr>
                         </thead>
                         <tbody id="records-body"></tbody>
@@ -592,6 +780,30 @@
         </div>
     </div>
 
+    <!-- Modal for Report Notes Edit -->
+    <div id="report-notes-modal" class="modal-bg" onclick="if(event.target === this) closeReportNotesModal()">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeReportNotesModal()">&times;</button>
+            <div class="dev-avatar" style="background: var(--primary-color);"><i class="fas fa-feather-alt"></i></div>
+            <h3 class="dev-name" id="report-notes-title">تعديل ملاحظات الطالب</h3>
+            <p style="font-size:0.8rem; color:var(--text-light); margin-bottom:1rem;" id="student-name-display"></p>
+            
+            <div class="form-group" style="text-align: right; margin-top: 1rem;">
+                <label>الملاحظات</label>
+                <textarea id="report-notes-text" class="form-control" placeholder="اكتب الملاحظات هنا..." style="min-height: 100px; font-family: 'Cairo', sans-serif; padding: 0.5rem;"></textarea>
+            </div>
+
+            <div style="display: flex; gap: 10px; margin-top: 1.5rem; flex-direction: row-reverse;">
+                <button type="button" class="btn-submit" onclick="saveStudentNotes()" style="flex: 1; background-color: var(--primary-color);">
+                    <i class="fas fa-save"></i> حفظ الملاحظات
+                </button>
+                <button type="button" class="btn-submit" onclick="closeReportNotesModal()" style="flex: 1; background-color: #6b7280;">
+                    <i class="fas fa-times"></i> إلغاء
+                </button>
+            </div>
+        </div>
+    </div>
+
     <div id="toast-container"></div>
 
     <script type="module">
@@ -600,7 +812,7 @@
         import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
         import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, doc, deleteDoc, updateDoc, increment, Timestamp, writeBatch, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-        const firebaseConfig = {
+       const firebaseConfig = {
   apiKey: "AIzaSyB60IDMcWOBzGV1v67U2IIS-q1e_-NOv6g",
   authDomain: "maewazai.firebaseapp.com",
   projectId: "maewazai",
@@ -609,7 +821,6 @@
   appId: "1:879560214936:web:ffc77d0e3171848edfc3ed",
   measurementId: "G-BY7WPW4QGN"
 };
-
         const app = initializeApp(firebaseConfig);
         const analytics = getAnalytics(app);
         const auth = getAuth(app);
@@ -624,7 +835,9 @@
         let isScreenshotMode = false;
         let collapsedSeparators = JSON.parse(localStorage.getItem('hifz_platform_collapsed') || '{}');
         let currentFilterGroupId = null; 
-        let editingSeparatorId = null; 
+        let editingSeparatorId = null;
+        let editingReportId = null;
+        let editingStudentRecordId = null; 
 
         // Separator Modal Functions
         window.openSeparatorModal = (id) => {
@@ -656,6 +869,67 @@
         window.closeSeparatorModal = () => {
             document.getElementById('separator-edit-modal').style.display = 'none';
             editingSeparatorId = null;
+        }
+
+        // Report Student Notes Modal Functions
+        window.openStudentNotesModal = (id) => {
+            if(!auth.currentUser) return showToast('يجب تسجيل الدخول', 'warning');
+            editingStudentRecordId = id;
+            const docData = cachedSnapshot.docs.find(d => d.id === id)?.data();
+            if(docData) {
+                document.getElementById('student-name-display').textContent = `الطالب: ${docData.qwe}`;
+                document.getElementById('report-notes-text').value = docData.nmk || '';
+            }
+            document.getElementById('report-notes-modal').style.display = 'flex';
+        }
+
+        window.openReportNotesModal = (id) => {
+            if(!auth.currentUser) return showToast('يجب تسجيل الدخول', 'warning');
+            editingReportId = id;
+            const docData = cachedSnapshot.docs.find(d => d.id === id)?.data();
+            const reportTitle = docData?.qwe || 'تعديل الملاحظات';
+            document.getElementById('report-notes-title').textContent = reportTitle;
+            document.getElementById('student-name-display').textContent = '';
+            document.getElementById('report-notes-text').value = docData?.reportNotes || '';
+            document.getElementById('report-notes-modal').style.display = 'flex';
+        }
+
+        window.closeReportNotesModal = () => {
+            document.getElementById('report-notes-modal').style.display = 'none';
+            editingStudentRecordId = null;
+            editingReportId = null;
+        }
+
+        window.saveStudentNotes = async () => {
+            if(!editingStudentRecordId) return;
+            const notes = document.getElementById('report-notes-text').value;
+            
+            try {
+                await updateDoc(doc(db, "daily_records", editingStudentRecordId), {
+                    nmk: notes
+                });
+                showToast('تم حفظ الملاحظات بنجاح', 'success');
+                closeReportNotesModal();
+            } catch(e) {
+                console.error(e);
+                showToast('فشل حفظ الملاحظات', 'error');
+            }
+        }
+
+        window.saveReportNotes = async () => {
+            if(!editingReportId) return;
+            const notes = document.getElementById('report-notes-text').value.trim();
+            
+            try {
+                await updateDoc(doc(db, "daily_records", editingReportId), {
+                    reportNotes: notes
+                });
+                showToast('تم حفظ الملاحظات بنجاح', 'success');
+                closeReportNotesModal();
+            } catch(e) {
+                console.error(e);
+                showToast('فشل حفظ الملاحظات', 'error');
+            }
         }
 
         window.saveSeparatorInfo = async () => {
@@ -1113,9 +1387,17 @@
         };
 
         function resetTableHeaders() {
-            const h = document.getElementById('records-table').querySelectorAll('th');
-            h[0].textContent = "الطالب"; h[1].textContent = "المقدار"; h[2].textContent = "التقييم";
-            h[3].style.display = ''; h[4].textContent = "ملاحظات"; h[5].textContent = "التاريخ"; h[6].style.display = ''; 
+            const theadRow = document.querySelector('#records-table thead tr');
+            if (!theadRow) return;
+            theadRow.innerHTML = `
+                <th style="min-width: 80px;">الطالب</th>
+                <th style="min-width: 70px;">المقدار</th>
+                <th style="min-width: 70px;">التقييم</th>
+                <th id="th-score" class="col-score" style="display:none; min-width: 60px;">الدرجة</th>
+                <th style="min-width: 70px;">ملاحظات</th>
+                <th style="min-width: 70px;">التاريخ</th>
+                <th id="th-actions" class="col-actions" style="display:none; min-width: 70px;">إجراءات</th>
+            `;
         }
         function updateTableColumns(view) {
             document.querySelectorAll('.col-score').forEach(el => el.style.display = 'none');
@@ -1684,6 +1966,7 @@
 
                         const tr = document.createElement('tr'); tr.className = 'summary-row'; tr.setAttribute('data-id', docSnap.id);
                         
+                        const editBtn = isAdmin ? `<button class="btn-edit" onclick="event.stopPropagation(); openReportNotesModal('${docSnap.id}')" title="تعديل الملاحظات"><i class="fas fa-feather-alt"></i></button>` : '';
                         const deleteBtn = isAdmin ? `<button class="btn-delete-report" onclick="event.stopPropagation(); handleDeleteSummary('${docSnap.id}')" title="حذف التقرير والبيانات"><i class="fas fa-trash"></i></button>` : '';
                         
                         const dotHTML = `
@@ -1720,12 +2003,30 @@
                                     ${d.qwe}
                                 </div>
                                 <div class="report-info-group">${pagesBadge}${hoursBadge}</div>
+                                ${editBtn}
                                 ${deleteBtn}
                             </div>
                         `;
                         
                         tr.innerHTML = `<td colspan="${colSpanCount}">${headerContent}</td>`;
+                        // mark this tr as a summary for its group so regular rows
+                        // can be inserted after it when they are processed
+                        if (d.groupId) tr.setAttribute('data-summary-group-id', d.groupId);
+                        // Append summary to fragment for now
                         fragment.appendChild(tr);
+                        
+                        
+                        // Add notes row if there are notes
+                        if (d.reportNotes && !isCollapsed) {
+                            const notesRow = document.createElement('tr');
+                            notesRow.className = 'report-notes-row';
+                            notesRow.setAttribute('data-report-id', docSnap.id);
+                            notesRow.innerHTML = `<td colspan="${colSpanCount}" style="padding: 10px; background-color: rgba(59, 130, 246, 0.05); border-bottom: 1px solid #bfdbfe; text-align: right;">
+                                <div style="color: #1E40AF; font-weight: 600; margin-bottom: 5px; font-size: 0.85rem;">📝 الملاحظات:</div>
+                                <div style="color: #2d3748; font-size: 0.8rem; line-height: 1.5; white-space: pre-wrap;">${d.reportNotes}</div>
+                            </td>`;
+                            fragment.appendChild(notesRow);
+                        }
                         continue;
                     }
 
@@ -1808,11 +2109,28 @@
                         visibleCount++; if(d.zxc==='excellent') e++; else if(d.zxc==='needs-improvement') n++;
                         const t = docDate ? new Intl.DateTimeFormat('ar-EG', { year: 'numeric', month: 'long', day: 'numeric' }).format(docDate) : '';
                         if (!d.zxc) { badgeClass = ''; badgeText = '-'; } else if (d.zxc === 'excellent') { badgeClass = 'badge-excellent'; badgeText = 'ممتاز'; } else if (d.zxc === 'average') { badgeClass = 'badge-average'; badgeText = 'متوسط'; } else if (d.zxc === 'needs-improvement') { badgeClass = 'badge-needs-improvement'; badgeText = 'تحسين'; } else { badgeClass = 'badge-good'; badgeText = 'جيد'; }
-                        let actionsHTML = ''; if (isAdmin) { actionsHTML += `<button onclick="handleEdit('${docSnap.id}')" class="btn-edit"><i class="fas fa-pen"></i></button>`; actionsHTML += `<button onclick="handleDelete('${docSnap.id}')" class="btn-delete"><i class="fas fa-trash"></i></button>`; }
+                        let actionsHTML = ''; if (isAdmin) { actionsHTML += `<button onclick="openStudentNotesModal('${docSnap.id}')" class="btn-edit" title="تعديل الملاحظات"><i class="fas fa-feather-alt"></i></button>`; actionsHTML += `<button onclick="handleDelete('${docSnap.id}')" class="btn-delete"><i class="fas fa-trash"></i></button>`; }
                         let scoreHTML = ''; let scoreVal = d.score !== undefined ? d.score : '-'; let displayScore = (scoreVal !== '-') ? scoreVal + '%' : scoreVal; scoreHTML = `<td class="col-score" style="text-align:center; font-weight:bold;">${displayScore}</td>`;
                         let finalActionsHTML = `<td class="col-actions">${actionsHTML}</td>`;
-                        const tr = document.createElement('tr'); tr.setAttribute('data-sep-id', currentSepId); tr.innerHTML = `<td style="font-weight:bold; font-size:0.85rem;">${d.qwe} ${statusBadge}</td><td style="font-size:0.85rem;">${displayAmountText}</td><td><div class="rating-wrapper">${badgeClass ? `<span class="badge ${badgeClass}">${badgeText}</span>` : `<span>-</span>`}</div></td>${scoreHTML}<td style="font-size: 0.8rem;">${d.nmk||'-'}</td><td style="font-size: 0.75rem; color:var(--text-light);">${t}</td>${finalActionsHTML}`;
-                        fragment.appendChild(tr);
+                        const tr = document.createElement('tr'); tr.setAttribute('data-sep-id', currentSepId);
+                        // Tag regular rows with their groupId so summaries can be identified
+                        if (d.groupId) tr.setAttribute('data-group-id', d.groupId);
+                        tr.innerHTML = `<td style="font-weight:bold; font-size:0.85rem;">${d.qwe} ${statusBadge}</td><td style="font-size:0.85rem;">${displayAmountText}</td><td><div class="rating-wrapper">${badgeClass ? `<span class="badge ${badgeClass}">${badgeText}</span>` : `<span>-</span>`}</div></td>${scoreHTML}<td style="font-size: 0.8rem;">${d.nmk||'-'}</td><td style="font-size: 0.75rem; color:var(--text-light);">${t}</td>${finalActionsHTML}`;
+                        // If a summary for this group already exists in fragment, insert this
+                        // row right after the summary so the header stays above its rows.
+                        let insertedHere = false;
+                        if (d.groupId) {
+                            for (let k = 0; k < fragment.childNodes.length; k++) {
+                                const child = fragment.childNodes[k];
+                                if (child.getAttribute && child.getAttribute('data-summary-group-id') === d.groupId) {
+                                    // insert after the summary (before the next sibling)
+                                    fragment.insertBefore(tr, fragment.childNodes[k + 1] || null);
+                                    insertedHere = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (!insertedHere) fragment.appendChild(tr);
                     }
                 }
                 body.appendChild(fragment);
@@ -1835,14 +2153,26 @@
             const val = this.value;
             const levelGroup = document.getElementById('level-group');
             const rangeInputs = document.getElementById('range-inputs');
+            const levelInput = document.getElementById('level');
+            const amountFrom = document.getElementById('amount-from');
+            const amountTo = document.getElementById('amount-to');
+            const amountTotal = document.getElementById('amount-total');
             
             if (val === 'absent') {
+                // hide UI
                 levelGroup.style.display = 'none';
                 rangeInputs.style.display = 'none';
-                document.getElementById('amount-total').value = 0;
+                // clear values and disable required inputs so browser won't block submit
+                if (levelInput) { levelInput.required = false; levelInput.disabled = true; levelInput.value = ''; }
+                if (amountFrom) { amountFrom.disabled = true; amountFrom.value = ''; }
+                if (amountTo) { amountTo.disabled = true; amountTo.value = ''; }
+                if (amountTotal) { amountTotal.value = 0; }
             } else {
                 levelGroup.style.display = '';
                 rangeInputs.style.display = '';
+                if (levelInput) { levelInput.disabled = false; levelInput.required = true; }
+                if (amountFrom) { amountFrom.disabled = false; }
+                if (amountTo) { amountTo.disabled = false; }
             }
         }); 
     </script>
